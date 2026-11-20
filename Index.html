@@ -155,6 +155,7 @@
             jointGoalProgress: 6,
             mateGiftSentCount: 2,
             tickles: [],
+            completedJars: [],
             routines: [],
             chatMessages: [
                 { sender: 'mate', text: '오늘 물 한 잔 마시기 완료했어! 너는 어떤 티끌 모았어?', time: '오전 10:12' },
@@ -162,31 +163,38 @@
             ]
         };
 
+        const JAR_CAPACITY = 12;
+
         const INITIAL_TICKLES = [
-            { id: 't1', title: '아침 따뜻한 물 한 잔', theme: 'candyland' },
-            { id: 't2', title: '10분 햇볕 산책하기', theme: 'candyland' },
-            { id: 't3', title: '책 3페이지 읽기', theme: 'candyland' },
-            { id: 't4', title: '어깨 스트레칭 5분', theme: 'candyland' }
+            { id: 't1', title: '아침 기상 후 물 1잔 마시기', theme: 'candyland', date: '오늘 오전 8:30' },
+            { id: 't2', title: '창문 열고 3분 환기하기', theme: 'candyland', date: '오늘 오전 9:10' },
+            { id: 't3', title: '어깨 스트레칭 5분', theme: 'candyland', date: '오늘 오후 1:20' },
+            { id: 't4', title: '오늘 감사한 일 한 줄 적기', theme: 'candyland', date: '오늘 오후 6:00' }
         ];
 
         const INITIAL_ROUTINES = [
-            { id: 'r1', easyTitle: '물 반 컵 가볍게 마시기 (30초)', title: '아침 물 1잔 온전히 마시기', category: '건강', completed: true },
-            { id: 'r2', easyTitle: '창문 열고 심호흡 3번 하기 (1분)', title: '창문 열고 맑은 공기 5분 쐬기', category: '기분전환', completed: true },
-            { id: 'r3', easyTitle: '좋아하는 노래 하이라이트 1분 듣기', title: '좋아하는 음악 1곡 가사에 집중해 듣기', category: '휴식', completed: false },
-            { id: 'r4', easyTitle: '오늘 기분 한 단어로 적어보기', title: '오늘 나에게 다정한 응원 한 줄 써주기', category: '마음', completed: false }
+            { id: 'r1', title: '아침 물 1잔 온전히 마시기', easyTitle: '물 반 컵 가볍게 마시기 (30초)', category: '건강 루틴', completed: true },
+            { id: 'r2', title: '창문 열고 스트레칭 & 환기 5분', easyTitle: '창문 열고 심호흡 3번 하기', category: '리프레시', completed: false },
+            { id: 'r3', title: '좋아하는 책 5페이지 읽기', easyTitle: '책 1페이지 펼치고 한 줄 읽기', category: '마음 챙김', completed: false }
         ];
 
         let threeApp = null;
 
+        function getObjectDisplayName(theme, idx) {
+            const names = {
+                candyland: ['줄무늬 도넛', '딸기 글레이즈 케이크', '달콤 딸기', '레몬 마카롱'],
+                ocean: ['흰동가리', '아기 문어', '진주 조개', '노랑 복어'],
+                christmas: ['오너먼트 트리', '루돌프', '지팡이 사탕', '선물 상자'],
+                halloween: ['마녀모자 호박', '꼬마 유령', '아기 박쥐', '회오리 막대사탕']
+            };
+            const list = names[theme] || names.candyland;
+            return list[idx % list.length];
+        }
+
         function initApp() {
             loadStorage();
             bindNavEvents();
-
-            if (!STATE.userPersona) {
-                showOnboardingQuiz();
-            } else {
-                renderTab(STATE.activeTab);
-            }
+            renderTab(STATE.activeTab);
         }
 
         function loadStorage() {
@@ -198,6 +206,7 @@
                 } catch(e){}
             }
             if (!STATE.tickles || STATE.tickles.length === 0) STATE.tickles = [...INITIAL_TICKLES];
+            if (!Array.isArray(STATE.completedJars)) STATE.completedJars = [];
             if (!STATE.routines || STATE.routines.length === 0) STATE.routines = [...INITIAL_ROUTINES];
         }
 
@@ -215,6 +224,7 @@
                 jointGoalProgress: STATE.jointGoalProgress,
                 mateGiftSentCount: STATE.mateGiftSentCount,
                 tickles: STATE.tickles,
+                completedJars: STATE.completedJars,
                 routines: STATE.routines,
                 chatMessages: STATE.chatMessages
             }));
@@ -680,12 +690,18 @@
                     <div class="w-full flex items-center justify-between px-1 shrink-0">
                         <div class="flex items-center gap-1.5">
                             <span class="text-xs font-bold text-stone-600">모인 티끌</span>
-                            <span class="text-sm font-black text-brand-orange">${count}개</span>
+                            <span class="text-sm font-black text-brand-orange">${count} / ${JAR_CAPACITY}개</span>
                         </div>
-                        <button id="shakeJarBtn" class="bg-white hover:bg-stone-50 card-outline px-3 py-1 rounded-full text-xs font-bold text-stone-700 flex items-center gap-1.5 active:scale-95 whitespace-nowrap">
-                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.4"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.3-3.3M20 15a9 9 0 01-15.3 3.3"/></svg>
-                            <span>병 흔들기</span>
-                        </button>
+                        <div class="flex items-center gap-1.5">
+                            <button id="openJarCollectionBtn" class="bg-white hover:bg-stone-50 card-outline px-2.5 py-1 rounded-full text-xs font-bold text-stone-700 flex items-center gap-1 active:scale-95 whitespace-nowrap">
+                                <span>보관함</span>
+                                <span class="text-brand-orange font-black">${STATE.completedJars.length}</span>
+                            </button>
+                            <button id="shakeJarBtn" class="bg-white hover:bg-stone-50 card-outline px-2.5 py-1 rounded-full text-xs font-bold text-stone-700 flex items-center gap-1 active:scale-95 whitespace-nowrap">
+                                <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.4"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.3-3.3M20 15a9 9 0 01-15.3 3.3"/></svg>
+                                <span>흔들기</span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- 2. Second Row: Graphic-Only Theme Selector Buttons (No Box, Larger & Closer) -->
@@ -700,13 +716,35 @@
                     <!-- 3. Three.js 3D Glass Jar Canvas Container (Fills remaining vertical height cleanly) -->
                     <div id="threeContainer" class="w-full flex-1 min-h-[380px] relative rounded-3xl overflow-hidden cursor-grab active:cursor-grabbing bg-transparent">
                         ${getThemeBackdropSVG(STATE.theme)}
+                        <!-- Object Click Info Card (Shown when tapping an object inside the jar) -->
+                        <div id="objectInfoCard" class="hidden absolute top-3 left-3 right-3 z-20 bg-white/95 border border-orange-200 rounded-2xl p-3 flex items-center justify-between gap-2">
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-1.5">
+                                    <span id="objInfoBadge" class="bg-brand-orangeLight text-brand-orange text-[10px] font-bold px-2 py-0.5 rounded-full">소품</span>
+                                    <span id="objInfoDate" class="text-[10px] text-stone-400 font-medium"></span>
+                                </div>
+                                <p id="objInfoTitle" class="text-xs font-bold text-stone-800 truncate mt-1"></p>
+                            </div>
+                            <button id="closeObjInfoBtn" type="button" class="text-stone-400 hover:text-stone-700 text-xs font-bold px-2 py-1 shrink-0">✕</button>
+                        </div>
                     </div>
 
-                    <!-- 4. Primary Action Button -->
-                    <button id="addTickleBtn" class="w-full shrink-0 bg-brand-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M12 4v16m8-8H4"/></svg>
-                        <span>티끌 하나 담기</span>
-                    </button>
+                    <!-- 4. Primary Action Button (Or Archive Jar Button when full) -->
+                    ${count >= JAR_CAPACITY ? `
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button id="archiveFullJarBtn" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                                <span>가득 찬 유리병 보관함에 담기</span>
+                            </button>
+                            <button id="addTickleBtn" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-4 py-3.5 rounded-2xl text-xs transition-all active:scale-95">
+                                +1
+                            </button>
+                        </div>
+                    ` : `
+                        <button id="addTickleBtn" class="w-full shrink-0 bg-brand-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M12 4v16m8-8H4"/></svg>
+                            <span>티끌 하나 담기</span>
+                        </button>
+                    `}
                 </div>
             `;
         }
@@ -724,12 +762,59 @@
                 if (threeApp) threeApp.shakeObjects();
             };
 
+            const collectionBtn = document.getElementById('openJarCollectionBtn');
+            if (collectionBtn) collectionBtn.onclick = () => showCompletedJarsModal();
+
+            const archiveBtn = document.getElementById('archiveFullJarBtn');
+            if (archiveBtn) archiveBtn.onclick = () => archiveCurrentJar();
+
+            const closeInfoBtn = document.getElementById('closeObjInfoBtn');
+            if (closeInfoBtn) {
+                closeInfoBtn.onclick = () => {
+                    const card = document.getElementById('objectInfoCard');
+                    if (card) card.classList.add('hidden');
+                };
+            }
+
             document.getElementById('addTickleBtn').onclick = () => showAddTickleModal();
 
             const container = document.getElementById('threeContainer');
             if (container) {
                 threeApp = new ThreeJarScene(container, STATE.theme, STATE.tickles);
             }
+        }
+
+        function showObjectDetailCard(tickleData, objIndex) {
+            const card = document.getElementById('objectInfoCard');
+            const badge = document.getElementById('objInfoBadge');
+            const dateEl = document.getElementById('objInfoDate');
+            const titleEl = document.getElementById('objInfoTitle');
+            if (!card || !tickleData) return;
+
+            badge.innerText = getObjectDisplayName(STATE.theme, objIndex);
+            dateEl.innerText = tickleData.date || '오늘 기록한 티끌';
+            titleEl.innerText = tickleData.title || '작은 성취 티끌';
+            card.classList.remove('hidden');
+        }
+
+        function archiveCurrentJar() {
+            if (STATE.tickles.length === 0) return;
+            const themeNames = { candyland: '과자나라', ocean: '여름바다', christmas: '크리스마스', halloween: '할로윈' };
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+            STATE.completedJars.unshift({
+                id: 'jar_' + Date.now(),
+                jarNumber: STATE.completedJars.length + 1,
+                theme: STATE.theme,
+                themeName: themeNames[STATE.theme] || '과자나라',
+                completedDate: dateStr,
+                items: [...STATE.tickles]
+            });
+            STATE.tickles = [];
+            saveStorage();
+            showToast('완성된 유리병이 보관함에 저장되었습니다! 새 병을 채워보세요.');
+            renderTab('jar');
         }
 
         // ========================================================
@@ -1276,6 +1361,7 @@
                         vz: 0,
                         rotVx: 0,
                         rotVy: 0,
+                        objIndex: idx,
                         tickleData: t
                     });
                     this.scene.add(mesh);
@@ -1284,7 +1370,8 @@
             }
 
             addSingleObject(tickle) {
-                const mesh = this.createTheme3DModel(this.theme, this.objects.length);
+                const idx = this.objects.length;
+                const mesh = this.createTheme3DModel(this.theme, idx);
                 const r = mesh.userData.radius;
                 mesh.position.set((Math.random() - 0.5) * 0.6, this.jarTop - r - 0.1, (Math.random() - 0.5) * 0.6);
                 Object.assign(mesh.userData, {
@@ -1293,6 +1380,7 @@
                     vz: (Math.random() - 0.5) * 0.04,
                     rotVx: 0.03,
                     rotVy: 0.03,
+                    objIndex: idx,
                     tickleData: tickle
                 });
                 this.scene.add(mesh);
@@ -1312,12 +1400,17 @@
 
             bindPointerEvents() {
                 const dom = this.renderer.domElement;
+                let downClientX = 0;
+                let downClientY = 0;
+                let downTime = 0;
 
                 const getPointerPos = (e) => {
                     const rect = dom.getBoundingClientRect();
                     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
                     return {
+                        clientX,
+                        clientY,
                         x: ((clientX - rect.left) / this.width) * 2 - 1,
                         y: -((clientY - rect.top) / this.height) * 2 + 1
                     };
@@ -1325,6 +1418,9 @@
 
                 const onDown = (e) => {
                     const pos = getPointerPos(e);
+                    downClientX = pos.clientX;
+                    downClientY = pos.clientY;
+                    downTime = Date.now();
                     this.mouse.set(pos.x, pos.y);
                     this.raycaster.setFromCamera(this.mouse, this.camera);
 
@@ -1369,11 +1465,22 @@
                     }
                 };
 
-                const onUp = () => {
+                const onUp = (e) => {
                     if (this.draggedObj) {
-                        this.draggedObj.userData.vx = Math.max(-0.3, Math.min(0.3, this.velocity3D.x * 0.85));
-                        this.draggedObj.userData.vy = Math.max(-0.3, Math.min(0.3, this.velocity3D.y * 0.85));
-                        this.draggedObj.userData.vz = Math.max(-0.3, Math.min(0.3, this.velocity3D.z * 0.85));
+                        const upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+                        const upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+                        const movedDist = Math.hypot(upX - downClientX, upY - downClientY);
+                        const elapsed = Date.now() - downTime;
+
+                        // Tap / Click Detection (when not dragging)
+                        if (movedDist < 8 && elapsed < 350) {
+                            this.draggedObj.userData.vy = 0.12;
+                            showObjectDetailCard(this.draggedObj.userData.tickleData, this.draggedObj.userData.objIndex || 0);
+                        } else {
+                            this.draggedObj.userData.vx = Math.max(-0.3, Math.min(0.3, this.velocity3D.x * 0.85));
+                            this.draggedObj.userData.vy = Math.max(-0.3, Math.min(0.3, this.velocity3D.y * 0.85));
+                            this.draggedObj.userData.vz = Math.max(-0.3, Math.min(0.3, this.velocity3D.z * 0.85));
+                        }
                         this.draggedObj = null;
                     }
                 };
@@ -1801,16 +1908,16 @@
 
                         <div class="grid grid-cols-3 gap-2 text-center">
                             <div class="bg-stone-50 p-2.5 rounded-2xl">
-                                <span class="text-[10px] text-stone-400 font-bold block">모은 티끌</span>
+                                <span class="text-[10px] text-stone-400 font-bold block">현재 유리병</span>
                                 <span class="text-sm font-black text-brand-orange">${STATE.tickles.length}개</span>
                             </div>
+                            <button id="myPageJarCollectionBtn" class="bg-stone-50 hover:bg-orange-50 p-2.5 rounded-2xl transition-colors">
+                                <span class="text-[10px] text-stone-400 font-bold block">완성한 유리병</span>
+                                <span class="text-sm font-black text-amber-600">${STATE.completedJars.length}통 →</span>
+                            </button>
                             <div class="bg-stone-50 p-2.5 rounded-2xl">
                                 <span class="text-[10px] text-stone-400 font-bold block">쉬어가기 티켓</span>
                                 <span class="text-sm font-black text-purple-600">${STATE.restTickets}장</span>
-                            </div>
-                            <div class="bg-stone-50 p-2.5 rounded-2xl">
-                                <span class="text-[10px] text-stone-400 font-bold block">보낸 응원</span>
-                                <span class="text-sm font-black text-teal-600">${STATE.mateGiftSentCount}회</span>
                             </div>
                         </div>
                     </div>
@@ -1912,6 +2019,9 @@
             const retest2 = document.getElementById('retestQuizBtn2');
             if (retest2) retest2.onclick = openRetest;
 
+            const myCollectionBtn = document.getElementById('myPageJarCollectionBtn');
+            if (myCollectionBtn) myCollectionBtn.onclick = () => showCompletedJarsModal();
+
             document.getElementById('openMateTabShortcut').onclick = () => switchTab('mate');
             document.getElementById('mateHeartCheerBtn').onclick = () => {
                 showToast('수아에게 따뜻한 응원을 보냈습니다!');
@@ -1996,15 +2106,84 @@
             document.getElementById('submitTickleBtn').onclick = () => {
                 const val = document.getElementById('tickleTitleInput').value.trim();
                 if (val) {
-                    const newT = { id: 't_' + Date.now(), title: val, theme: STATE.theme };
+                    const today = new Date();
+                    const dateStr = `${today.getMonth() + 1}월 ${today.getDate()}일`;
+                    const newT = { id: 't_' + Date.now(), title: val, theme: STATE.theme, date: dateStr };
                     STATE.tickles.push(newT);
                     saveStorage();
                     closeModal();
                     if (threeApp) threeApp.addSingleObject(newT);
-                    showToast('유리병에 새로운 3D 티끌이 담겼습니다!');
+                    showToast(STATE.tickles.length >= JAR_CAPACITY ? '유리병 한 통이 가득 찼어요! 보관함에 담아보세요!' : '유리병에 새로운 3D 티끌이 담겼습니다!');
                     renderTab('jar');
                 }
             };
+        }
+
+        function showCompletedJarsModal() {
+            const overlay = document.getElementById('onboardingOverlay');
+            const card = document.getElementById('onboardingCard');
+            overlay.classList.remove('hidden');
+
+            const themeColors = {
+                candyland: { bg: 'bg-pink-50', border: 'border-pink-200', badge: 'text-pink-600 bg-pink-100', jarFill: '#FBCFE8' },
+                ocean: { bg: 'bg-sky-50', border: 'border-sky-200', badge: 'text-sky-600 bg-sky-100', jarFill: '#BAE6FD' },
+                christmas: { bg: 'bg-emerald-50', border: 'border-emerald-200', badge: 'text-emerald-700 bg-emerald-100', jarFill: '#A7F3D0' },
+                halloween: { bg: 'bg-purple-50', border: 'border-purple-200', badge: 'text-purple-700 bg-purple-100', jarFill: '#DDD6FE' }
+            };
+
+            card.innerHTML = `
+                <div class="space-y-3.5">
+                    <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
+                        <div>
+                            <h3 class="text-sm font-bold text-stone-800">완성한 유리병 보관함</h3>
+                            <p class="text-[11px] text-stone-400">가득 채워 보관한 나만의 성취 컬렉션 (${STATE.completedJars.length}통)</p>
+                        </div>
+                        <button onclick="closeModal()" class="text-stone-400 hover:text-stone-700 p-1 font-bold">✕</button>
+                    </div>
+
+                    ${STATE.completedJars.length === 0 ? `
+                        <div class="bg-stone-50 rounded-2xl p-6 text-center space-y-2">
+                            <p class="text-xs font-bold text-stone-600">아직 보관함에 담긴 유리병이 없어요</p>
+                            <p class="text-[11px] text-stone-400">유리병에 티끌 ${JAR_CAPACITY}개를 가득 채우면 이곳에 예쁘게 진열할 수 있어요!</p>
+                        </div>
+                    ` : `
+                        <div class="space-y-2.5 max-h-[340px] overflow-y-auto pr-1">
+                            ${STATE.completedJars.map((jar, i) => {
+                                const c = themeColors[jar.theme] || themeColors.candyland;
+                                return `
+                                    <div class="${c.bg} border ${c.border} rounded-2xl p-3 space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-2.5">
+                                                <svg class="w-9 h-9 shrink-0" viewBox="0 0 36 36" fill="none">
+                                                    <rect x="12" y="4" width="12" height="4" rx="1.5" fill="#D6B48C"/>
+                                                    <rect x="8" y="8" width="20" height="24" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+                                                    <rect x="10" y="14" width="16" height="16" rx="3" fill="${c.jarFill}"/>
+                                                </svg>
+                                                <div>
+                                                    <div class="flex items-center gap-1.5">
+                                                        <span class="text-xs font-bold text-stone-800">${STATE.completedJars.length - i}번째 유리병</span>
+                                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${c.badge}">${jar.themeName}</span>
+                                                    </div>
+                                                    <span class="text-[10px] text-stone-400">${jar.completedDate} 완성 · ${jar.items.length}개 수록</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bg-white/80 rounded-xl p-2 flex flex-wrap gap-1">
+                                            ${jar.items.map(it => `
+                                                <span class="text-[10px] font-medium text-stone-600 bg-white border border-stone-100 px-2 py-0.5 rounded-lg">${it.title}</span>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `}
+
+                    <button onclick="closeModal()" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold py-2.5 rounded-xl text-xs">
+                        닫기
+                    </button>
+                </div>
+            `;
         }
 
         function showAddRoutineModal() {
