@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tickle</title>
+    <!-- Google Fonts: Fredoka (Bold) & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js Library (r128) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#FFFBF7',
+                            surface: '#FFFFFF',
+                            border: '#EFE4D8',
+                            orange: '#FF7E36',
+                            orangeLight: '#FFF0E6',
+                            amber: '#FFB800',
+                            teal: '#2DD4BF',
+                            purple: '#A855F7',
+                            dark: '#2D3748',
+                            muted: '#718096'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Strict Zero Shadows & Zero Gradients Policy */
+        * {
+            box-shadow: none !important;
+            text-shadow: none !important;
+            background-image: none !important;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #EFE9E2;
+            color: #2D3748;
+        }
+
+        .logo-font {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .card-outline {
+            border: 1.5px solid #EFE4D8;
+        }
+
+        .border-orange-custom {
+            border: 1.5px solid #FF7E36;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E2D6C8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4">
+
+    <!-- Mobile Viewport Container -->
+    <div class="w-full max-w-[420px] h-[100vh] sm:h-[880px] bg-brand-bg sm:rounded-[36px] overflow-hidden flex flex-col relative border-0 sm:border-[2px] border-stone-300">
+
+        <!-- Top Header: Standalone Rounded Typographic Logo Only -->
+        <header class="pt-4 px-5 pb-3 flex items-center justify-between z-20 bg-brand-bg sticky top-0">
+            <span class="logo-font text-[28px] font-bold text-brand-orange leading-none select-none">Tickle</span>
+
+            <div class="bg-brand-orangeLight px-3 py-1 rounded-full text-[11px] font-bold text-brand-orange whitespace-nowrap">
+                <span id="headerPersonaTag">시각적 수집가</span>
+            </div>
+        </header>
+
+        <!-- Main Dynamic Content Container -->
+        <main id="appContent" class="flex-1 overflow-y-auto relative pb-20 px-4 pt-1">
+            <!-- Rendered by JS -->
+        </main>
+
+        <!-- Bottom Navigation Bar (4 Clean Tabs: 유리병, 티끌 루틴, 메이트, 마이페이지) -->
+        <nav class="absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-stone-100 px-2 flex items-center justify-around z-30">
+            <button data-tab="jar" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-brand-orange font-bold">
+                <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="8" width="12" height="13" rx="3"/>
+                    <path d="M9 4h6v4H9z"/>
+                </svg>
+                <span class="text-[11px] mt-1 whitespace-nowrap">유리병</span>
+            </button>
+
+            <button data-tab="routines" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-stone-400">
+                <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="4" width="16" height="16" rx="3"/>
+                    <path d="M9 12l2 2 4-4"/>
+                </svg>
+                <span class="text-[11px] mt-1 whitespace-nowrap">티끌 루틴</span>
+            </button>
+
+            <button data-tab="mate" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-stone-400">
+                <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+                </svg>
+                <span class="text-[11px] mt-1 whitespace-nowrap">메이트</span>
+            </button>
+
+            <button data-tab="mypage" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-stone-400">
+                <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                </svg>
+                <span class="text-[11px] mt-1 whitespace-nowrap">마이페이지</span>
+            </button>
+        </nav>
+
+        <!-- Modal Overlay -->
+        <div id="onboardingOverlay" class="fixed inset-0 bg-stone-900/50 z-50 flex items-center justify-center p-4 hidden">
+            <div id="onboardingCard" class="bg-white w-full max-w-[360px] rounded-3xl p-5 overflow-y-auto max-h-[90vh]">
+                <!-- Modal Content -->
+            </div>
+        </div>
+
+        <!-- Toast Message Container -->
+        <div id="toastContainer" class="pointer-events-none fixed top-16 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2"></div>
+    </div>
+
+    <!-- Application Logic Script -->
+    <script>
+        const STATE = {
+            activeTab: 'jar',
+            userPersona: 'achievement', // achievement | explorer | companion | pacekeeper
+            theme: 'candyland', // candyland | ocean | christmas | halloween
+            restTickets: 3,
+            conditionEnergy: 80,
+            difficultyMode: 'easy',
+            puzzleTilesCompleted: 4,
+            notifications: 'daily',
+            soundEffects: true,
+            shareStatus: true,
+            jointGoalProgress: 6,
+            mateGiftSentCount: 2,
+            tickles: [],
+            routines: [],
+            chatMessages: [
+                { sender: 'mate', text: '오늘 물 한 잔 마시기 완료했어! 너는 어떤 티끌 모았어?', time: '오전 10:12' },
+                { sender: 'me', text: '나도 방금 스트레칭 5분 끝내고 유리병에 담았지!', time: '오전 10:15' }
+            ]
+        };
+
+        const INITIAL_TICKLES = [
+            { id: 't1', title: '아침 따뜻한 물 한 잔', theme: 'candyland' },
+            { id: 't2', title: '10분 햇볕 산책하기', theme: 'candyland' },
+            { id: 't3', title: '책 3페이지 읽기', theme: 'candyland' },
+            { id: 't4', title: '어깨 스트레칭 5분', theme: 'candyland' }
+        ];
+
+        const INITIAL_ROUTINES = [
+            { id: 'r1', easyTitle: '물 반 컵 가볍게 마시기 (30초)', title: '아침 물 1잔 온전히 마시기', category: '건강', completed: true },
+            { id: 'r2', easyTitle: '창문 열고 심호흡 3번 하기 (1분)', title: '창문 열고 맑은 공기 5분 쐬기', category: '기분전환', completed: true },
+            { id: 'r3', easyTitle: '좋아하는 노래 하이라이트 1분 듣기', title: '좋아하는 음악 1곡 가사에 집중해 듣기', category: '휴식', completed: false },
+            { id: 'r4', easyTitle: '오늘 기분 한 단어로 적어보기', title: '오늘 나에게 다정한 응원 한 줄 써주기', category: '마음', completed: false }
+        ];
+
+        let threeApp = null;
+
+        function initApp() {
+            loadStorage();
+            bindNavEvents();
+
+            if (!STATE.userPersona) {
+                showOnboardingQuiz();
+            } else {
+                renderTab(STATE.activeTab);
+            }
+        }
+
+        function loadStorage() {
+            const saved = localStorage.getItem('tickle_app_v11');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    Object.assign(STATE, parsed);
+                } catch(e){}
+            }
+            if (!STATE.tickles || STATE.tickles.length === 0) STATE.tickles = [...INITIAL_TICKLES];
+            if (!STATE.routines || STATE.routines.length === 0) STATE.routines = [...INITIAL_ROUTINES];
+        }
+
+        function saveStorage() {
+            localStorage.setItem('tickle_app_v11', JSON.stringify({
+                userPersona: STATE.userPersona,
+                theme: STATE.theme,
+                restTickets: STATE.restTickets,
+                conditionEnergy: STATE.conditionEnergy,
+                difficultyMode: STATE.difficultyMode,
+                puzzleTilesCompleted: STATE.puzzleTilesCompleted,
+                notifications: STATE.notifications,
+                soundEffects: STATE.soundEffects,
+                shareStatus: STATE.shareStatus,
+                jointGoalProgress: STATE.jointGoalProgress,
+                mateGiftSentCount: STATE.mateGiftSentCount,
+                tickles: STATE.tickles,
+                routines: STATE.routines,
+                chatMessages: STATE.chatMessages
+            }));
+        }
+
+        function bindNavEvents() {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tab = btn.dataset.tab;
+                    if (tab === STATE.activeTab) return;
+                    switchTab(tab);
+                });
+            });
+        }
+
+        function switchTab(tab) {
+            STATE.activeTab = tab;
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                const active = b.dataset.tab === tab;
+                b.classList.toggle('text-brand-orange', active);
+                b.classList.toggle('font-bold', active);
+                b.classList.toggle('text-stone-400', !active);
+            });
+            renderTab(tab);
+        }
+
+        function renderTab(tab) {
+            if (threeApp && tab !== 'jar') {
+                threeApp.destroy();
+                threeApp = null;
+            }
+
+            const main = document.getElementById('appContent');
+            updateHeaderPersonaTag();
+
+            switch(tab) {
+                case 'jar':
+                    main.innerHTML = getJarTabHTML();
+                    initJarTabEvents();
+                    break;
+                case 'routines':
+                    main.innerHTML = getRoutinesTabHTML();
+                    initRoutinesTabEvents();
+                    break;
+                case 'mate':
+                    main.innerHTML = getMateTabHTML();
+                    initMateTabEvents();
+                    break;
+                case 'mypage':
+                    main.innerHTML = getMyPageTabHTML();
+                    initMyPageTabEvents();
+                    break;
+            }
+        }
+
+        function getPersonaName(p) {
+            const names = {
+                achievement: '시각적 수집가',
+                explorer: '작은 성취 탐험가',
+                companion: '따뜻한 공감러',
+                pacekeeper: '나만의 페이스 메이커'
+            };
+            return names[p || STATE.userPersona] || '시각적 수집가';
+        }
+
+        function updateHeaderPersonaTag() {
+            const tag = document.getElementById('headerPersonaTag');
+            if (tag) tag.innerText = getPersonaName();
+        }
+
+        // ========================================================
+        // 1. ONBOARDING & CLEAN DEFAULT SILHOUETTE PROFILE ICON
+        // ========================================================
+        function showOnboardingQuiz() {
+            const overlay = document.getElementById('onboardingOverlay');
+            const card = document.getElementById('onboardingCard');
+            overlay.classList.remove('hidden');
+
+            const questions = [
+                {
+                    q: '1. 목표를 실천할 때 가장 즐거움을 느끼는 순간은?',
+                    options: [
+                        { v: 'achievement', text: '눈에 보이는 퍼즐 조각이나 수집품이 하나씩 채워질 때' },
+                        { v: 'explorer', text: '콤보가 쌓이고 목표 난이도를 내 손으로 직접 조절할 때' },
+                        { v: 'companion', text: '메이트와 함께 공동 목표를 채우고 서로 응원할 때' },
+                        { v: 'pacekeeper', text: '독촉 없이 오늘 내 컨디션에 맞춰 편안하게 움직일 때' }
+                    ]
+                },
+                {
+                    q: '2. 의욕이 떨어지는 날, 나에게 가장 필요한 처방은?',
+                    options: [
+                        { v: 'pacekeeper', text: '휴식 티켓을 써서 죄책감 없이 온전히 하루 쉬어가기' },
+                        { v: 'companion', text: '메이트에게 다정한 콕 찌르기 응원 메시지 받기' },
+                        { v: 'explorer', text: '1단계 3분짜리 아주 가벼운 미션으로 난이도 낮추기' },
+                        { v: 'achievement', text: '유리병 속 테마 소품을 바꾸며 시각적 기분 전환하기' }
+                    ]
+                },
+                {
+                    q: '3. 새로운 습관을 들일 때 내가 선호하는 방식은?',
+                    options: [
+                        { v: 'explorer', text: '작은 단계부터 시작해 조금씩 레벨업하며 도전하기' },
+                        { v: 'achievement', text: '매일 달성한 흔적을 예쁜 오브제로 차곡차곡 모으기' },
+                        { v: 'pacekeeper', text: '정해진 규칙보다 그날의 에너지에 따라 유연하게 조절하기' },
+                        { v: 'companion', text: '누군가와 같이 시작해서 서로의 진행 상황을 공유하기' }
+                    ]
+                },
+                {
+                    q: '4. 작은 성취를 이루었을 때 가장 뿌듯한 보상은?',
+                    options: [
+                        { v: 'achievement', text: '유리병이 다채로운 소품으로 꽉 채워지는 뿌듯한 장면' },
+                        { v: 'companion', text: '메이트가 내 기록을 보고 하트와 축하를 보내줄 때' },
+                        { v: 'explorer', text: '스스로 정한 오늘의 목표 난이도를 완벽히 클리어했을 때' },
+                        { v: 'pacekeeper', text: '무리하지 않고 나만의 속도를 끝까지 지켜냈다는 안도감' }
+                    ]
+                },
+                {
+                    q: '5. 내가 꿈꾸는 가장 이상적인 루틴의 모습은?',
+                    options: [
+                        { v: 'pacekeeper', text: '지치지 않고 오랫동안 잔잔하게 이어가는 나만의 리듬' },
+                        { v: 'achievement', text: '하루하루의 조각이 모여 하나의 완성된 작품이 되는 과정' },
+                        { v: 'companion', text: '혼자가 아니라 함께 걸으며 따뜻함을 나누는 시간' },
+                        { v: 'explorer', text: '매일 새로운 작은 퀘스트를 깨듯 재미있게 탐험하는 일상' }
+                    ]
+                }
+            ];
+
+            let currentStep = 0;
+            const answers = new Array(questions.length).fill(null);
+            answers[0] = questions[0].options[0].v;
+
+            const renderStep = () => {
+                const item = questions[currentStep];
+                if (!answers[currentStep]) {
+                    answers[currentStep] = item.options[0].v;
+                }
+                const progressPct = ((currentStep + 1) / questions.length) * 100;
+
+                card.innerHTML = `
+                    <div class="text-center mb-3.5">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-brand-orangeLight text-brand-orange border border-orange-custom px-2.5 py-0.5 rounded-full text-[11px] font-bold">
+                                맞춤 성향 진단
+                            </span>
+                            <span class="text-[11px] font-black text-brand-orange">${currentStep + 1} / ${questions.length}</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden mb-3">
+                            <div class="h-full bg-brand-orange rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
+                        </div>
+                        <h2 class="text-base font-bold text-stone-800">나에게 맞는 동기부여 방식 찾기</h2>
+                        <p class="text-[11px] text-stone-500 mt-0.5">5가지 질문으로 나만의 맞춤 동기부여 유형을 분석해요.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <p class="text-xs font-bold text-stone-800 leading-relaxed">${item.q}</p>
+                        <div class="space-y-2">
+                            ${item.options.map((opt) => {
+                                const isSelected = answers[currentStep] === opt.v;
+                                return `
+                                    <button type="button" data-val="${opt.v}" class="quiz-opt-btn w-full text-left flex items-center p-3 rounded-2xl transition-all text-xs font-medium outline-none focus:outline-none ${isSelected ? 'bg-brand-orangeLight border-orange-custom text-stone-800 font-bold' : 'bg-stone-50 hover:bg-stone-100 text-stone-600 border border-transparent'}">
+                                        <span class="w-4 h-4 rounded-full flex items-center justify-center mr-3 shrink-0 transition-all ${isSelected ? 'border-[2px] border-brand-orange bg-white' : 'border-[1.5px] border-stone-300 bg-white'}">
+                                            ${isSelected ? '<span class="w-2 h-2 rounded-full bg-brand-orange"></span>' : ''}
+                                        </span>
+                                        <span class="leading-snug">${opt.text}</span>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 mt-5">
+                        ${currentStep > 0 ? `
+                            <button type="button" id="quizPrevBtn" class="px-4 py-3 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold text-xs outline-none">
+                                이전
+                            </button>
+                        ` : ''}
+                        <button type="button" id="quizNextBtn" class="flex-1 bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-2xl text-xs outline-none">
+                            ${currentStep < questions.length - 1 ? '다음 질문으로' : '나만의 성향 결과 확인하기'}
+                        </button>
+                    </div>
+                `;
+
+                card.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        answers[currentStep] = btn.dataset.val;
+                        renderStep();
+                    };
+                });
+
+                const prevBtn = document.getElementById('quizPrevBtn');
+                if (prevBtn) {
+                    prevBtn.onclick = () => {
+                        currentStep--;
+                        renderStep();
+                    };
+                }
+
+                document.getElementById('quizNextBtn').onclick = () => {
+                    if (currentStep < questions.length - 1) {
+                        currentStep++;
+                        renderStep();
+                    } else {
+                        const counts = { achievement: 0, explorer: 0, companion: 0, pacekeeper: 0 };
+                        answers.forEach(v => { if (counts[v] !== undefined) counts[v]++; });
+                        let bestPersona = answers[0] || 'achievement';
+                        let maxScore = -1;
+                        Object.entries(counts).forEach(([k, score]) => {
+                            if (score > maxScore) {
+                                maxScore = score;
+                                bestPersona = k;
+                            }
+                        });
+
+                        STATE.userPersona = bestPersona;
+                        saveStorage();
+                        closeModal();
+                        showToast(`진단 완료! '${getPersonaName(bestPersona)}' 성향으로 설정되었습니다.`);
+                        renderTab(STATE.activeTab);
+                    }
+                };
+            };
+
+            renderStep();
+        }
+
+        // Default Minimalist Human Silhouette Profile Icons (Clipped cleanly to circle)
+        function render2DAvatarSVG(persona, size = 64) {
+            const clipId = 'clip_' + Math.random().toString(36).substr(2, 9);
+            return `
+                <svg width="${size}" height="${size}" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="${clipId}">
+                            <circle cx="50" cy="50" r="48"/>
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#${clipId})">
+                        <circle cx="50" cy="50" r="48" fill="#D5DADE"/>
+                        <circle cx="50" cy="39" r="19" fill="#B0B7BD"/>
+                        <ellipse cx="50" cy="87" rx="34" ry="27" fill="#B0B7BD"/>
+                    </g>
+                </svg>
+            `;
+        }
+
+        // 2D SVG Theme Backdrops
+        function getThemeBackdropSVG(theme) {
+            if (theme === 'candyland') {
+                return `
+                    <svg class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" viewBox="0 0 350 450" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <clipPath id="candyCaneLeftClip">
+                                <path d="M26 285 V185 A18 18 0 0 1 62 185 V202" stroke-width="11" stroke-linecap="round"/>
+                            </clipPath>
+                            <clipPath id="candyCaneRightClip">
+                                <path d="M322 295 V195 A18 18 0 0 0 286 195 V212" stroke-width="11" stroke-linecap="round"/>
+                            </clipPath>
+                        </defs>
+
+                        <!-- Pastel Sky Background -->
+                        <rect width="350" height="450" fill="#FFF0F6"/>
+                        <!-- Soft Pastel Clouds -->
+                        <g fill="#FFFFFF" opacity="0.88">
+                            <circle cx="52" cy="58" r="16"/><circle cx="70" cy="53" r="20"/><circle cx="88" cy="59" r="15"/>
+                            <rect x="48" y="58" width="44" height="16" rx="8"/>
+                            <circle cx="262" cy="72" r="14"/><circle cx="278" cy="67" r="18"/><circle cx="294" cy="73" r="13"/>
+                            <rect x="258" y="72" width="40" height="14" rx="7"/>
+                        </g>
+
+                        <!-- Rolling Candy Hills -->
+                        <path d="M-10 265 Q80 220 175 250 T360 235 V450 H-10 Z" fill="#FCE7F3"/>
+                        <path d="M-10 315 Q100 280 200 305 T360 290 V450 H-10 Z" fill="#FBCFE8"/>
+                        <path d="M-10 365 Q90 345 190 360 T360 350 V450 H-10 Z" fill="#FFF5F9"/>
+
+                        <!-- Smooth Striped Candy Cane (Left) -->
+                        <g>
+                            <path d="M26 285 V185 A18 18 0 0 1 62 185 V202" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round"/>
+                            <path d="M26 285 V185 A18 18 0 0 1 62 185 V202" stroke="#F472B6" stroke-width="11" stroke-dasharray="22 22" stroke-linecap="butt"/>
+                        </g>
+
+                        <!-- Smooth Striped Candy Cane (Right) -->
+                        <g>
+                            <path d="M322 295 V195 A18 18 0 0 0 286 195 V212" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round"/>
+                            <path d="M322 295 V195 A18 18 0 0 0 286 195 V212" stroke="#60A5FA" stroke-width="11" stroke-dasharray="22 22" stroke-linecap="butt"/>
+                        </g>
+
+                        <!-- Gingerbread House (Left, Clean Roof without Circle) -->
+                        <g transform="translate(36, 222)">
+                            <rect x="44" y="-8" width="10" height="18" rx="2" fill="#D97706"/>
+                            <rect x="8" y="24" width="52" height="44" rx="4" fill="#D97706"/>
+                            <polygon points="34,0 2,26 66,26" fill="#B45309"/>
+                            <path d="M0 26 L34 -2 L68 26 Q60 32 52 26 Q44 32 34 26 Q24 32 16 26 Q8 32 0 26 Z" fill="#FFFFFF"/>
+                            <rect x="26" y="42" width="16" height="26" rx="8" fill="#78350F"/>
+                            <rect x="13" y="34" width="10" height="10" rx="2" fill="#FEF08A"/>
+                            <rect x="45" y="34" width="10" height="10" rx="2" fill="#FEF08A"/>
+                        </g>
+
+                        <!-- Gingerbread House (Right) -->
+                        <g transform="translate(242, 232)">
+                            <rect x="8" y="24" width="52" height="44" rx="4" fill="#B45309"/>
+                            <polygon points="34,0 2,26 66,26" fill="#92400E"/>
+                            <path d="M0 26 L34 -2 L68 26 Q60 32 52 26 Q44 32 34 26 Q24 32 16 26 Q8 32 0 26 Z" fill="#FFFFFF"/>
+                            <rect x="26" y="42" width="16" height="26" rx="8" fill="#451A03"/>
+                            <rect x="13" y="34" width="10" height="10" rx="2" fill="#FEF08A"/>
+                            <rect x="45" y="34" width="10" height="10" rx="2" fill="#FEF08A"/>
+                        </g>
+
+                        <!-- Mint Whipped-Cream Trees -->
+                        <g transform="translate(12, 272)">
+                            <ellipse cx="18" cy="36" rx="18" ry="9" fill="#6EE7B7"/>
+                            <ellipse cx="18" cy="26" rx="14" ry="8" fill="#A7F3D0"/>
+                            <ellipse cx="18" cy="17" rx="10" ry="7" fill="#6EE7B7"/>
+                            <circle cx="18" cy="9" r="5" fill="#A7F3D0"/>
+                        </g>
+                        <g transform="translate(302, 282)">
+                            <ellipse cx="18" cy="36" rx="18" ry="9" fill="#6EE7B7"/>
+                            <ellipse cx="18" cy="26" rx="14" ry="8" fill="#A7F3D0"/>
+                            <ellipse cx="18" cy="17" rx="10" ry="7" fill="#6EE7B7"/>
+                            <circle cx="18" cy="9" r="5" fill="#A7F3D0"/>
+                        </g>
+
+                        <!-- Chupa Chups Style Lollipop (Right, Pink with Center Ring) -->
+                        <g transform="translate(226, 175) rotate(-14)">
+                            <rect x="-2.5" y="16" width="5" height="62" rx="2.5" fill="#FFFFFF"/>
+                            <circle cx="0" cy="0" r="19" fill="#F472B6"/>
+                            <path d="M-16 8 A19 19 0 0 0 16 8 A19 15 0 0 1 -16 8 Z" fill="#DB2777" opacity="0.25"/>
+                            <rect x="-21.5" y="-3.5" width="43" height="7" rx="3.5" fill="#F9A8D4"/>
+                            <rect x="-21.5" y="-1.5" width="43" height="2.5" rx="1.2" fill="#FCE7F3" opacity="0.8"/>
+                            <ellipse cx="-6" cy="-9" rx="5" ry="3" transform="rotate(-25 -6 -9)" fill="#FFFFFF" opacity="0.7"/>
+                        </g>
+
+                        <!-- Chupa Chups Style Lollipop (Left, Lavender with Center Ring) -->
+                        <g transform="translate(115, 212) rotate(12)">
+                            <rect x="-2" y="12" width="4" height="46" rx="2" fill="#FFFFFF"/>
+                            <circle cx="0" cy="0" r="14" fill="#C084FC"/>
+                            <path d="M-12 6 A14 14 0 0 0 12 6 A14 11 0 0 1 -12 6 Z" fill="#9333EA" opacity="0.25"/>
+                            <rect x="-16" y="-2.5" width="32" height="5" rx="2.5" fill="#D8B4FE"/>
+                            <rect x="-16" y="-1" width="32" height="2" rx="1" fill="#F3E8FF" opacity="0.8"/>
+                            <ellipse cx="-4.5" cy="-6.5" rx="3.8" ry="2.2" transform="rotate(-25 -4.5 -6.5)" fill="#FFFFFF" opacity="0.7"/>
+                        </g>
+                    </svg>
+                `;
+            } else if (theme === 'ocean') {
+                return `
+                    <svg class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" viewBox="0 0 350 375" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="350" height="375" fill="#E0F2FE"/>
+                        <circle cx="290" cy="65" r="30" fill="#FEF08A"/>
+                        <path d="M-10 160 Q80 140 180 160 T360 150 V375 H-10 Z" fill="#7DD3FC"/>
+                        <path d="M-10 195 Q90 180 190 200 T360 185 V375 H-10 Z" fill="#38BDF8"/>
+                        <path d="M-10 235 Q70 215 170 235 T360 220 V375 H-10 Z" fill="#0284C7"/>
+                        <path d="M-10 285 Q80 265 180 280 T360 270 V375 H-10 Z" fill="#FEF08A"/>
+                        <path d="M-10 315 Q100 300 200 310 T360 305 V375 H-10 Z" fill="#FDE047" opacity="0.7"/>
+                        <path d="M40 332 L43 340 L51 340 L45 345 L47 353 L40 348 L33 353 L35 345 L29 340 L37 340 Z" fill="#FF7E36"/>
+                    </svg>
+                `;
+            } else if (theme === 'christmas') {
+                return `
+                    <svg class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" viewBox="0 0 350 375" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="350" height="375" fill="#0F172A"/>
+                        <circle cx="70" cy="70" r="28" fill="#FEF08A"/>
+                        <circle cx="70" cy="70" r="36" fill="#FEF08A" opacity="0.15"/>
+                        <circle cx="160" cy="40" r="2" fill="#FFF"/>
+                        <circle cx="240" cy="80" r="1.5" fill="#FFF"/>
+                        <circle cx="300" cy="50" r="2.5" fill="#FFF"/>
+                        <circle cx="210" cy="110" r="1.8" fill="#FFF"/>
+                        <path d="M-10 120 Q100 80 200 110 T360 90 V200 H-10 Z" fill="#14B8A6" opacity="0.2"/>
+                        <path d="M20 250 L40 200 L60 250 H45 L65 300 H15 L35 250 Z" fill="#1E293B"/>
+                        <path d="M280 240 L300 195 L320 240 H308 L328 290 H272 L292 240 Z" fill="#1E293B"/>
+                        <path d="M-10 260 Q90 230 190 255 T360 240 V375 H-10 Z" fill="#CBD5E1"/>
+                        <path d="M-10 300 Q100 280 200 295 T360 285 V375 H-10 Z" fill="#F8FAFC"/>
+                    </svg>
+                `;
+            } else { // halloween
+                return `
+                    <svg class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" viewBox="0 0 350 450" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Deep Violet Night Sky -->
+                        <rect width="350" height="450" fill="#2E1065"/>
+                        <!-- Soft Violet Cloud Ribbons -->
+                        <path d="M-10 60 Q90 35 190 60 T360 45 V120 Q250 100 150 120 T-10 105 Z" fill="#4C1D95" opacity="0.5"/>
+                        <path d="M-10 150 Q110 125 220 150 T360 135 V210 Q240 190 130 210 T-10 195 Z" fill="#4C1D95" opacity="0.35"/>
+
+                        <!-- Glowing Crescent Moon & Sparkle Stars -->
+                        <path d="M135 55 A32 32 0 1 0 175 95 A25 25 0 1 1 135 55 Z" fill="#FDE047"/>
+                        <path d="M55 45 L58 53 L66 56 L58 59 L55 67 L52 59 L44 56 L52 53 Z" fill="#FEF08A"/>
+                        <path d="M210 38 L212 44 L218 46 L212 48 L210 54 L208 48 L202 46 L208 44 Z" fill="#FEF08A"/>
+                        <path d="M105 110 L107 115 L112 117 L107 119 L105 124 L103 119 L98 117 L103 115 Z" fill="#FEF08A"/>
+                        <circle cx="295" cy="115" r="2" fill="#FEF08A"/>
+
+                        <!-- Flying Bats -->
+                        <path d="M62 82 Q70 72 78 82 Q86 72 94 82 Q84 89 78 86 Q72 89 62 82 Z" fill="#0F172A"/>
+                        <path d="M255 45 Q265 33 275 45 Q285 33 295 45 Q283 54 275 50 Q267 54 255 45 Z" fill="#0F172A"/>
+
+                        <!-- Gnarled Multi-Branch Leafless Tree (Left) -->
+                        <path d="M32 355 Q38 300 32 250 Q22 225 8 205 L13 201 Q25 215 34 232 Q36 205 26 178 L32 175 Q41 198 43 224 Q55 202 74 188 L78 193 Q58 209 47 236 Q66 225 88 228 L87 234 Q63 233 46 250 Q48 295 56 355 Z" fill="#18122B"/>
+
+                        <!-- Crooked Wooden Fence & Tombstone -->
+                        <path d="M14 345 V320 H20 V345 M28 348 V322 H34 V348 M10 328 L38 325 M10 338 L38 335" stroke="#18122B" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M74 345 V325 A9 9 0 0 1 92 325 V345 Z" fill="#18122B"/>
+                        <path d="M83 310 V317 M79 313 H87" stroke="#18122B" stroke-width="2.5" stroke-linecap="round"/>
+
+                        <!-- Spooky Victorian Mansion / Haunted Castle (Right, Reference Style) -->
+                        <g fill="#18122B">
+                            <!-- Main Right Tower & Roof -->
+                            <rect x="255" y="195" width="66" height="150"/>
+                            <path d="M245 198 L288 125 L331 198 Q288 190 245 198 Z"/>
+                            <!-- Tall Left Turret & Spire -->
+                            <rect x="208" y="150" width="46" height="195"/>
+                            <path d="M198 153 L231 85 L264 153 Q231 146 198 153 Z"/>
+                            <!-- Center Connector & Balcony -->
+                            <rect x="248" y="220" width="16" height="125"/>
+                            <path d="M198 220 H258 M204 220 V208 M214 220 V208 M224 220 V208 M234 220 V208 M244 220 V208 M254 220 V208 M200 208 H256" stroke="#18122B" stroke-width="2.5"/>
+                        </g>
+
+                        <!-- Warm Glowing Castle Windows -->
+                        <path d="M224 138 A7 7 0 0 1 238 138 V147 H224 Z" fill="#FACC15"/>
+                        <circle cx="242" cy="175" r="5.5" fill="#FACC15"/>
+                        <path d="M222 202 A9 9 0 0 1 240 202 V218 H222 Z" fill="#FACC15"/>
+                        <rect x="220" y="255" width="16" height="22" rx="2" fill="#FACC15"/>
+                        <path d="M228 255 V277 M220 266 H236" stroke="#18122B" stroke-width="2"/>
+                        <rect x="282" y="242" width="16" height="22" rx="2" fill="#FACC15"/>
+                        <path d="M290 242 V264 M282 253 H298" stroke="#18122B" stroke-width="2"/>
+                        <path d="M268 345 V305 A12 12 0 0 1 292 305 V345 Z" fill="#3B0764"/>
+
+                        <!-- Rolling Dark Hills & Bushes -->
+                        <path d="M-10 345 Q90 320 190 340 T360 325 V450 H-10 Z" fill="#4C1D95"/>
+                        <path d="M-10 375 Q110 355 220 370 T360 360 V450 H-10 Z" fill="#3B0764"/>
+                        <circle cx="315" cy="342" r="18" fill="#18122B"/>
+                        <circle cx="338" cy="336" r="22" fill="#18122B"/>
+                    </svg>
+                `;
+            }
+        }
+
+        // ========================================================
+        // 2. TAB 1: GLASS JAR (FULL-HEIGHT EXPANDED JAR CARD)
+        // ========================================================
+        function getJarTabHTML() {
+            const count = STATE.tickles.length;
+            const themes = [
+                {
+                    id: 'candyland',
+                    name: '과자나라',
+                    svg: `<circle cx="12" cy="13" r="8" fill="#FDBA74"/><circle cx="12" cy="13" r="3" fill="#FFFBF7"/><path d="M5 11c2-4 12-4 14 0" stroke="#F472B6" stroke-width="3.5" stroke-linecap="round"/>`
+                },
+                {
+                    id: 'ocean',
+                    name: '여름바다',
+                    svg: `<ellipse cx="11" cy="12" rx="7" ry="5" fill="#FF7E36"/><path d="M17 12l4-3v6l-4-3z" fill="#FF7E36"/><path d="M9 7.5v9M13 8v8" stroke="#FFFFFF" stroke-width="2"/><circle cx="7.5" cy="11" r="1" fill="#1E293B"/>`
+                },
+                {
+                    id: 'christmas',
+                    name: '크리스마스',
+                    svg: `<path d="M12 3L5 13h4l-3 6h12l-3-6h4L12 3z" fill="#16A34A"/><rect x="10.5" y="19" width="3" height="3" fill="#92400E"/><circle cx="11" cy="10" r="1.2" fill="#EF4444"/><circle cx="13.5" cy="14.5" r="1.2" fill="#FACC15"/>`
+                },
+                {
+                    id: 'halloween',
+                    name: '할로윈',
+                    svg: `<ellipse cx="12" cy="15" rx="7.5" ry="5.5" fill="#FF7E36"/><path d="M6 10h12l-3-6-3-2-3 2-3 6z" fill="#7E22CE"/><rect x="6" y="9" width="12" height="1.8" fill="#FACC15"/><circle cx="9.5" cy="14.5" r="1" fill="#1E293B"/><circle cx="14.5" cy="14.5" r="1" fill="#1E293B"/>`
+                }
+            ];
+
+            return `
+                <div class="flex flex-col h-full space-y-2.5 pt-0.5 pb-1">
+                    <!-- 1. Top Row: Collected Tickles Count & Shake Button (Compact) -->
+                    <div class="w-full flex items-center justify-between px-1 shrink-0">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xs font-bold text-stone-600">모인 티끌</span>
+                            <span class="text-sm font-black text-brand-orange">${count}개</span>
+                        </div>
+                        <button id="shakeJarBtn" class="bg-white hover:bg-stone-50 card-outline px-3 py-1 rounded-full text-xs font-bold text-stone-700 flex items-center gap-1.5 active:scale-95 whitespace-nowrap">
+                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.4"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.3-3.3M20 15a9 9 0 01-15.3 3.3"/></svg>
+                            <span>병 흔들기</span>
+                        </button>
+                    </div>
+
+                    <!-- 2. Second Row: Theme Selector Buttons (Compact) -->
+                    <div class="grid grid-cols-4 gap-1.5 shrink-0">
+                        ${themes.map(t => `
+                            <button data-theme="${t.id}" class="theme-btn py-1.5 px-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 transition-all whitespace-nowrap ${STATE.theme === t.id ? 'bg-brand-orangeLight border-orange-custom text-brand-orange font-bold' : 'bg-white card-outline text-stone-600 font-medium'}">
+                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none">${t.svg}</svg>
+                                <span class="text-[11px] leading-tight">${t.name}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <!-- 3. Three.js 3D Glass Jar Canvas Container (Fills remaining vertical height cleanly) -->
+                    <div id="threeContainer" class="w-full flex-1 min-h-[380px] relative rounded-3xl overflow-hidden cursor-grab active:cursor-grabbing bg-transparent">
+                        ${getThemeBackdropSVG(STATE.theme)}
+                    </div>
+
+                    <!-- 4. Primary Action Button -->
+                    <button id="addTickleBtn" class="w-full shrink-0 bg-brand-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M12 4v16m8-8H4"/></svg>
+                        <span>티끌 하나 담기</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function initJarTabEvents() {
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.onclick = () => {
+                    STATE.theme = btn.dataset.theme;
+                    saveStorage();
+                    renderTab('jar');
+                };
+            });
+
+            document.getElementById('shakeJarBtn').onclick = () => {
+                if (threeApp) threeApp.shakeObjects();
+            };
+
+            document.getElementById('addTickleBtn').onclick = () => showAddTickleModal();
+
+            const container = document.getElementById('threeContainer');
+            if (container) {
+                threeApp = new ThreeJarScene(container, STATE.theme, STATE.tickles);
+            }
+        }
+
+        // ========================================================
+        // THREE.JS 3D GLASS JAR SCENE & ACCURATE SCULPTED MODELS
+        // ========================================================
+        class ThreeJarScene {
+            constructor(container, theme, tickles) {
+                this.container = container;
+                this.theme = theme;
+                this.tickles = tickles;
+                this.objects = [];
+                this.draggedObj = null;
+                this.raycaster = new THREE.Raycaster();
+                this.mouse = new THREE.Vector2();
+                this.dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+                this.prevMouse3D = new THREE.Vector3();
+                this.velocity3D = new THREE.Vector3();
+                this.shakeTime = 0;
+                this.animId = null;
+
+                this.width = container.clientWidth || 350;
+                this.height = container.clientHeight || 375;
+
+                // Jar Bounds
+                this.jarRadius = 1.65;
+                this.floorTopY = -1.72;
+                this.jarTop = 1.48;
+
+                this.initScene();
+                this.buildJarAndEnvironment();
+                this.spawnTickleObjects();
+                this.bindPointerEvents();
+                this.animate();
+            }
+
+            initScene() {
+                this.scene = new THREE.Scene();
+                this.scene.background = null;
+
+                this.camera = new THREE.PerspectiveCamera(36, this.width / this.height, 0.1, 100);
+                this.updateCameraFit();
+
+                this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                this.renderer.setClearColor(0x000000, 0);
+                this.renderer.setSize(this.width, this.height);
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                this.renderer.domElement.className = "relative z-10 w-full h-full pointer-events-auto";
+                this.renderer.domElement.style.transform = "translateZ(0)";
+                this.container.appendChild(this.renderer.domElement);
+
+                this.resizeObserver = new ResizeObserver(() => {
+                    if (!this.container) return;
+                    const newW = this.container.clientWidth;
+                    const newH = this.container.clientHeight;
+                    if (newW > 0 && newH > 0 && (newW !== this.width || newH !== this.height)) {
+                        this.width = newW;
+                        this.height = newH;
+                        this.camera.aspect = this.width / this.height;
+                        this.updateCameraFit();
+                        this.renderer.setSize(this.width, this.height);
+                    }
+                });
+                this.resizeObserver.observe(this.container);
+
+                // Clean Lighting
+                const hemiLight = new THREE.HemisphereLight(0xFFFFFF, 0xF3E8DF, 0.95);
+                hemiLight.position.set(0, 6, 0);
+                this.scene.add(hemiLight);
+
+                const dirLight = new THREE.DirectionalLight(0xFFFFFF, 0.65);
+                dirLight.position.set(3, 5, 5);
+                this.scene.add(dirLight);
+            }
+
+            updateCameraFit() {
+                const aspect = this.width / this.height;
+                const baseZ = aspect < 0.85 ? 7.6 + (0.85 - aspect) * 2.2 : 7.6;
+                this.camera.position.set(0, 0.22, baseZ);
+                this.camera.lookAt(0, -0.05, 0);
+                this.camera.updateProjectionMatrix();
+            }
+
+            buildJarAndEnvironment() {
+                const glassMat = new THREE.MeshPhysicalMaterial({
+                    color: 0xF1F5F9,
+                    transparent: true,
+                    opacity: 0.26,
+                    roughness: 0.1,
+                    metalness: 0.05,
+                    depthWrite: false
+                });
+
+                // Glass Body
+                const jarHeight = this.jarTop - this.floorTopY;
+                const jarCenterY = (this.jarTop + this.floorTopY) / 2;
+                const bodyMesh = new THREE.Mesh(
+                    new THREE.CylinderGeometry(this.jarRadius, this.jarRadius, jarHeight, 48, 1, true),
+                    glassMat
+                );
+                bodyMesh.position.y = jarCenterY;
+                bodyMesh.renderOrder = 10;
+                this.scene.add(bodyMesh);
+
+                // Theme Floor Layers (Inside Jar)
+                let floorColor = 0xE2E8F0;
+                if (this.theme === 'candyland') floorColor = 0xFCE7F3;
+                else if (this.theme === 'ocean') floorColor = 0xFEF08A;
+                else if (this.theme === 'christmas') floorColor = 0xF8FAFC;
+                else if (this.theme === 'halloween') floorColor = 0x581C87;
+
+                const floorMesh = new THREE.Mesh(
+                    new THREE.CylinderGeometry(this.jarRadius * 0.98, this.jarRadius * 0.98, 0.16, 40),
+                    new THREE.MeshStandardMaterial({ color: floorColor, roughness: 0.5 })
+                );
+                floorMesh.position.y = this.floorTopY - 0.08;
+                this.scene.add(floorMesh);
+
+                // Outer Glass Base Plate
+                const baseMesh = new THREE.Mesh(
+                    new THREE.CylinderGeometry(this.jarRadius + 0.06, this.jarRadius + 0.06, 0.22, 48),
+                    new THREE.MeshStandardMaterial({ color: 0xE2E8F0, roughness: 0.3, transparent: true, opacity: 0.6, depthWrite: false })
+                );
+                baseMesh.position.y = this.floorTopY - 0.27;
+                baseMesh.renderOrder = 9;
+                this.scene.add(baseMesh);
+
+                // Glass Rim
+                const rimMesh = new THREE.Mesh(
+                    new THREE.TorusGeometry(this.jarRadius + 0.03, 0.07, 16, 48),
+                    new THREE.MeshStandardMaterial({ color: 0xCBD5E1, roughness: 0.25 })
+                );
+                rimMesh.rotation.x = Math.PI / 2;
+                rimMesh.position.y = this.jarTop;
+                rimMesh.renderOrder = 11;
+                this.scene.add(rimMesh);
+
+                // Cork Stopper
+                const corkMesh = new THREE.Mesh(
+                    new THREE.CylinderGeometry(this.jarRadius * 0.88, this.jarRadius * 0.80, 0.42, 40),
+                    new THREE.MeshStandardMaterial({ color: 0xD6B48C, roughness: 0.78 })
+                );
+                corkMesh.position.y = this.jarTop + 0.18;
+                corkMesh.renderOrder = 12;
+                this.scene.add(corkMesh);
+            }
+
+            // High-Detail Sculpted 3D Models
+            createTheme3DModel(theme, idx) {
+                const group = new THREE.Group();
+                const radius = 0.44;
+                const mat = (col, rough = 0.42) => new THREE.MeshStandardMaterial({ color: col, roughness: rough });
+
+                if (theme === 'candyland') {
+                    const variant = idx % 4;
+                    if (variant === 0) {
+                        // Striped Donut
+                        const dough = new THREE.Mesh(new THREE.TorusGeometry(0.27, 0.145, 20, 32), mat(0xFFFBEB));
+                        group.add(dough);
+                        for (let s = 0; s < 8; s++) {
+                            const stripe = new THREE.Mesh(
+                                new THREE.TorusGeometry(0.27, 0.15, 16, 12, Math.PI / 8),
+                                mat(0xF472B6)
+                            );
+                            stripe.rotation.z = (s / 8) * Math.PI * 2;
+                            group.add(stripe);
+                        }
+                    } else if (variant === 1) {
+                        // Chocolate Cake with Dripping Pink Glaze & Sprinkles
+                        const cake = new THREE.Mesh(new THREE.CylinderGeometry(0.31, 0.31, 0.34, 28), mat(0x5C2D16));
+                        const midCream = new THREE.Mesh(new THREE.CylinderGeometry(0.315, 0.315, 0.05, 28), mat(0xFDBA74));
+                        const topGlaze = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.11, 28), mat(0xFB7185));
+                        topGlaze.position.y = 0.14;
+                        group.add(cake, midCream, topGlaze);
+                        const spColors = [0xFACC15, 0x38BDF8, 0xA855F7, 0x4ADE80, 0xFFFFFF];
+                        for (let i = 0; i < 8; i++) {
+                            const ang = (i / 8) * Math.PI * 2;
+                            const drip = new THREE.Mesh(new THREE.SphereGeometry(0.042, 10, 10), mat(0xFB7185));
+                            drip.scale.y = 1.6;
+                            drip.position.set(Math.cos(ang) * 0.31, 0.07, Math.sin(ang) * 0.31);
+                            const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.07, 8), mat(spColors[i % spColors.length]));
+                            sp.rotation.set(0.5, ang, 0.8);
+                            sp.position.set(Math.cos(ang) * 0.16, 0.21, Math.sin(ang) * 0.16);
+                            group.add(drip, sp);
+                        }
+                    } else if (variant === 2) {
+                        // Strawberry with 8-leaf calyx & yellow seeds
+                        const berry = new THREE.Mesh(new THREE.LatheGeometry([
+                            new THREE.Vector2(0.00, -0.32),
+                            new THREE.Vector2(0.11, -0.24),
+                            new THREE.Vector2(0.22, -0.06),
+                            new THREE.Vector2(0.27, 0.12),
+                            new THREE.Vector2(0.22, 0.25),
+                            new THREE.Vector2(0.00, 0.28)
+                        ], 24), mat(0xEF4444));
+                        group.add(berry);
+                        const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.03, 0.12, 10), mat(0x15803D));
+                        stem.position.y = 0.32;
+                        group.add(stem);
+                        for (let i = 0; i < 8; i++) {
+                            const ang = (i / 8) * Math.PI * 2;
+                            const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.085, 0.22, 8), mat(0x22C55E));
+                            leaf.rotation.set(1.22, ang, 0);
+                            leaf.position.set(Math.cos(ang) * 0.11, 0.27, Math.sin(ang) * 0.11);
+                            group.add(leaf);
+                        }
+                        const seedRows = [
+                            { y: 0.12, r: 0.268, count: 10, offset: 0 },
+                            { y: -0.02, r: 0.232, count: 8, offset: 0.35 },
+                            { y: -0.16, r: 0.162, count: 6, offset: 0.15 }
+                        ];
+                        seedRows.forEach(row => {
+                            for (let s = 0; s < row.count; s++) {
+                                const ang = (s / row.count) * Math.PI * 2 + row.offset;
+                                const seed = new THREE.Mesh(new THREE.SphereGeometry(0.018, 6, 6), mat(0xFEF08A));
+                                seed.position.set(Math.cos(ang) * row.r, row.y, Math.sin(ang) * row.r);
+                                group.add(seed);
+                            }
+                        });
+                    } else {
+                        // Solid Yellow Macaron
+                        const topShell = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 16), mat(0xFACC15));
+                        topShell.scale.set(1, 0.42, 1);
+                        topShell.position.y = 0.10;
+                        const topFoot = new THREE.Mesh(new THREE.CylinderGeometry(0.275, 0.285, 0.04, 24), mat(0xEAB308));
+                        topFoot.position.y = 0.06;
+
+                        const cream = new THREE.Mesh(new THREE.CylinderGeometry(0.265, 0.265, 0.09, 24), mat(0xFFFBEB));
+                        cream.position.y = 0;
+
+                        const botFoot = new THREE.Mesh(new THREE.CylinderGeometry(0.285, 0.275, 0.04, 24), mat(0xEAB308));
+                        botFoot.position.y = -0.06;
+                        const botShell = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 16), mat(0xFACC15));
+                        botShell.scale.set(1, 0.42, 1);
+                        botShell.position.y = -0.10;
+
+                        group.add(topShell, topFoot, cream, botFoot, botShell);
+                    }
+                } else if (theme === 'ocean') {
+                    const variant = idx % 4;
+                    if (variant === 0) {
+                        // Clownfish: Streamlined Body, Parallel Thick Uniform White Stripes, Dorsal Fin & Flared Fan Tail Fin
+                        const body = new THREE.Mesh(new THREE.SphereGeometry(0.28, 32, 24), mat(0xFF7E36));
+                        body.scale.set(1.35, 0.95, 0.70);
+
+                        // Rotate sphere axis to X so theta slices form true parallel vertical bands of uniform thickness
+                        const createVerticalBand = (thetaStart, thetaLength) => {
+                            const bandGeo = new THREE.SphereGeometry(0.283, 32, 24, 0, Math.PI * 2, thetaStart, thetaLength);
+                            bandGeo.rotateZ(-Math.PI / 2);
+                            const bandMesh = new THREE.Mesh(bandGeo, mat(0xFFFFFF));
+                            bandMesh.scale.set(1.35, 0.95, 0.70);
+                            return bandMesh;
+                        };
+
+                        // Front head band & middle body band (centered and parallel)
+                        const stripeFront = createVerticalBand(1.08, 0.25);
+                        const stripeMid = createVerticalBand(1.78, 0.25);
+
+                        const tailShape = new THREE.Shape();
+                        tailShape.moveTo(0, 0.03);
+                        tailShape.lineTo(-0.28, 0.24);
+                        tailShape.quadraticCurveTo(-0.35, 0, -0.28, -0.24);
+                        tailShape.lineTo(0, -0.03);
+                        tailShape.closePath();
+
+                        const tailGeo = new THREE.ExtrudeGeometry(tailShape, { depth: 0.04, bevelEnabled: true, bevelThickness: 0.01, bevelSize: 0.01, bevelSegments: 2 });
+                        const tailMesh = new THREE.Mesh(tailGeo, mat(0xFF7E36));
+                        tailMesh.position.set(-0.36, 0, -0.02);
+
+                        const dorsal = new THREE.Mesh(new THREE.SphereGeometry(0.14, 14, 12), mat(0xFF7E36));
+                        dorsal.scale.set(1.4, 0.95, 0.25);
+                        dorsal.position.set(-0.02, 0.26, 0);
+
+                        const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.042, 10, 10), mat(0x1E293B));
+                        eyeL.position.set(0.25, 0.06, 0.14);
+                        const eyeR = eyeL.clone();
+                        eyeR.position.z = -0.14;
+
+                        group.add(body, stripeFront, stripeMid, tailMesh, dorsal, eyeL, eyeR);
+                    } else if (variant === 1) {
+                        // Cute Red Octopus
+                        const head = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 20), mat(0xE11D48));
+                        head.position.y = 0.12;
+                        const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 8), mat(0x1E293B));
+                        eyeL.position.set(-0.09, 0.08, 0.26);
+                        const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 8), mat(0x1E293B));
+                        eyeR.position.set(0.09, 0.08, 0.26);
+                        group.add(head, eyeL, eyeR);
+                        for (let a = 0; a < 6; a++) {
+                            const ang = (a / 6) * Math.PI * 2 + Math.PI / 6;
+                            const cosA = Math.cos(ang);
+                            const sinA = Math.sin(ang);
+                            const curve = new THREE.CatmullRomCurve3([
+                                new THREE.Vector3(cosA * 0.12, -0.04, sinA * 0.12),
+                                new THREE.Vector3(cosA * 0.21, -0.14, sinA * 0.21),
+                                new THREE.Vector3(cosA * 0.30, -0.18, sinA * 0.30)
+                            ]);
+                            const leg = new THREE.Mesh(new THREE.TubeGeometry(curve, 12, 0.064, 12, false), mat(0xE11D48));
+                            const tip = new THREE.Mesh(new THREE.SphereGeometry(0.064, 12, 12), mat(0xE11D48));
+                            tip.position.set(cosA * 0.30, -0.18, sinA * 0.30);
+                            group.add(leg, tip);
+                        }
+                    } else if (variant === 2) {
+                        // Open Clam Shell with Pearl
+                        const bot = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 14), mat(0xFDBA74));
+                        bot.scale.set(1.1, 0.32, 1);
+                        bot.position.y = -0.14;
+                        const innerPink = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.06, 20), mat(0xF472B6));
+                        innerPink.position.y = -0.08;
+                        const top = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 14), mat(0xFDBA74));
+                        top.scale.set(1.1, 0.32, 1);
+                        top.rotation.x = -0.65;
+                        top.position.set(0, 0.14, -0.1);
+                        const pearl = new THREE.Mesh(new THREE.SphereGeometry(0.12, 20, 20), mat(0xFFFFFF, 0.15));
+                        pearl.position.y = 0.02;
+                        group.add(bot, innerPink, top, pearl);
+                    } else {
+                        // 3D Yellow Pufferfish (복어 - Exact Match to Reference Image_4cb26a.png)
+                        const pBody = new THREE.Mesh(new THREE.SphereGeometry(0.30, 24, 20), mat(0xFACC15));
+                        const pBelly = new THREE.Mesh(new THREE.SphereGeometry(0.26, 20, 16), mat(0xFFFBEB));
+                        pBelly.position.set(0, -0.06, 0.04);
+                        pBelly.scale.set(0.96, 0.75, 0.96);
+
+                        const pLips = new THREE.Mesh(new THREE.TorusGeometry(0.052, 0.026, 12, 16), mat(0xFF7E36));
+                        pLips.position.set(0, -0.04, 0.29);
+
+                        const pEyeL = new THREE.Mesh(new THREE.SphereGeometry(0.042, 10, 10), mat(0x1E293B));
+                        pEyeL.position.set(-0.11, 0.08, 0.24);
+                        const pEyeR = new THREE.Mesh(new THREE.SphereGeometry(0.042, 10, 10), mat(0x1E293B));
+                        pEyeR.position.set(0.11, 0.08, 0.24);
+
+                        const pFinL = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 0.02), mat(0xFF7E36));
+                        pFinL.position.set(-0.31, -0.05, 0);
+                        pFinL.rotation.y = 0.4;
+                        const pFinR = pFinL.clone();
+                        pFinR.position.x = 0.31;
+                        pFinR.rotation.y = -0.4;
+
+                        group.add(pBody, pBelly, pLips, pEyeL, pEyeR, pFinL, pFinR);
+
+                        // Spikes around sphere body
+                        for (let s = 0; s < 18; s++) {
+                            const phi = Math.acos(-1 + (2 * s) / 18);
+                            const theta = Math.sqrt(18 * Math.PI) * phi;
+                            const spike = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.10, 8), mat(0xEAB308));
+                            spike.position.set(
+                                Math.cos(theta) * Math.sin(phi) * 0.30,
+                                Math.sin(theta) * Math.sin(phi) * 0.30,
+                                Math.cos(phi) * 0.30
+                            );
+                            spike.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), spike.position.clone().normalize());
+                            group.add(spike);
+                        }
+                    }
+                } else if (theme === 'christmas') {
+                    const variant = idx % 4;
+                    if (variant === 0) {
+                        // Pine Tree
+                        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 0.22, 14), mat(0x78350F));
+                        trunk.position.y = -0.28;
+                        const t1 = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.34, 20), mat(0x15803D));
+                        t1.position.y = -0.08;
+                        const t2 = new THREE.Mesh(new THREE.ConeGeometry(0.29, 0.32, 20), mat(0x16A34A));
+                        t2.position.y = 0.1;
+                        const t3 = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.28, 20), mat(0x22C55E));
+                        t3.position.y = 0.26;
+                        group.add(trunk, t1, t2, t3);
+                        const bCols = [0xEF4444, 0xFFFFFF, 0xFACC15];
+                        for (let b = 0; b < 5; b++) {
+                            const ang = (b / 5) * Math.PI * 2;
+                            const bauble = new THREE.Mesh(new THREE.SphereGeometry(0.045, 10, 10), mat(bCols[b % 3]));
+                            bauble.position.set(Math.cos(ang) * 0.25, -0.06 + (b % 2) * 0.16, Math.sin(ang) * 0.25);
+                            group.add(bauble);
+                        }
+                    } else if (variant === 1) {
+                        // Rudolph
+                        const face = new THREE.Mesh(new THREE.SphereGeometry(0.31, 24, 20), mat(0xD97706));
+                        face.scale.set(0.95, 1.08, 0.92);
+                        const nose = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 16), mat(0xDC2626, 0.2));
+                        nose.position.set(0, -0.03, 0.29);
+                        const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mat(0x1E293B));
+                        eyeL.position.set(-0.1, 0.1, 0.27);
+                        const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mat(0x1E293B));
+                        eyeR.position.set(0.1, 0.1, 0.27);
+                        const antL = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.26, 10), mat(0x451A03));
+                        antL.position.set(-0.15, 0.34, 0);
+                        antL.rotation.z = 0.28;
+                        const antR = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.26, 10), mat(0x451A03));
+                        antR.position.set(0.15, 0.34, 0);
+                        antR.rotation.z = -0.28;
+                        group.add(face, nose, eyeL, eyeR, antL, antR);
+                    } else if (variant === 2) {
+                        // Striped Candy Cane
+                        const hook = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.065, 14, 20, Math.PI), mat(0xEF4444));
+                        hook.position.y = 0.16;
+                        const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.38, 14), mat(0xFFFFFF));
+                        stem.position.set(-0.15, -0.02, 0);
+                        const band = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.068, 0.1, 14), mat(0xEF4444));
+                        band.position.set(-0.15, -0.04, 0);
+                        group.add(hook, stem, band);
+                    } else {
+                        // Gift Box
+                        const box = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.44, 0.46), mat(0xDC2626));
+                        const rib1 = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.46, 0.11), mat(0xFACC15));
+                        const rib2 = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.46, 0.48), mat(0xFACC15));
+                        const bowL = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.03, 10, 16), mat(0xFACC15));
+                        bowL.position.set(-0.08, 0.26, 0);
+                        const bowR = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.03, 10, 16), mat(0xFACC15));
+                        bowR.position.set(0.08, 0.26, 0);
+                        group.add(box, rib1, rib2, bowL, bowR);
+                    }
+                } else {
+                    // Halloween Theme
+                    const variant = idx % 4;
+                    if (variant === 0) {
+                        // Pumpkin wearing Purple Witch Hat
+                        for (let r = 0; r < 4; r++) {
+                            const lobe = new THREE.Mesh(new THREE.SphereGeometry(0.26, 18, 16), mat(0xFF7E36));
+                            lobe.scale.set(0.85, 0.88, 1.15);
+                            lobe.rotation.y = (r / 4) * Math.PI;
+                            lobe.position.y = -0.1;
+                            group.add(lobe);
+                        }
+                        const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.04, 24), mat(0x7E22CE));
+                        brim.position.y = 0.14;
+                        const band = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.24, 0.07, 20), mat(0xC084FC));
+                        band.position.y = 0.19;
+                        const buckle = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.09, 0.06), mat(0xFACC15));
+                        buckle.position.set(0, 0.19, 0.22);
+                        const cone = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.36, 20), mat(0x7E22CE));
+                        cone.position.y = 0.36;
+                        group.add(brim, band, buckle, cone);
+                    } else if (variant === 1) {
+                        // Ghost
+                        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.31, 0.44, 24), mat(0xF8FAFC));
+                        const head = new THREE.Mesh(new THREE.SphereGeometry(0.23, 24, 18), mat(0xF8FAFC));
+                        head.position.y = 0.21;
+                        const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.036, 8, 8), mat(0x1E293B));
+                        eyeL.position.set(-0.08, 0.2, 0.21);
+                        const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.036, 8, 8), mat(0x1E293B));
+                        eyeR.position.set(0.08, 0.2, 0.21);
+                        const cheekL = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mat(0xFDA4AF));
+                        cheekL.position.set(-0.14, 0.14, 0.2);
+                        const cheekR = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mat(0xFDA4AF));
+                        cheekR.position.set(0.14, 0.14, 0.2);
+                        group.add(body, head, eyeL, eyeR, cheekL, cheekR);
+                    } else if (variant === 2) {
+                        // Black Bat
+                        const body = new THREE.Mesh(new THREE.SphereGeometry(0.21, 20, 16), mat(0x27272A));
+                        body.scale.set(0.95, 1.12, 0.88);
+                        const earL = new THREE.Mesh(new THREE.ConeGeometry(0.065, 0.15, 10), mat(0x27272A));
+                        earL.position.set(-0.11, 0.22, 0);
+                        earL.rotation.z = 0.22;
+                        const earR = new THREE.Mesh(new THREE.ConeGeometry(0.065, 0.15, 10), mat(0x27272A));
+                        earR.position.set(0.11, 0.22, 0);
+                        earR.rotation.z = -0.22;
+
+                        const buildWing = (dir) => {
+                            const s = new THREE.Shape();
+                            s.moveTo(0, 0.06);
+                            s.quadraticCurveTo(dir * 0.22, 0.22, dir * 0.42, 0.08);
+                            s.quadraticCurveTo(dir * 0.32, 0.0, dir * 0.28, -0.09);
+                            s.quadraticCurveTo(dir * 0.18, -0.02, dir * 0.13, -0.10);
+                            s.quadraticCurveTo(dir * 0.06, -0.03, 0, -0.08);
+                            s.closePath();
+                            const geo = new THREE.ExtrudeGeometry(s, { depth: 0.03, bevelEnabled: true, bevelThickness: 0.01, bevelSize: 0.01, bevelSegments: 2 });
+                            const mesh = new THREE.Mesh(geo, mat(0x27272A));
+                            mesh.position.set(dir * 0.14, 0.02, -0.015);
+                            return mesh;
+                        };
+                        const wingL = buildWing(-1);
+                        const wingR = buildWing(1);
+
+                        const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.048, 12, 12), mat(0xFFFFFF));
+                        eyeL.position.set(-0.075, 0.05, 0.17);
+                        const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.048, 12, 12), mat(0xFFFFFF));
+                        eyeR.position.set(0.075, 0.05, 0.17);
+                        const pupL = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 8), mat(0x1E293B));
+                        pupL.position.set(-0.075, 0.05, 0.21);
+                        const pupR = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 8), mat(0x1E293B));
+                        pupR.position.set(0.075, 0.05, 0.21);
+
+                        const fangL = new THREE.Mesh(new THREE.ConeGeometry(0.02, 0.05, 6), mat(0xFFFFFF));
+                        fangL.position.set(-0.04, -0.07, 0.18);
+                        fangL.rotation.x = Math.PI;
+                        const fangR = new THREE.Mesh(new THREE.ConeGeometry(0.02, 0.05, 6), mat(0xFFFFFF));
+                        fangR.position.set(0.04, -0.07, 0.18);
+                        fangR.rotation.x = Math.PI;
+
+                        group.add(body, earL, earR, wingL, wingR, eyeL, eyeR, pupL, pupR, fangL, fangR);
+                    } else {
+                        // Swirl Lollipop (Purple Disc with Orange Spiral & Mint Bow)
+                        const baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.06, 32), mat(0xC084FC));
+                        baseDisc.rotation.x = Math.PI / 2;
+                        baseDisc.position.y = 0.12;
+
+                        class SpiralCurve extends THREE.Curve {
+                            constructor(turns = 2.2) {
+                                super();
+                                this.turns = turns;
+                            }
+                            getPoint(t) {
+                                const angle = t * Math.PI * 2 * this.turns;
+                                const r = 0.04 + t * 0.18;
+                                return new THREE.Vector3(Math.cos(angle) * r, Math.sin(angle) * r, 0);
+                            }
+                        }
+                        const spiralGeo = new THREE.TubeGeometry(new SpiralCurve(), 64, 0.035, 10, false);
+                        const spiralFront = new THREE.Mesh(spiralGeo, mat(0xFF7E36));
+                        spiralFront.position.set(0, 0.12, 0.035);
+                        const spiralBack = new THREE.Mesh(spiralGeo, mat(0xFF7E36));
+                        spiralBack.position.set(0, 0.12, -0.035);
+
+                        const bowL = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.02, 8, 12), mat(0x4ADE80));
+                        bowL.position.set(-0.05, -0.12, 0);
+                        const bowR = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.02, 8, 12), mat(0x4ADE80));
+                        bowR.position.set(0.05, -0.12, 0);
+
+                        const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.32, 12), mat(0xFFFFFF));
+                        stick.position.y = -0.22;
+
+                        group.add(baseDisc, spiralFront, spiralBack, bowL, bowR, stick);
+                    }
+                }
+
+                group.userData.radius = radius;
+                return group;
+            }
+
+            spawnTickleObjects() {
+                this.tickles.forEach((t, idx) => {
+                    const mesh = this.createTheme3DModel(this.theme, idx);
+                    const r = mesh.userData.radius;
+                    const angle = idx * 1.4;
+                    const dist = (idx % 2 === 0 ? 0.52 : 0.92);
+                    mesh.position.set(
+                        Math.cos(angle) * dist,
+                        this.floorTopY + r + idx * 0.52,
+                        Math.sin(angle) * dist
+                    );
+                    Object.assign(mesh.userData, {
+                        vx: 0,
+                        vy: 0,
+                        vz: 0,
+                        rotVx: 0,
+                        rotVy: 0,
+                        tickleData: t
+                    });
+                    this.scene.add(mesh);
+                    this.objects.push(mesh);
+                });
+            }
+
+            addSingleObject(tickle) {
+                const mesh = this.createTheme3DModel(this.theme, this.objects.length);
+                const r = mesh.userData.radius;
+                mesh.position.set((Math.random() - 0.5) * 0.6, this.jarTop - r - 0.1, (Math.random() - 0.5) * 0.6);
+                Object.assign(mesh.userData, {
+                    vx: (Math.random() - 0.5) * 0.04,
+                    vy: -0.02,
+                    vz: (Math.random() - 0.5) * 0.04,
+                    rotVx: 0.03,
+                    rotVy: 0.03,
+                    tickleData: tickle
+                });
+                this.scene.add(mesh);
+                this.objects.push(mesh);
+            }
+
+            shakeObjects() {
+                this.shakeTime = 0.45;
+                this.objects.forEach(obj => {
+                    obj.userData.vy = 0.22 + Math.random() * 0.12;
+                    obj.userData.vx = (Math.random() - 0.5) * 0.20;
+                    obj.userData.vz = (Math.random() - 0.5) * 0.20;
+                    obj.userData.rotVx = (Math.random() - 0.5) * 0.12;
+                    obj.userData.rotVy = (Math.random() - 0.5) * 0.12;
+                });
+            }
+
+            bindPointerEvents() {
+                const dom = this.renderer.domElement;
+
+                const getPointerPos = (e) => {
+                    const rect = dom.getBoundingClientRect();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    return {
+                        x: ((clientX - rect.left) / this.width) * 2 - 1,
+                        y: -((clientY - rect.top) / this.height) * 2 + 1
+                    };
+                };
+
+                const onDown = (e) => {
+                    const pos = getPointerPos(e);
+                    this.mouse.set(pos.x, pos.y);
+                    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+                    const intersects = this.raycaster.intersectObjects(this.objects, true);
+                    if (intersects.length > 0) {
+                        let target = intersects[0].object;
+                        while (target.parent && target.parent !== this.scene) {
+                            target = target.parent;
+                        }
+                        this.draggedObj = target;
+                        this.dragPlane.setFromNormalAndCoplanarPoint(
+                            this.camera.getWorldDirection(new THREE.Vector3()).negate(),
+                            this.draggedObj.position
+                        );
+                        const rayPoint = new THREE.Vector3();
+                        this.raycaster.ray.intersectPlane(this.dragPlane, rayPoint);
+                        this.prevMouse3D.copy(rayPoint);
+                    }
+                };
+
+                const onMove = (e) => {
+                    if (!this.draggedObj) return;
+                    const pos = getPointerPos(e);
+                    this.mouse.set(pos.x, pos.y);
+                    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+                    const currentMouse3D = new THREE.Vector3();
+                    if (this.raycaster.ray.intersectPlane(this.dragPlane, currentMouse3D)) {
+                        this.velocity3D.subVectors(currentMouse3D, this.prevMouse3D);
+                        this.draggedObj.position.copy(currentMouse3D);
+                        this.prevMouse3D.copy(currentMouse3D);
+
+                        const r = this.draggedObj.userData.radius || 0.4;
+                        const maxCylR = this.jarRadius - r - 0.05;
+                        const dist = Math.hypot(this.draggedObj.position.x, this.draggedObj.position.z);
+                        if (dist > maxCylR) {
+                            const angle = Math.atan2(this.draggedObj.position.z, this.draggedObj.position.x);
+                            this.draggedObj.position.x = Math.cos(angle) * maxCylR;
+                            this.draggedObj.position.z = Math.sin(angle) * maxCylR;
+                        }
+                        this.draggedObj.position.y = Math.max(this.floorTopY + r, Math.min(this.jarTop - r, this.draggedObj.position.y));
+                    }
+                };
+
+                const onUp = () => {
+                    if (this.draggedObj) {
+                        this.draggedObj.userData.vx = Math.max(-0.3, Math.min(0.3, this.velocity3D.x * 0.85));
+                        this.draggedObj.userData.vy = Math.max(-0.3, Math.min(0.3, this.velocity3D.y * 0.85));
+                        this.draggedObj.userData.vz = Math.max(-0.3, Math.min(0.3, this.velocity3D.z * 0.85));
+                        this.draggedObj = null;
+                    }
+                };
+
+                dom.addEventListener('mousedown', onDown);
+                dom.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onUp);
+
+                dom.addEventListener('touchstart', onDown, { passive: true });
+                dom.addEventListener('touchmove', onMove, { passive: true });
+                window.addEventListener('touchend', onUp, { passive: true });
+            }
+
+            animate() {
+                this.animId = requestAnimationFrame(() => this.animate());
+
+                if (this.shakeTime > 0) {
+                    this.shakeTime = Math.max(0, this.shakeTime - 0.016);
+                    const decay = this.shakeTime / 0.45;
+                    const wave = Math.sin(this.shakeTime * 42) * decay;
+                    this.scene.position.x = wave * 0.14;
+                    this.scene.rotation.z = wave * 0.045;
+                } else if (this.scene.position.x !== 0 || this.scene.rotation.z !== 0) {
+                    this.scene.position.x = 0;
+                    this.scene.rotation.z = 0;
+                }
+
+                const gravity = -0.009;
+
+                for (let i = 0; i < this.objects.length; i++) {
+                    const obj = this.objects[i];
+                    if (obj === this.draggedObj) continue;
+
+                    const u = obj.userData;
+                    const r = u.radius || 0.42;
+
+                    u.vy += gravity;
+                    obj.position.x += u.vx;
+                    obj.position.y += u.vy;
+                    obj.position.z += u.vz;
+
+                    obj.rotation.x += u.rotVx;
+                    obj.rotation.y += u.rotVy;
+                    u.rotVx *= 0.88;
+                    u.rotVy *= 0.88;
+
+                    u.vx *= 0.94;
+                    u.vz *= 0.94;
+
+                    // Bouncy Restitution Floor Collision
+                    if (obj.position.y < this.floorTopY + r) {
+                        obj.position.y = this.floorTopY + r;
+                        if (Math.abs(u.vy) < 0.025) {
+                            u.vy = 0;
+                            u.vx *= 0.7;
+                            u.vz *= 0.7;
+                        } else {
+                            u.vy *= -0.68;
+                        }
+                    }
+
+                    // Strict Cork-Lid Ceiling Collision (Prevents 3D items from clipping through cork)
+                    const maxTopY = this.jarTop - r - 0.05;
+                    if (obj.position.y > maxTopY) {
+                        obj.position.y = maxTopY;
+                        u.vy *= -0.60;
+                    }
+
+                    const maxR = this.jarRadius - r - 0.04;
+                    const distR = Math.hypot(obj.position.x, obj.position.z);
+                    if (distR > maxR) {
+                        const angle = Math.atan2(obj.position.z, obj.position.x);
+                        obj.position.x = Math.cos(angle) * maxR;
+                        obj.position.z = Math.sin(angle) * maxR;
+                        u.vx *= -0.65;
+                        u.vz *= -0.65;
+                    }
+                }
+
+                // Inter-object collisions
+                for (let i = 0; i < this.objects.length; i++) {
+                    for (let j = i + 1; j < this.objects.length; j++) {
+                        const a = this.objects[i];
+                        const b = this.objects[j];
+                        const rA = a.userData.radius || 0.42;
+                        const rB = b.userData.radius || 0.42;
+                        const minDist = (rA + rB) * 0.92;
+
+                        const dx = b.position.x - a.position.x;
+                        const dy = b.position.y - a.position.y;
+                        const dz = b.position.z - a.position.z;
+                        const dist = Math.hypot(dx, dy, dz);
+
+                        if (dist > 0.0001 && dist < minDist) {
+                            const overlap = (minDist - dist) * 0.5;
+                            const nx = dx / dist;
+                            const ny = dy / dist;
+                            const nz = dz / dist;
+
+                            if (a !== this.draggedObj) {
+                                a.position.x -= nx * overlap;
+                                a.position.y = Math.max(this.floorTopY + rA, a.position.y - ny * overlap);
+                                a.position.z -= nz * overlap;
+                            }
+                            if (b !== this.draggedObj) {
+                                b.position.x += nx * overlap;
+                                b.position.y = Math.max(this.floorTopY + rB, b.position.y + ny * overlap);
+                                b.position.z += nz * overlap;
+                            }
+                        }
+                    }
+                }
+
+                this.renderer.render(this.scene, this.camera);
+            }
+
+            destroy() {
+                if (this.resizeObserver) this.resizeObserver.disconnect();
+                if (this.animId) cancelAnimationFrame(this.animId);
+                if (this.renderer && this.renderer.domElement && this.renderer.domElement.parentNode) {
+                    this.container.removeChild(this.renderer.domElement);
+                }
+            }
+        }
+
+        // ========================================================
+        // 3. TAB 2: TICKLE ROUTINES (PERSONA MOTIVATION MODULES)
+        // ========================================================
+        function getPersonaModuleHTML() {
+            const p = STATE.userPersona;
+            if (p === 'achievement') {
+                return `
+                    <div class="bg-white rounded-3xl p-4 card-outline space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-stone-800">시각적 성취 퍼즐 보드</span>
+                            <span class="text-[11px] font-bold text-brand-orange">${STATE.puzzleTilesCompleted} / 9 조각</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1.5 bg-stone-50 p-2 rounded-2xl">
+                            ${Array.from({ length: 9 }).map((_, i) => `
+                                <div class="h-10 rounded-xl flex items-center justify-center text-[11px] font-bold ${i < STATE.puzzleTilesCompleted ? 'bg-brand-orange text-white' : 'bg-white text-stone-300 border border-stone-200'}">
+                                    ${i < STATE.puzzleTilesCompleted ? '완료' : i + 1}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (p === 'explorer') {
+                const isNormal = STATE.difficultyMode === 'normal';
+                const doneCount = STATE.routines.filter(r => r.completed).length;
+                const expPct = Math.min(100, Math.round((doneCount / Math.max(1, STATE.routines.length)) * 100));
+                return `
+                    <div class="bg-white rounded-3xl p-4 card-outline space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-stone-800 block">오늘의 난이도 조절기</span>
+                                <span class="text-[10px] text-stone-400">난이도를 올리면 아래 루틴 목표와 보상이 함께 커져요</span>
+                            </div>
+                            <span class="bg-brand-orangeLight text-brand-orange px-2.5 py-1 rounded-full text-[11px] font-bold">
+                                ${isNormal ? '보상 2배 (+2 티끌)' : '기본 보상 (+1 티끌)'}
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <button data-diff="easy" class="diff-btn p-2.5 rounded-2xl text-left transition-all ${!isNormal ? 'bg-brand-orangeLight border-orange-custom' : 'bg-stone-50 border border-transparent'}">
+                                <span class="text-xs font-bold block ${!isNormal ? 'text-brand-orange' : 'text-stone-600'}">1단계 가볍게</span>
+                                <span class="text-[10px] text-stone-500 mt-0.5 block">3분 초간단 미션 · +1 티끌</span>
+                            </button>
+                            <button data-diff="normal" class="diff-btn p-2.5 rounded-2xl text-left transition-all ${isNormal ? 'bg-brand-orangeLight border-orange-custom' : 'bg-stone-50 border border-transparent'}">
+                                <span class="text-xs font-bold block ${isNormal ? 'text-brand-orange' : 'text-stone-600'}">2단계 꼼꼼히</span>
+                                <span class="text-[10px] text-stone-500 mt-0.5 block">10분 집중 미션 · +2 티끌</span>
+                            </button>
+                        </div>
+
+                        <div class="bg-stone-50 p-2.5 rounded-2xl space-y-1.5">
+                            <div class="flex items-center justify-between text-[10px] font-bold">
+                                <span class="text-stone-600">탐험가 콤보 게이지</span>
+                                <span class="text-brand-orange">${expPct}% 달성</span>
+                            </div>
+                            <div class="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-brand-orange rounded-full transition-all duration-300" style="width: ${expPct}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (p === 'companion') {
+                return `
+                    <div class="bg-white rounded-3xl p-4 card-outline space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-stone-800">메이트 공동 유리병 목표</span>
+                            <span class="text-[11px] font-bold text-teal-600">${STATE.jointGoalProgress} / 10개</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-stone-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-teal-400 rounded-full" style="width: ${Math.min(100, STATE.jointGoalProgress * 10)}%"></div>
+                        </div>
+                        <p class="text-[11px] text-stone-500">수아와 함께 10개를 모으면 스페셜 장식이 열려요!</p>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="bg-white rounded-3xl p-4 card-outline flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-stone-800 block">오늘의 쉬어가기 티켓</span>
+                            <span class="text-[11px] text-stone-500">지치는 날엔 죄책감 없이 쉬어가도 괜찮아요</span>
+                        </div>
+                        <button id="useRestTicketBtn" class="bg-purple-50 text-purple-600 border border-purple-200 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap active:scale-95">
+                            티켓 사용 (${STATE.restTickets}장)
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function getRoutinesTabHTML() {
+            const doneCount = STATE.routines.filter(r => r.completed).length;
+            const isExplorerEasy = STATE.userPersona === 'explorer' && STATE.difficultyMode === 'easy';
+            const isExplorerNormal = STATE.userPersona === 'explorer' && STATE.difficultyMode === 'normal';
+            const rewardLabel = isExplorerNormal ? '+2 티끌' : '+1 티끌';
+
+            return `
+                <div class="space-y-3.5">
+                    ${getPersonaModuleHTML()}
+
+                    <div class="bg-white rounded-3xl p-4 card-outline space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-sm font-bold text-stone-800">오늘의 티끌 루틴</h3>
+                                <p class="text-[11px] text-stone-400">완료 시 유리병에 3D 티끌이 자동으로 담겨요</p>
+                            </div>
+                            <span class="bg-brand-orangeLight text-brand-orange px-2.5 py-1 rounded-full text-xs font-bold">
+                                ${doneCount} / ${STATE.routines.length}
+                            </span>
+                        </div>
+
+                        <div class="space-y-2">
+                            ${STATE.routines.map(r => {
+                                const displayTitle = (isExplorerEasy && r.easyTitle) ? r.easyTitle : r.title;
+                                return `
+                                <div data-rid="${r.id}" class="routine-item flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all ${r.completed ? 'bg-orange-50/70 border border-orange-200' : 'bg-stone-50 hover:bg-stone-100'}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-5 h-5 rounded-lg flex items-center justify-center ${r.completed ? 'bg-brand-orange text-white' : 'bg-white border border-stone-300'}">
+                                            ${r.completed ? '<svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>' : ''}
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-bold ${r.completed ? 'line-through text-stone-400' : 'text-stone-700'}">${displayTitle}</p>
+                                            <span class="text-[10px] text-stone-400">${r.category}</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-[11px] font-bold shrink-0 ml-2 ${r.completed ? 'text-brand-orange' : 'text-stone-400'}">
+                                        ${r.completed ? '담김' : rewardLabel}
+                                    </span>
+                                </div>
+                            `;
+                            }).join('')}
+                        </div>
+
+                        <button id="openAddRoutineBtn" class="w-full py-2.5 rounded-2xl border border-dashed border-stone-300 text-xs font-bold text-stone-500 hover:text-brand-orange hover:border-orange-300 transition-all">
+                            + 나만의 티끌 루틴 추가하기
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initRoutinesTabEvents() {
+            document.querySelectorAll('.routine-item').forEach(item => {
+                item.onclick = () => {
+                    const id = item.dataset.rid;
+                    const target = STATE.routines.find(r => r.id === id);
+                    if (!target) return;
+
+                    target.completed = !target.completed;
+                    if (target.completed) {
+                        const bonusCount = (STATE.userPersona === 'explorer' && STATE.difficultyMode === 'normal') ? 2 : 1;
+                        for (let b = 0; b < bonusCount; b++) {
+                            STATE.tickles.push({ id: 't_' + Date.now() + '_' + b, title: target.title, theme: STATE.theme });
+                        }
+                        if (STATE.puzzleTilesCompleted < 9) STATE.puzzleTilesCompleted++;
+                        STATE.jointGoalProgress++;
+                        showToast(bonusCount > 1 ? '2단계 집중 완료! 보너스로 티끌 2개가 담겼습니다!' : '루틴 완료! 유리병에 티끌 1개가 담겼습니다.');
+                    }
+                    saveStorage();
+                    renderTab('routines');
+                };
+            });
+
+            const addBtn = document.getElementById('openAddRoutineBtn');
+            if (addBtn) addBtn.onclick = () => showAddRoutineModal();
+
+            document.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.onclick = () => {
+                    STATE.difficultyMode = btn.dataset.diff;
+                    saveStorage();
+                    showToast(STATE.difficultyMode === 'easy' ? '1단계 가볍게 모드로 루틴 난이도를 낮췄어요!' : '2단계 꼼꼼히 모드로 전환! 완료 시 티끌 2배 보상!');
+                    renderTab('routines');
+                };
+            });
+
+            const restBtn = document.getElementById('useRestTicketBtn');
+            if (restBtn) {
+                restBtn.onclick = () => {
+                    if (STATE.restTickets > 0) {
+                        STATE.restTickets--;
+                        saveStorage();
+                        showToast('쉬어가기 티켓을 사용했습니다. 오늘은 편히 쉬세요!');
+                        renderTab('routines');
+                    } else {
+                        showToast('남은 쉬어가기 티켓이 없습니다.');
+                    }
+                };
+            }
+        }
+
+        // ========================================================
+        // 4. TAB 3: MATE (POKE ACTION & ENCOURAGEMENT CHAT)
+        // ========================================================
+        function getMateTabHTML() {
+            return `
+                <div class="flex flex-col h-full space-y-3">
+                    <div class="bg-white rounded-3xl p-4 card-outline flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden">
+                                ${render2DAvatarSVG('mate', 48)}
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <h3 class="text-sm font-bold text-stone-800">티끌 메이트 수아</h3>
+                                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                </div>
+                                <p class="text-[11px] text-stone-500">오늘 루틴 3개 완료 · 유리병 모으는 중</p>
+                            </div>
+                        </div>
+
+                        <button id="pokeMateBtn" class="bg-brand-orangeLight border-orange-custom text-brand-orange px-3.5 py-2 rounded-xl text-xs font-bold active:scale-95 whitespace-nowrap">
+                            콕 찌르기
+                        </button>
+                    </div>
+
+                    <div class="flex-1 bg-white rounded-3xl p-4 card-outline flex flex-col justify-between min-h-[340px]">
+                        <div id="mateChatList" class="space-y-2.5 overflow-y-auto max-h-[270px] pr-1">
+                            ${STATE.chatMessages.map(m => `
+                                <div class="flex flex-col ${m.sender === 'me' ? 'items-end' : 'items-start'}">
+                                    <div class="px-3.5 py-2 rounded-2xl text-xs max-w-[80%] ${m.sender === 'me' ? 'bg-brand-orange text-white font-medium' : 'bg-stone-100 text-stone-700 font-medium'}">
+                                        ${m.text}
+                                    </div>
+                                    <span class="text-[10px] text-stone-400 mt-0.5 px-1">${m.time}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <form id="mateChatForm" class="flex items-center gap-2 pt-3 border-t border-stone-100 mt-2">
+                            <input type="text" id="mateChatInput" placeholder="수아에게 응원 메시지 보내기..." class="flex-1 bg-stone-50 rounded-xl px-3 py-2.5 text-xs focus:outline-none">
+                            <button type="submit" class="bg-brand-orange text-white font-bold px-4 py-2.5 rounded-xl text-xs whitespace-nowrap">
+                                전송
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initMateTabEvents() {
+            const pokeBtn = document.getElementById('pokeMateBtn');
+            if (pokeBtn) {
+                pokeBtn.onclick = () => {
+                    STATE.mateGiftSentCount++;
+                    STATE.chatMessages.push({
+                        sender: 'me',
+                        text: '수아를 콕 찔렀어요! 오늘도 화이팅!',
+                        time: '방금 전'
+                    });
+                    saveStorage();
+                    showToast('수아에게 콕 찌르기 알림을 보냈습니다!');
+                    renderTab('mate');
+                };
+            }
+
+            const chatForm = document.getElementById('mateChatForm');
+            if (chatForm) {
+                chatForm.onsubmit = (e) => {
+                    e.preventDefault();
+                    const input = document.getElementById('mateChatInput');
+                    const text = input.value.trim();
+                    if (!text) return;
+
+                    STATE.chatMessages.push({ sender: 'me', text, time: '방금 전' });
+                    saveStorage();
+                    renderTab('mate');
+                };
+            }
+        }
+
+        // ========================================================
+        // 5. TAB 4: MY PAGE (CUSTOM DESIGNED DROPDOWN & SETTINGS)
+        // ========================================================
+        function getNotifText(val) {
+            if (val === 'twice') return '아침·저녁 2회';
+            if (val === 'off') return '방해금지';
+            return '하루 1회 (오후 8시)';
+        }
+
+        function getMyPageTabHTML() {
+            const persona = STATE.userPersona || 'achievement';
+            const personaName = getPersonaName(persona);
+
+            return `
+                <div class="space-y-4">
+                    <div class="bg-white rounded-3xl p-5 space-y-4">
+                        <div class="flex items-center justify-between border-b border-stone-100 pb-3.5">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden">
+                                    ${render2DAvatarSVG(persona, 60)}
+                                </div>
+                                <div>
+                                    <h3 class="text-base font-bold text-stone-800">티끌 수집가</h3>
+                                    <span class="inline-block bg-brand-orangeLight px-2.5 py-0.5 rounded-full text-[11px] font-bold text-brand-orange mt-1">
+                                        ${personaName}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button id="retestQuizBtn" class="text-xs font-bold text-stone-400 hover:text-stone-700 underline whitespace-nowrap">
+                                성향 재진단
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-stone-50 p-2.5 rounded-2xl">
+                                <span class="text-[10px] text-stone-400 font-bold block">모은 티끌</span>
+                                <span class="text-sm font-black text-brand-orange">${STATE.tickles.length}개</span>
+                            </div>
+                            <div class="bg-stone-50 p-2.5 rounded-2xl">
+                                <span class="text-[10px] text-stone-400 font-bold block">쉬어가기 티켓</span>
+                                <span class="text-sm font-black text-purple-600">${STATE.restTickets}장</span>
+                            </div>
+                            <div class="bg-stone-50 p-2.5 rounded-2xl">
+                                <span class="text-[10px] text-stone-400 font-bold block">보낸 응원</span>
+                                <span class="text-sm font-black text-teal-600">${STATE.mateGiftSentCount}회</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-stone-800">티끌 메이트</span>
+                            <button id="openMateTabShortcut" class="text-[11px] font-bold text-brand-orange">메이트 탭 열기 →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between bg-stone-50 p-3 rounded-2xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+                                    ${render2DAvatarSVG('mate', 44)}
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-stone-800">티끌 메이트 수아</h4>
+                                    <p class="text-[10px] text-stone-500">서로 응원하며 함께 성장하는 중</p>
+                                </div>
+                            </div>
+
+                            <button id="mateHeartCheerBtn" class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-500 hover:bg-rose-100 flex items-center justify-center active:scale-95">
+                                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- EXPANDED MULTI-SETTING CARD WITH CUSTOM STYLED DROPDOWN -->
+                    <div class="bg-white rounded-3xl p-4 space-y-3">
+                        <span class="text-xs font-bold text-stone-800 block">설정 및 환경</span>
+
+                        <div class="flex items-center justify-between py-1.5 border-b border-stone-50 relative">
+                            <div>
+                                <span class="text-xs font-bold text-stone-700 block">루틴 알림 주기</span>
+                                <span class="text-[10px] text-stone-400">목표 실천 리마인더</span>
+                            </div>
+                            <div class="relative">
+                                <button id="customNotifDropdownBtn" class="bg-stone-50 border border-stone-200 rounded-xl px-3 py-1.5 text-xs font-bold text-stone-700 flex items-center gap-1.5 hover:bg-stone-100 transition-all">
+                                    <span id="customNotifText">${getNotifText(STATE.notifications)}</span>
+                                    <svg class="w-3.5 h-3.5 text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                                <div id="customNotifMenu" class="hidden absolute right-0 mt-1.5 w-44 bg-white border border-stone-200 rounded-2xl p-1.5 z-40 space-y-1">
+                                    <button data-val="daily" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${STATE.notifications==='daily'?'bg-orange-50 text-brand-orange':'text-stone-700 hover:bg-stone-50'}">
+                                        <span>하루 1회 (오후 8시)</span>
+                                        ${STATE.notifications==='daily'?'<svg class="w-3.5 h-3.5 fill-current text-brand-orange" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+                                    </button>
+                                    <button data-val="twice" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${STATE.notifications==='twice'?'bg-orange-50 text-brand-orange':'text-stone-700 hover:bg-stone-50'}">
+                                        <span>아침·저녁 2회</span>
+                                        ${STATE.notifications==='twice'?'<svg class="w-3.5 h-3.5 fill-current text-brand-orange" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+                                    </button>
+                                    <button data-val="off" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${STATE.notifications==='off'?'bg-orange-50 text-brand-orange':'text-stone-700 hover:bg-stone-50'}">
+                                        <span>방해금지</span>
+                                        ${STATE.notifications==='off'?'<svg class="w-3.5 h-3.5 fill-current text-brand-orange" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1.5 border-b border-stone-50">
+                            <div>
+                                <span class="text-xs font-bold text-stone-700 block">유리병 효과음 및 물리 진동</span>
+                                <span class="text-[10px] text-stone-400">티끌 충돌 반응</span>
+                            </div>
+                            <button id="toggleSoundBtn" class="w-11 h-6 rounded-full transition-colors ${STATE.soundEffects ? 'bg-brand-orange' : 'bg-stone-200'} relative p-0.5">
+                                <div class="w-5 h-5 rounded-full bg-white transition-transform ${STATE.soundEffects ? 'translate-x-5' : 'translate-x-0'}"></div>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1.5 border-b border-stone-50">
+                            <div>
+                                <span class="text-xs font-bold text-stone-700 block">메이트에게 나의 활동 상태 공개</span>
+                                <span class="text-[10px] text-stone-400">실시간 루틴 완료 여부</span>
+                            </div>
+                            <button id="toggleShareBtn" class="w-11 h-6 rounded-full transition-colors ${STATE.shareStatus ? 'bg-brand-orange' : 'bg-stone-200'} relative p-0.5">
+                                <div class="w-5 h-5 rounded-full bg-white transition-transform ${STATE.shareStatus ? 'translate-x-5' : 'translate-x-0'}"></div>
+                            </button>
+                        </div>
+
+                        <div class="pt-1 space-y-2">
+                            <button id="retestQuizBtn2" class="w-full bg-stone-50 text-stone-700 font-bold py-2.5 rounded-xl text-xs hover:bg-stone-100 flex items-center justify-center gap-1.5">
+                                <span>내 성향 다시 진단하기</span>
+                            </button>
+
+                            <button id="resetDataBtn" class="w-full bg-rose-50 text-rose-600 font-bold py-2.5 rounded-xl text-xs hover:bg-rose-100">
+                                데이터 및 유리병 초기화
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initMyPageTabEvents() {
+            const openRetest = () => showOnboardingQuiz();
+
+            const retest1 = document.getElementById('retestQuizBtn');
+            if (retest1) retest1.onclick = openRetest;
+
+            const retest2 = document.getElementById('retestQuizBtn2');
+            if (retest2) retest2.onclick = openRetest;
+
+            document.getElementById('openMateTabShortcut').onclick = () => switchTab('mate');
+            document.getElementById('mateHeartCheerBtn').onclick = () => {
+                showToast('수아에게 따뜻한 응원을 보냈습니다!');
+            };
+
+            // Custom Styled Dropdown Events
+            const dropdownBtn = document.getElementById('customNotifDropdownBtn');
+            const dropdownMenu = document.getElementById('customNotifMenu');
+
+            if (dropdownBtn && dropdownMenu) {
+                dropdownBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('hidden');
+                };
+
+                document.addEventListener('click', (e) => {
+                    if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+
+                document.querySelectorAll('.notif-opt-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        STATE.notifications = btn.dataset.val;
+                        saveStorage();
+                        dropdownMenu.classList.add('hidden');
+                        showToast('알림 주기 설정이 변경되었습니다.');
+                        renderTab('mypage');
+                    };
+                });
+            }
+
+            document.getElementById('toggleSoundBtn').onclick = () => {
+                STATE.soundEffects = !STATE.soundEffects;
+                saveStorage();
+                showToast(`효과음/진동이 ${STATE.soundEffects ? '켜졌습니다' : '꺼졌습니다'}.`);
+                renderTab('mypage');
+            };
+
+            document.getElementById('toggleShareBtn').onclick = () => {
+                STATE.shareStatus = !STATE.shareStatus;
+                saveStorage();
+                showToast(`메이트 활동 공개가 ${STATE.shareStatus ? '켜졌습니다' : '꺼졌습니다'}.`);
+                renderTab('mypage');
+            };
+
+            document.getElementById('resetDataBtn').onclick = () => {
+                localStorage.removeItem('tickle_app_v11');
+                STATE.tickles = [...INITIAL_TICKLES];
+                STATE.routines = [...INITIAL_ROUTINES];
+                STATE.userPersona = 'achievement';
+                saveStorage();
+                showToast('모든 데이터가 초기화되었습니다.');
+                showOnboardingQuiz();
+            };
+        }
+
+        // ========================================================
+        // 6. MODALS & TOAST
+        // ========================================================
+        function showAddTickleModal() {
+            const overlay = document.getElementById('onboardingOverlay');
+            const card = document.getElementById('onboardingCard');
+            overlay.classList.remove('hidden');
+
+            card.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center pb-1">
+                        <h3 class="text-sm font-bold text-stone-800">티끌 하나 담기</h3>
+                        <button onclick="closeModal()" class="text-stone-400 p-1">✕</button>
+                    </div>
+                    <div>
+                        <label class="text-[11px] font-bold text-stone-600 block mb-1">오늘 이룬 작은 성취를 적어주세요</label>
+                        <input type="text" id="tickleTitleInput" placeholder="예) 따뜻한 물 한 잔 마시기" class="w-full bg-stone-50 rounded-xl p-3 text-xs font-medium focus:outline-none">
+                    </div>
+                    <button id="submitTickleBtn" class="w-full bg-brand-orange text-white font-bold py-3 rounded-xl text-xs">
+                        유리병에 넣기
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('submitTickleBtn').onclick = () => {
+                const val = document.getElementById('tickleTitleInput').value.trim();
+                if (val) {
+                    const newT = { id: 't_' + Date.now(), title: val, theme: STATE.theme };
+                    STATE.tickles.push(newT);
+                    saveStorage();
+                    closeModal();
+                    if (threeApp) threeApp.addSingleObject(newT);
+                    showToast('유리병에 새로운 3D 티끌이 담겼습니다!');
+                    renderTab('jar');
+                }
+            };
+        }
+
+        function showAddRoutineModal() {
+            const overlay = document.getElementById('onboardingOverlay');
+            const card = document.getElementById('onboardingCard');
+            overlay.classList.remove('hidden');
+
+            card.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center pb-1">
+                        <h3 class="text-sm font-bold text-stone-800">새 티끌 루틴 추가</h3>
+                        <button onclick="closeModal()" class="text-stone-400 p-1">✕</button>
+                    </div>
+                    <div>
+                        <label class="text-[11px] font-bold text-stone-600 block mb-1">부담 없는 작은 목표 이름</label>
+                        <input type="text" id="routineTitleInput" placeholder="예) 책 2페이지 읽기" class="w-full bg-stone-50 rounded-xl p-3 text-xs font-medium focus:outline-none">
+                    </div>
+                    <button id="submitRoutineBtn" class="w-full bg-brand-orange text-white font-bold py-3 rounded-xl text-xs">
+                        추가하기
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('submitRoutineBtn').onclick = () => {
+                const val = document.getElementById('routineTitleInput').value.trim();
+                if (val) {
+                    STATE.routines.push({ id: 'r_' + Date.now(), title: val, category: '나만의 루틴', completed: false });
+                    saveStorage();
+                    closeModal();
+                    showToast('새 티끌 루틴이 추가되었습니다.');
+                    renderTab('routines');
+                }
+            };
+        }
+
+        function closeModal() {
+            document.getElementById('onboardingOverlay').classList.add('hidden');
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-stone-800 text-white text-xs font-bold px-4 py-2 rounded-full border border-stone-700 transition-all duration-300 opacity-100 text-center max-w-[310px]';
+            toast.innerText = msg;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2200);
+        }
+
+        window.onload = () => {
+            initApp();
+        };
+    </script>
+</body>
+</html>
