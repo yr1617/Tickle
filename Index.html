@@ -1361,11 +1361,48 @@
                         vz: 0,
                         rotVx: 0,
                         rotVy: 0,
+                        rotVz: 0,
                         objIndex: idx,
                         tickleData: t
                     });
+                    mesh.rotation.set(
+                        (Math.random() - 0.5) * 0.5,
+                        Math.random() * Math.PI * 2,
+                        (Math.random() - 0.5) * 0.5
+                    );
                     this.scene.add(mesh);
                     this.objects.push(mesh);
+                });
+            }
+
+            addSingleObject(tickle) {
+                const idx = this.objects.length;
+                const mesh = this.createTheme3DModel(this.theme, idx);
+                const r = mesh.userData.radius;
+                mesh.position.set((Math.random() - 0.5) * 0.6, this.jarTop - r - 0.1, (Math.random() - 0.5) * 0.6);
+                Object.assign(mesh.userData, {
+                    vx: (Math.random() - 0.5) * 0.04,
+                    vy: -0.02,
+                    vz: (Math.random() - 0.5) * 0.04,
+                    rotVx: (Math.random() - 0.5) * 0.14,
+                    rotVy: (Math.random() - 0.5) * 0.14,
+                    rotVz: (Math.random() - 0.5) * 0.14,
+                    objIndex: idx,
+                    tickleData: tickle
+                });
+                this.scene.add(mesh);
+                this.objects.push(mesh);
+            }
+
+            shakeObjects() {
+                this.shakeTime = 0.45;
+                this.objects.forEach(obj => {
+                    obj.userData.vy = 0.22 + Math.random() * 0.12;
+                    obj.userData.vx = (Math.random() - 0.5) * 0.20;
+                    obj.userData.vz = (Math.random() - 0.5) * 0.20;
+                    obj.userData.rotVx = (Math.random() - 0.5) * 0.22;
+                    obj.userData.rotVy = (Math.random() - 0.5) * 0.22;
+                    obj.userData.rotVz = (Math.random() - 0.5) * 0.22;
                 });
             }
 
@@ -1453,6 +1490,10 @@
                         this.draggedObj.position.copy(currentMouse3D);
                         this.prevMouse3D.copy(currentMouse3D);
 
+                        // Apply subtle rotational inertia while dragging in mid-air
+                        this.draggedObj.rotation.z -= this.velocity3D.x * 0.45;
+                        this.draggedObj.rotation.x += this.velocity3D.y * 0.45;
+
                         const r = this.draggedObj.userData.radius || 0.4;
                         const maxCylR = this.jarRadius - r - 0.05;
                         const dist = Math.hypot(this.draggedObj.position.x, this.draggedObj.position.z);
@@ -1475,11 +1516,21 @@
                         // Tap / Click Detection (when not dragging)
                         if (movedDist < 8 && elapsed < 350) {
                             this.draggedObj.userData.vy = 0.12;
+                            this.draggedObj.userData.rotVx = (Math.random() - 0.5) * 0.12;
+                            this.draggedObj.userData.rotVz = (Math.random() - 0.5) * 0.12;
                             showObjectDetailCard(this.draggedObj.userData.tickleData, this.draggedObj.userData.objIndex || 0);
                         } else {
-                            this.draggedObj.userData.vx = Math.max(-0.3, Math.min(0.3, this.velocity3D.x * 0.85));
-                            this.draggedObj.userData.vy = Math.max(-0.3, Math.min(0.3, this.velocity3D.y * 0.85));
-                            this.draggedObj.userData.vz = Math.max(-0.3, Math.min(0.3, this.velocity3D.z * 0.85));
+                            const throwVx = Math.max(-0.32, Math.min(0.32, this.velocity3D.x * 0.9));
+                            const throwVy = Math.max(-0.32, Math.min(0.32, this.velocity3D.y * 0.9));
+                            const throwVz = Math.max(-0.32, Math.min(0.32, this.velocity3D.z * 0.9));
+                            this.draggedObj.userData.vx = throwVx;
+                            this.draggedObj.userData.vy = throwVy;
+                            this.draggedObj.userData.vz = throwVz;
+
+                            // Impart 3-axis tumble spin proportional to throw velocity
+                            this.draggedObj.userData.rotVz = -throwVx * 1.15 + (Math.random() - 0.5) * 0.08;
+                            this.draggedObj.userData.rotVx = throwVy * 0.95 + throwVz * 0.85 + (Math.random() - 0.5) * 0.08;
+                            this.draggedObj.userData.rotVy = (throwVx - throwVz) * 0.75;
                         }
                         this.draggedObj = null;
                     }
@@ -1524,28 +1575,42 @@
 
                     obj.rotation.x += u.rotVx;
                     obj.rotation.y += u.rotVy;
-                    u.rotVx *= 0.88;
-                    u.rotVy *= 0.88;
+                    obj.rotation.z += (u.rotVz || 0);
+                    u.rotVx *= 0.95;
+                    u.rotVy *= 0.95;
+                    u.rotVz = (u.rotVz || 0) * 0.95;
 
-                    u.vx *= 0.94;
-                    u.vz *= 0.94;
+                    u.vx *= 0.95;
+                    u.vz *= 0.95;
 
-                    // Bouncy Restitution Floor Collision
+                    // Bouncy Restitution Floor Collision + Rolling Torque
                     if (obj.position.y < this.floorTopY + r) {
                         obj.position.y = this.floorTopY + r;
+                        // Rolling spin generated from horizontal movement upon ground contact
+                        u.rotVz = (u.rotVz || 0) * 0.6 - (u.vx / r) * 0.35;
+                        u.rotVx = u.rotVx * 0.6 + (u.vz / r) * 0.35;
+
                         if (Math.abs(u.vy) < 0.025) {
                             u.vy = 0;
-                            u.vx *= 0.7;
-                            u.vz *= 0.7;
+                            u.vx *= 0.78;
+                            u.vz *= 0.78;
+                            if (Math.hypot(u.vx, u.vz) < 0.002) {
+                                u.rotVx *= 0.7;
+                                u.rotVy *= 0.7;
+                                u.rotVz *= 0.7;
+                            }
                         } else {
-                            u.vy *= -0.68;
+                            u.rotVy += (Math.random() - 0.5) * Math.abs(u.vy) * 0.6;
+                            u.vy *= -0.66;
                         }
                     }
 
-                    // Strict Cork-Lid Ceiling Collision (Prevents 3D items from clipping through cork)
+                    // Strict Cork-Lid Ceiling Collision + Tumble Torque
                     const maxTopY = this.jarTop - r - 0.05;
                     if (obj.position.y > maxTopY) {
                         obj.position.y = maxTopY;
+                        u.rotVz = (u.rotVz || 0) + u.vx * 0.9;
+                        u.rotVx += u.vz * 0.9;
                         u.vy *= -0.60;
                     }
 
@@ -1555,12 +1620,16 @@
                         const angle = Math.atan2(obj.position.z, obj.position.x);
                         obj.position.x = Math.cos(angle) * maxR;
                         obj.position.z = Math.sin(angle) * maxR;
+                        // Wall bounce induces vertical & lateral tumble
+                        u.rotVz = (u.rotVz || 0) + u.vy * 0.85 * Math.cos(angle);
+                        u.rotVx += u.vy * 0.85 * Math.sin(angle);
+                        u.rotVy += (u.vx * Math.sin(angle) - u.vz * Math.cos(angle)) * 1.1;
                         u.vx *= -0.65;
                         u.vz *= -0.65;
                     }
                 }
 
-                // Inter-object collisions
+                // Inter-object collisions with elastic bounce & angular spin transfer
                 for (let i = 0; i < this.objects.length; i++) {
                     for (let j = i + 1; j < this.objects.length; j++) {
                         const a = this.objects[i];
@@ -1580,15 +1649,30 @@
                             const ny = dy / dist;
                             const nz = dz / dist;
 
+                            const relVx = b.userData.vx - a.userData.vx;
+                            const relVy = b.userData.vy - a.userData.vy;
+                            const relVz = b.userData.vz - a.userData.vz;
+                            const impact = Math.min(0.18, Math.hypot(relVx, relVy, relVz));
+
                             if (a !== this.draggedObj) {
                                 a.position.x -= nx * overlap;
                                 a.position.y = Math.max(this.floorTopY + rA, a.position.y - ny * overlap);
                                 a.position.z -= nz * overlap;
+                                a.userData.vx -= nx * impact * 0.45;
+                                a.userData.vy -= ny * impact * 0.45;
+                                a.userData.vz -= nz * impact * 0.45;
+                                a.userData.rotVz = (a.userData.rotVz || 0) + (nx * relVy - ny * relVx) * 0.9;
+                                a.userData.rotVx += (ny * relVz - nz * relVy) * 0.9;
                             }
                             if (b !== this.draggedObj) {
                                 b.position.x += nx * overlap;
                                 b.position.y = Math.max(this.floorTopY + rB, b.position.y + ny * overlap);
                                 b.position.z += nz * overlap;
+                                b.userData.vx += nx * impact * 0.45;
+                                b.userData.vy += ny * impact * 0.45;
+                                b.userData.vz += nz * impact * 0.45;
+                                b.userData.rotVz = (b.userData.rotVz || 0) - (nx * relVy - ny * relVx) * 0.9;
+                                b.userData.rotVx -= (ny * relVz - nz * relVy) * 0.9;
                             }
                         }
                     }
