@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tickle</title>
-    <!-- Browser Favicon (Orange Jar & Sparkle Tickle SVG) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23FF7E36'/%3E%3Crect x='23' y='11' width='18' height='6' rx='2.5' fill='%23FDE68A'/%3E%3Crect x='16' y='19' width='32' height='34' rx='9' fill='%23FFFBF7'/%3E%3Ccircle cx='27' cy='38' r='4.5' fill='%23FF7E36'/%3E%3Ccircle cx='38' cy='41' r='3.8' fill='%23FFB800'/%3E%3Cpath d='M33 25l1.5 3.5L38 30l-3.5 1.5L33 35l-1.5-3.5L28 30l3.5-1.5L33 25z' fill='%23F472B6'/%3E%3C/svg%3E">
-    <!-- Google Fonts: Fredoka (Bold) & Noto Sans KR -->
+    <!-- Browser Favicon (Warm Orange & Bold Black Jar SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23FF7E36'/%3E%3Crect x='23' y='11' width='18' height='6' rx='2.5' fill='%23111111'/%3E%3Crect x='16' y='19' width='32' height='34' rx='9' fill='%23FFFFFF' stroke='%23111111' stroke-width='3'/%3E%3Ccircle cx='27' cy='38' r='4.5' fill='%23FF7E36'/%3E%3Ccircle cx='38' cy='41' r='3.8' fill='%23111111'/%3E%3Cpath d='M33 25l1.5 3.5L38 30l-3.5 1.5L33 35l-1.5-3.5L28 30l3.5-1.5L33 25z' fill='%23111111'/%3E%3C/svg%3E">
+    <!-- Google Fonts: Fredoka (Bold), Plus Jakarta Sans & Noto Sans KR -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Noto+Sans+KR:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Three.js Library (r128) -->
@@ -20,16 +20,18 @@
                 extend: {
                     colors: {
                         brand: {
-                            bg: '#FFFBF7',
+                            bg: '#FFFFFF',
                             surface: '#FFFFFF',
-                            border: '#EFE4D8',
-                            orange: '#FF7E36',
+                            border: '#111111',
+                            orange: '#111111',
                             orangeLight: '#FFF0E6',
-                            amber: '#FFB800',
-                            teal: '#2DD4BF',
-                            purple: '#A855F7',
-                            dark: '#2D3748',
-                            muted: '#718096'
+                            pink: '#FF7E36',
+                            pinkSoft: '#FFF7F2',
+                            amber: '#F6C270',
+                            teal: '#111111',
+                            purple: '#111111',
+                            dark: '#111111',
+                            muted: '#6B7280'
                         }
                     }
                 }
@@ -37,100 +39,103 @@
         }
     </script>
     <style>
-        /* Strict Zero Shadows & Zero Gradients Policy */
+        /* Crumbl-Inspired Crisp Editorial Flat UI */
         * {
             box-shadow: none !important;
             text-shadow: none !important;
             background-image: none !important;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        *::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #EFE9E2;
-            color: #2D3748;
+            font-family: 'Plus Jakarta Sans', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #F4F1F2;
+            color: #111111;
         }
 
         .logo-font {
             font-family: 'Fredoka', sans-serif;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
         }
 
         .card-outline {
-            border: 1.5px solid #EFE4D8;
+            border: 1.5px solid #111111;
+        }
+
+        .card-soft-outline {
+            border: 1.25px solid #E5E7EB;
         }
 
         .border-orange-custom {
-            border: 1.5px solid #FF7E36;
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #E2D6C8;
-            border-radius: 4px;
+            border: 1.5px solid #111111;
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-0 sm:p-4">
 
-    <!-- Mobile Viewport Container -->
-    <div class="w-full max-w-[420px] h-[100vh] sm:h-[880px] bg-brand-bg sm:rounded-[36px] overflow-hidden flex flex-col relative border-0 sm:border-[2px] border-stone-300">
+    <!-- Mobile Viewport Container (Crumbl Clean White Frame) -->
+    <div class="w-full max-w-[420px] h-[100vh] sm:h-[880px] bg-white sm:rounded-[38px] overflow-hidden flex flex-col relative border-0 sm:border-[2px] border-[#111111]">
 
-        <!-- Top Header: Standalone Rounded Typographic Logo Only -->
-        <header class="pt-4 px-5 pb-3 flex items-center justify-between z-20 bg-brand-bg sticky top-0">
-            <span class="logo-font text-[28px] font-bold text-brand-orange leading-none select-none">Tickle</span>
+        <!-- Top Header: Warm Orange Header Strip & Bold Black Wordmark -->
+        <header class="pt-4 px-5 pb-3.5 flex items-center justify-between z-20 bg-[#FF7E36] border-b-[1.5px] border-[#111111] sticky top-0">
+            <span class="logo-font text-[30px] font-bold text-[#111111] leading-none select-none lowercase">tickle</span>
 
-            <div class="bg-brand-orangeLight px-3 py-1 rounded-full text-[11px] font-bold text-brand-orange whitespace-nowrap">
+            <div class="bg-white border-[1.5px] border-[#111111] px-3 py-1 rounded-full text-[11px] font-extrabold text-[#111111] whitespace-nowrap">
                 <span id="headerPersonaTag">시각적 수집가</span>
             </div>
         </header>
 
         <!-- Main Dynamic Content Container -->
-        <main id="appContent" class="flex-1 overflow-y-auto relative pb-20 px-4 pt-1">
+        <main id="appContent" class="flex-1 overflow-y-auto relative pb-24 px-4 pt-3 bg-white">
             <!-- Rendered by JS -->
         </main>
 
-        <!-- Bottom Navigation Bar (4 Clean Tabs: 유리병, 티끌 루틴, 메이트, 마이페이지) -->
-        <nav class="absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-stone-100 px-2 flex items-center justify-around z-30">
-            <button data-tab="jar" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-brand-orange font-bold">
+        <!-- Bottom Floating Pill Navigation Bar (Crumbl Reference Style) -->
+        <nav class="absolute bottom-3 left-4 right-4 h-16 bg-white border-[1.5px] border-[#111111] rounded-full px-3 flex items-center justify-around z-30">
+            <button data-tab="jar" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-full transition-all text-[#111111] font-extrabold bg-[#FFF0E6]">
                 <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="6" y="8" width="12" height="13" rx="3"/>
                     <path d="M9 4h6v4H9z"/>
                 </svg>
-                <span class="text-[11px] mt-1 whitespace-nowrap">유리병</span>
+                <span class="text-[10px] mt-0.5 whitespace-nowrap">유리병</span>
             </button>
 
-            <button data-tab="routines" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-stone-400">
+            <button data-tab="routines" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-full transition-all text-stone-400">
                 <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="4" y="4" width="16" height="16" rx="3"/>
                     <path d="M9 12l2 2 4-4"/>
                 </svg>
-                <span class="text-[11px] mt-1 whitespace-nowrap">티끌 루틴</span>
+                <span class="text-[10px] mt-0.5 whitespace-nowrap">티끌 루틴</span>
             </button>
 
-            <button data-tab="mate" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-stone-400">
+            <button data-tab="mate" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-full transition-all text-stone-400">
                 <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
                 </svg>
-                <span class="text-[11px] mt-1 whitespace-nowrap">메이트</span>
+                <span class="text-[10px] mt-0.5 whitespace-nowrap">메이트</span>
             </button>
 
-            <button data-tab="mypage" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-xl transition-all text-stone-400">
+            <button data-tab="mypage" class="nav-btn flex flex-col items-center justify-center flex-1 h-12 rounded-full transition-all text-stone-400">
                 <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="8" r="4"/>
                     <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
                 </svg>
-                <span class="text-[11px] mt-1 whitespace-nowrap">마이페이지</span>
+                <span class="text-[10px] mt-0.5 whitespace-nowrap">마이페이지</span>
             </button>
         </nav>
 
         <!-- Modal Overlay -->
-        <div id="onboardingOverlay" class="fixed inset-0 bg-stone-900/50 z-50 flex items-center justify-center p-4 hidden">
-            <div id="onboardingCard" class="bg-white w-full max-w-[360px] rounded-3xl p-5 overflow-y-auto max-h-[90vh]">
+        <div id="onboardingOverlay" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+            <div id="onboardingCard" class="bg-white border-[1.5px] border-[#111111] w-full max-w-[360px] rounded-[28px] p-5 overflow-y-auto max-h-[90vh]">
                 <!-- Modal Content -->
             </div>
         </div>
@@ -244,8 +249,9 @@
             STATE.activeTab = tab;
             document.querySelectorAll('.nav-btn').forEach(b => {
                 const active = b.dataset.tab === tab;
-                b.classList.toggle('text-brand-orange', active);
-                b.classList.toggle('font-bold', active);
+                b.classList.toggle('text-[#111111]', active);
+                b.classList.toggle('font-extrabold', active);
+                b.classList.toggle('bg-[#FFF0E6]', active);
                 b.classList.toggle('text-stone-400', !active);
             });
             renderTab(tab);
@@ -365,27 +371,27 @@
                 card.innerHTML = `
                     <div class="text-center mb-3.5">
                         <div class="flex items-center justify-between mb-2">
-                            <span class="bg-brand-orangeLight text-brand-orange border border-orange-custom px-2.5 py-0.5 rounded-full text-[11px] font-bold">
+                            <span class="bg-[#FFF0E6] text-[#111111] border border-[#111111] px-2.5 py-0.5 rounded-full text-[11px] font-extrabold">
                                 맞춤 성향 진단
                             </span>
-                            <span class="text-[11px] font-black text-brand-orange">${currentStep + 1} / ${questions.length}</span>
+                            <span class="text-[11px] font-black text-[#111111]">${currentStep + 1} / ${questions.length}</span>
                         </div>
-                        <div class="w-full h-1.5 bg-stone-100 rounded-full overflow-hidden mb-3">
-                            <div class="h-full bg-brand-orange rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
+                        <div class="w-full h-2 bg-stone-100 border border-[#111111] rounded-full overflow-hidden mb-3">
+                            <div class="h-full bg-[#FF7E36] rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
                         </div>
-                        <h2 class="text-base font-bold text-stone-800">나에게 맞는 동기부여 방식 찾기</h2>
+                        <h2 class="text-base font-extrabold text-[#111111]">나에게 맞는 동기부여 방식 찾기</h2>
                         <p class="text-[11px] text-stone-500 mt-0.5">5가지 질문으로 나만의 맞춤 동기부여 유형을 분석해요.</p>
                     </div>
 
                     <div class="space-y-3">
-                        <p class="text-xs font-bold text-stone-800 leading-relaxed">${item.q}</p>
+                        <p class="text-xs font-extrabold text-[#111111] leading-relaxed">${item.q}</p>
                         <div class="space-y-2">
                             ${item.options.map((opt) => {
                                 const isSelected = answers[currentStep] === opt.v;
                                 return `
-                                    <button type="button" data-val="${opt.v}" class="quiz-opt-btn w-full text-left flex items-center p-3 rounded-2xl transition-all text-xs font-medium outline-none focus:outline-none ${isSelected ? 'bg-brand-orangeLight border-orange-custom text-stone-800 font-bold' : 'bg-stone-50 hover:bg-stone-100 text-stone-600 border border-transparent'}">
-                                        <span class="w-4 h-4 rounded-full flex items-center justify-center mr-3 shrink-0 transition-all ${isSelected ? 'border-[2px] border-brand-orange bg-white' : 'border-[1.5px] border-stone-300 bg-white'}">
-                                            ${isSelected ? '<span class="w-2 h-2 rounded-full bg-brand-orange"></span>' : ''}
+                                    <button type="button" data-val="${opt.v}" class="quiz-opt-btn w-full text-left flex items-center p-3 rounded-2xl transition-all text-xs font-medium outline-none focus:outline-none ${isSelected ? 'bg-[#FFF0E6] border-[1.5px] border-[#111111] text-[#111111] font-bold' : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200'}">
+                                        <span class="w-4 h-4 rounded-full flex items-center justify-center mr-3 shrink-0 transition-all ${isSelected ? 'border-[2px] border-[#111111] bg-white' : 'border-[1.5px] border-stone-400 bg-white'}">
+                                            ${isSelected ? '<span class="w-2 h-2 rounded-full bg-[#111111]"></span>' : ''}
                                         </span>
                                         <span class="leading-snug">${opt.text}</span>
                                     </button>
@@ -396,11 +402,11 @@
 
                     <div class="flex items-center gap-2 mt-5">
                         ${currentStep > 0 ? `
-                            <button type="button" id="quizPrevBtn" class="px-4 py-3 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold text-xs outline-none">
+                            <button type="button" id="quizPrevBtn" class="px-4 py-3 rounded-full bg-white border-[1.5px] border-[#111111] hover:bg-stone-50 text-[#111111] font-bold text-xs outline-none">
                                 이전
                             </button>
                         ` : ''}
-                        <button type="button" id="quizNextBtn" class="flex-1 bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-2xl text-xs outline-none">
+                        <button type="button" id="quizNextBtn" class="flex-1 bg-[#111111] hover:bg-stone-800 text-white font-bold py-3 rounded-full text-xs outline-none">
                             ${currentStep < questions.length - 1 ? '다음 질문으로' : '나만의 성향 결과 확인하기'}
                         </button>
                     </div>
@@ -449,26 +455,27 @@
             renderStep();
         }
 
-        // Default Minimalist Human Silhouette Profile Icons (Clipped cleanly to circle)
+        // Default Minimalist Human Silhouette Profile Icons (Warm Orange Accent)
         function render2DAvatarSVG(persona, size = 64) {
             const clipId = 'clip_' + Math.random().toString(36).substr(2, 9);
             return `
                 <svg width="${size}" height="${size}" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <clipPath id="${clipId}">
-                            <circle cx="50" cy="50" r="48"/>
+                            <circle cx="50" cy="50" r="47"/>
                         </clipPath>
                     </defs>
                     <g clip-path="url(#${clipId})">
-                        <circle cx="50" cy="50" r="48" fill="#D5DADE"/>
-                        <circle cx="50" cy="39" r="19" fill="#B0B7BD"/>
-                        <ellipse cx="50" cy="87" rx="34" ry="27" fill="#B0B7BD"/>
+                        <circle cx="50" cy="50" r="47" fill="#FFF0E6"/>
+                        <circle cx="50" cy="39" r="18" fill="#111111"/>
+                        <ellipse cx="50" cy="87" rx="33" ry="26" fill="#111111"/>
                     </g>
+                    <circle cx="50" cy="50" r="47" stroke="#111111" stroke-width="3"/>
                 </svg>
             `;
         }
 
-        // 2D SVG Theme Backdrops
+        // 2D SVG Theme Backdrops (Untouched)
         function getThemeBackdropSVG(theme) {
             if (theme === 'candyland') {
                 return `
@@ -482,9 +489,7 @@
                             </clipPath>
                         </defs>
 
-                        <!-- Pastel Sky Background -->
                         <rect width="350" height="450" fill="#FFF0F6"/>
-                        <!-- Soft Pastel Clouds -->
                         <g fill="#FFFFFF" opacity="0.88">
                             <circle cx="52" cy="58" r="16"/><circle cx="70" cy="53" r="20"/><circle cx="88" cy="59" r="15"/>
                             <rect x="48" y="58" width="44" height="16" rx="8"/>
@@ -492,24 +497,20 @@
                             <rect x="258" y="72" width="40" height="14" rx="7"/>
                         </g>
 
-                        <!-- Rolling Candy Hills -->
                         <path d="M-10 265 Q80 220 175 250 T360 235 V450 H-10 Z" fill="#FCE7F3"/>
                         <path d="M-10 315 Q100 280 200 305 T360 290 V450 H-10 Z" fill="#FBCFE8"/>
                         <path d="M-10 365 Q90 345 190 360 T360 350 V450 H-10 Z" fill="#FFF5F9"/>
 
-                        <!-- Smooth Striped Candy Cane (Left) -->
                         <g>
                             <path d="M26 285 V185 A18 18 0 0 1 62 185 V202" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round"/>
                             <path d="M26 285 V185 A18 18 0 0 1 62 185 V202" stroke="#F472B6" stroke-width="11" stroke-dasharray="22 22" stroke-linecap="butt"/>
                         </g>
 
-                        <!-- Smooth Striped Candy Cane (Right) -->
                         <g>
                             <path d="M322 295 V195 A18 18 0 0 0 286 195 V212" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round"/>
                             <path d="M322 295 V195 A18 18 0 0 0 286 195 V212" stroke="#60A5FA" stroke-width="11" stroke-dasharray="22 22" stroke-linecap="butt"/>
                         </g>
 
-                        <!-- Gingerbread House (Left, Clean Roof without Circle) -->
                         <g transform="translate(36, 222)">
                             <rect x="44" y="-8" width="10" height="18" rx="2" fill="#D97706"/>
                             <rect x="8" y="24" width="52" height="44" rx="4" fill="#D97706"/>
@@ -520,7 +521,6 @@
                             <rect x="45" y="34" width="10" height="10" rx="2" fill="#FEF08A"/>
                         </g>
 
-                        <!-- Gingerbread House (Right) -->
                         <g transform="translate(242, 232)">
                             <rect x="8" y="24" width="52" height="44" rx="4" fill="#B45309"/>
                             <polygon points="34,0 2,26 66,26" fill="#92400E"/>
@@ -530,7 +530,6 @@
                             <rect x="45" y="34" width="10" height="10" rx="2" fill="#FEF08A"/>
                         </g>
 
-                        <!-- Mint Whipped-Cream Trees -->
                         <g transform="translate(12, 272)">
                             <ellipse cx="18" cy="36" rx="18" ry="9" fill="#6EE7B7"/>
                             <ellipse cx="18" cy="26" rx="14" ry="8" fill="#A7F3D0"/>
@@ -544,7 +543,6 @@
                             <circle cx="18" cy="9" r="5" fill="#A7F3D0"/>
                         </g>
 
-                        <!-- Chupa Chups Style Lollipop (Right, Pink with Center Ring) -->
                         <g transform="translate(226, 175) rotate(-14)">
                             <rect x="-2.5" y="16" width="5" height="62" rx="2.5" fill="#FFFFFF"/>
                             <circle cx="0" cy="0" r="19" fill="#F472B6"/>
@@ -554,7 +552,6 @@
                             <ellipse cx="-6" cy="-9" rx="5" ry="3" transform="rotate(-25 -6 -9)" fill="#FFFFFF" opacity="0.7"/>
                         </g>
 
-                        <!-- Chupa Chups Style Lollipop (Left, Lavender with Center Ring) -->
                         <g transform="translate(115, 212) rotate(12)">
                             <rect x="-2" y="12" width="4" height="46" rx="2" fill="#FFFFFF"/>
                             <circle cx="0" cy="0" r="14" fill="#C084FC"/>
@@ -598,45 +595,34 @@
             } else { // halloween
                 return `
                     <svg class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" viewBox="0 0 350 450" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Deep Violet Night Sky -->
                         <rect width="350" height="450" fill="#2E1065"/>
-                        <!-- Soft Violet Cloud Ribbons -->
                         <path d="M-10 60 Q90 35 190 60 T360 45 V120 Q250 100 150 120 T-10 105 Z" fill="#4C1D95" opacity="0.5"/>
                         <path d="M-10 150 Q110 125 220 150 T360 135 V210 Q240 190 130 210 T-10 195 Z" fill="#4C1D95" opacity="0.35"/>
 
-                        <!-- Glowing Crescent Moon & Sparkle Stars -->
                         <path d="M135 55 A32 32 0 1 0 175 95 A25 25 0 1 1 135 55 Z" fill="#FDE047"/>
                         <path d="M55 45 L58 53 L66 56 L58 59 L55 67 L52 59 L44 56 L52 53 Z" fill="#FEF08A"/>
                         <path d="M210 38 L212 44 L218 46 L212 48 L210 54 L208 48 L202 46 L208 44 Z" fill="#FEF08A"/>
                         <path d="M105 110 L107 115 L112 117 L107 119 L105 124 L103 119 L98 117 L103 115 Z" fill="#FEF08A"/>
                         <circle cx="295" cy="115" r="2" fill="#FEF08A"/>
 
-                        <!-- Flying Bats -->
                         <path d="M62 82 Q70 72 78 82 Q86 72 94 82 Q84 89 78 86 Q72 89 62 82 Z" fill="#0F172A"/>
                         <path d="M255 45 Q265 33 275 45 Q285 33 295 45 Q283 54 275 50 Q267 54 255 45 Z" fill="#0F172A"/>
 
-                        <!-- Gnarled Multi-Branch Leafless Tree (Left) -->
                         <path d="M32 355 Q38 300 32 250 Q22 225 8 205 L13 201 Q25 215 34 232 Q36 205 26 178 L32 175 Q41 198 43 224 Q55 202 74 188 L78 193 Q58 209 47 236 Q66 225 88 228 L87 234 Q63 233 46 250 Q48 295 56 355 Z" fill="#18122B"/>
 
-                        <!-- Crooked Wooden Fence & Tombstone -->
                         <path d="M14 345 V320 H20 V345 M28 348 V322 H34 V348 M10 328 L38 325 M10 338 L38 335" stroke="#18122B" stroke-width="3" stroke-linecap="round"/>
                         <path d="M74 345 V325 A9 9 0 0 1 92 325 V345 Z" fill="#18122B"/>
                         <path d="M83 310 V317 M79 313 H87" stroke="#18122B" stroke-width="2.5" stroke-linecap="round"/>
 
-                        <!-- Spooky Victorian Mansion / Haunted Castle (Right, Reference Style) -->
                         <g fill="#18122B">
-                            <!-- Main Right Tower & Roof -->
                             <rect x="255" y="195" width="66" height="150"/>
                             <path d="M245 198 L288 125 L331 198 Q288 190 245 198 Z"/>
-                            <!-- Tall Left Turret & Spire -->
                             <rect x="208" y="150" width="46" height="195"/>
                             <path d="M198 153 L231 85 L264 153 Q231 146 198 153 Z"/>
-                            <!-- Center Connector & Balcony -->
                             <rect x="248" y="220" width="16" height="125"/>
                             <path d="M198 220 H258 M204 220 V208 M214 220 V208 M224 220 V208 M234 220 V208 M244 220 V208 M254 220 V208 M200 208 H256" stroke="#18122B" stroke-width="2.5"/>
                         </g>
 
-                        <!-- Warm Glowing Castle Windows -->
                         <path d="M224 138 A7 7 0 0 1 238 138 V147 H224 Z" fill="#FACC15"/>
                         <circle cx="242" cy="175" r="5.5" fill="#FACC15"/>
                         <path d="M222 202 A9 9 0 0 1 240 202 V218 H222 Z" fill="#FACC15"/>
@@ -646,7 +632,6 @@
                         <path d="M290 242 V264 M282 253 H298" stroke="#18122B" stroke-width="2"/>
                         <path d="M268 345 V305 A12 12 0 0 1 292 305 V345 Z" fill="#3B0764"/>
 
-                        <!-- Rolling Dark Hills & Bushes -->
                         <path d="M-10 345 Q90 320 190 340 T360 325 V450 H-10 Z" fill="#4C1D95"/>
                         <path d="M-10 375 Q110 355 220 370 T360 360 V450 H-10 Z" fill="#3B0764"/>
                         <circle cx="315" cy="342" r="18" fill="#18122B"/>
@@ -657,7 +642,7 @@
         }
 
         // ========================================================
-        // 2. TAB 1: GLASS JAR (FULL-HEIGHT EXPANDED JAR CARD)
+        // 2. TAB 1: GLASS JAR (CRUMBL-INSPIRED EDITORIAL STYLE)
         // ========================================================
         function getJarTabHTML() {
             const count = STATE.tickles.length;
@@ -670,7 +655,7 @@
                 {
                     id: 'ocean',
                     name: '여름바다',
-                    svg: `<path d="M23 16L29 11V21L23 16Z" fill="#FF9254"/><path d="M12 10.5C14 7.5 18.5 7.5 20.5 11" fill="#FF9254"/><ellipse cx="15" cy="16" rx="9" ry="6.5" fill="#FF9E66"/><path d="M12.5 9.8C13.2 13.8 13.2 18.2 12.5 22.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/><path d="M17.5 9.8C18.2 13.8 18.2 18.2 17.5 22.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/><circle cx="9.5" cy="15" r="1.6" fill="#3B4252"/><circle cx="9" cy="14.5" r="0.5" fill="#FFFFFF"/>`
+                    svg: `<path d="M23 16L29 11V21L23 16Z" fill="#FF9254"/><path d="M12 10.5C14 7.5 18.5 7.5 20.5 11" fill="#FF9254"/><ellipse cx="15" cy="16" rx="9" ry="6.5" fill="#FF9E66"/><path d="M12.5 9.8C13.2 13.8 13.2 18.2 12.5 22.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/><path d="M17.5 9.8C18.2 13.8 18.2 18.2 17.5 22.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>`
                 },
                 {
                     id: 'christmas',
@@ -680,31 +665,31 @@
                 {
                     id: 'halloween',
                     name: '할로윈',
-                    svg: `<ellipse cx="16" cy="21" rx="8.5" ry="6.8" fill="#FF9248"/><ellipse cx="12.5" cy="21" rx="3.2" ry="6.5" fill="#FFA463"/><ellipse cx="19.5" cy="21" rx="3.2" ry="6.5" fill="#FFA463"/><path d="M12.2 19.5L13.5 18.2L14.8 19.5" stroke="#4A4E59" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M17.2 19.5L18.5 18.2L19.8 19.5" stroke="#4A4E59" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12.8 22.8C14 24.4 18 24.4 19.2 22.8" stroke="#4A4E59" stroke-width="1.5" stroke-linecap="round" fill="none"/><ellipse cx="16" cy="14.5" rx="10" ry="2.2" fill="#8A6DF1"/><polygon points="16,4.5 10.5,14.5 21.5,14.5" fill="#9B7FF7"/><rect x="11.3" y="12.3" width="9.4" height="1.8" rx="0.8" fill="#FFD43B"/>`
+                    svg: `<ellipse cx="16" cy="21" rx="8.5" ry="6.8" fill="#FF9248"/><ellipse cx="12.5" cy="21" rx="3.2" ry="6.5" fill="#FFA463"/><ellipse cx="19.5" cy="21" rx="3.2" ry="6.5" fill="#FFA463"/><ellipse cx="16" cy="14.5" rx="10" ry="2.2" fill="#8A6DF1"/><polygon points="16,4.5 10.5,14.5 21.5,14.5" fill="#9B7FF7"/><rect x="11.3" y="12.3" width="9.4" height="1.8" rx="0.8" fill="#FFD43B"/>`
                 }
             ];
 
             return `
                 <div class="flex flex-col h-full space-y-2.5 pt-0.5 pb-1">
-                    <!-- 1. Top Row: Collected Tickles Count & Shake Button (Compact) -->
-                    <div class="w-full flex items-center justify-between px-1 shrink-0">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xs font-bold text-stone-600">모인 티끌</span>
-                            <span class="text-sm font-black text-brand-orange">${count} / ${JAR_CAPACITY}개</span>
+                    <!-- 1. Top Row: Collected Tickles Count & Shake Button (Warm Orange Tag + Crisp Pill Controls) -->
+                    <div class="w-full flex items-center justify-between px-0.5 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-[#FFF0E6] text-[#111111] px-2.5 py-0.5 rounded-md text-[11px] font-extrabold">모인 티끌</span>
+                            <span class="text-sm font-black text-[#111111]">${count} / ${JAR_CAPACITY}개</span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <button id="openJarCollectionBtn" class="bg-white hover:bg-stone-50 card-outline px-2.5 py-1 rounded-full text-xs font-bold text-stone-700 flex items-center gap-1 active:scale-95 whitespace-nowrap">
+                            <button id="openJarCollectionBtn" class="bg-white hover:bg-[#FFF7F2] border-[1.5px] border-[#111111] px-3 py-1 rounded-full text-xs font-extrabold text-[#111111] flex items-center gap-1.5 active:scale-95 whitespace-nowrap">
                                 <span>보관함</span>
-                                <span class="text-brand-orange font-black">${STATE.completedJars.length}</span>
+                                <span class="bg-[#FF7E36] text-[#111111] px-1.5 py-0.2 rounded-full text-[10px] font-black">${STATE.completedJars.length}</span>
                             </button>
-                            <button id="shakeJarBtn" class="bg-white hover:bg-stone-50 card-outline px-2.5 py-1 rounded-full text-xs font-bold text-stone-700 flex items-center gap-1 active:scale-95 whitespace-nowrap">
+                            <button id="shakeJarBtn" class="bg-white hover:bg-[#FFF7F2] border-[1.5px] border-[#111111] px-3 py-1 rounded-full text-xs font-extrabold text-[#111111] flex items-center gap-1 active:scale-95 whitespace-nowrap">
                                 <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.4"><path d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.3-3.3M20 15a9 9 0 01-15.3 3.3"/></svg>
                                 <span>흔들기</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- 2. Second Row: Graphic-Only Theme Selector Buttons (No Box, Larger & Closer) -->
+                    <!-- 2. Second Row: Graphic-Only Theme Selector Buttons -->
                     <div class="flex items-center justify-center gap-4 py-1 shrink-0">
                         ${themes.map(t => `
                             <button data-theme="${t.id}" aria-label="${t.name}" title="${t.name}" class="theme-btn p-1 bg-transparent border-0 flex items-center justify-center transition-all duration-200 active:scale-95 ${STATE.theme === t.id ? 'opacity-100 scale-110' : 'opacity-45 grayscale hover:opacity-75'}">
@@ -713,34 +698,34 @@
                         `).join('')}
                     </div>
 
-                    <!-- 3. Three.js 3D Glass Jar Canvas Container (Fills remaining vertical height cleanly) -->
-                    <div id="threeContainer" class="w-full flex-1 min-h-[380px] relative rounded-3xl overflow-hidden cursor-grab active:cursor-grabbing bg-transparent">
+                    <!-- 3. Three.js 3D Glass Jar Canvas Container (Crisp Crumbl Card Frame) -->
+                    <div id="threeContainer" class="w-full flex-1 min-h-[370px] relative rounded-[28px] border-[1.5px] border-[#111111] overflow-hidden cursor-grab active:cursor-grabbing bg-transparent">
                         ${getThemeBackdropSVG(STATE.theme)}
-                        <!-- Object Click Info Card (Shown when tapping an object inside the jar) -->
-                        <div id="objectInfoCard" class="hidden absolute top-3 left-3 right-3 z-20 bg-white/95 border border-orange-200 rounded-2xl p-3 flex items-center justify-between gap-2">
+                        <!-- Object Click Info Card (Orange Highlight Style) -->
+                        <div id="objectInfoCard" class="hidden absolute top-3 left-3 right-3 z-20 bg-white border-[1.5px] border-[#111111] rounded-2xl p-3 flex items-center justify-between gap-2">
                             <div class="min-w-0">
                                 <div class="flex items-center gap-1.5">
-                                    <span id="objInfoBadge" class="bg-brand-orangeLight text-brand-orange text-[10px] font-bold px-2 py-0.5 rounded-full">소품</span>
-                                    <span id="objInfoDate" class="text-[10px] text-stone-400 font-medium"></span>
+                                    <span id="objInfoBadge" class="bg-[#FF7E36] text-[#111111] text-[10px] font-extrabold px-2 py-0.5 rounded-md">소품</span>
+                                    <span id="objInfoDate" class="text-[10px] text-stone-500 font-bold"></span>
                                 </div>
-                                <p id="objInfoTitle" class="text-xs font-bold text-stone-800 truncate mt-1"></p>
+                                <p id="objInfoTitle" class="text-xs font-extrabold text-[#111111] truncate mt-1"></p>
                             </div>
-                            <button id="closeObjInfoBtn" type="button" class="text-stone-400 hover:text-stone-700 text-xs font-bold px-2 py-1 shrink-0">✕</button>
+                            <button id="closeObjInfoBtn" type="button" class="w-7 h-7 rounded-full border border-[#111111] text-[#111111] hover:bg-[#FFF0E6] text-xs font-extrabold flex items-center justify-center shrink-0">✕</button>
                         </div>
                     </div>
 
-                    <!-- 4. Primary Action Button (Or Archive Jar Button when full) -->
+                    <!-- 4. Primary Action Button (Crumbl Signature Bold Black Pill CTA) -->
                     ${count >= JAR_CAPACITY ? `
                         <div class="flex items-center gap-2 shrink-0">
-                            <button id="archiveFullJarBtn" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                            <button id="archiveFullJarBtn" class="flex-1 bg-[#111111] hover:bg-stone-800 text-white font-extrabold py-3.5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
                                 <span>가득 찬 유리병 보관함에 담기</span>
                             </button>
-                            <button id="addTickleBtn" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-4 py-3.5 rounded-2xl text-xs transition-all active:scale-95">
+                            <button id="addTickleBtn" class="bg-[#FF7E36] border-[1.5px] border-[#111111] text-[#111111] font-extrabold px-4 py-3.5 rounded-full text-xs transition-all active:scale-95">
                                 +1
                             </button>
                         </div>
                     ` : `
-                        <button id="addTickleBtn" class="w-full shrink-0 bg-brand-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                        <button id="addTickleBtn" class="w-full shrink-0 bg-[#111111] hover:bg-stone-800 text-white font-extrabold py-3.5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M12 4v16m8-8H4"/></svg>
                             <span>티끌 하나 담기</span>
                         </button>
@@ -908,7 +893,6 @@
                     depthWrite: false
                 });
 
-                // Glass Body
                 const jarHeight = this.jarTop - this.floorTopY;
                 const jarCenterY = (this.jarTop + this.floorTopY) / 2;
                 const bodyMesh = new THREE.Mesh(
@@ -919,7 +903,6 @@
                 bodyMesh.renderOrder = 10;
                 this.scene.add(bodyMesh);
 
-                // Theme Floor Layers (Inside Jar)
                 let floorColor = 0xE2E8F0;
                 if (this.theme === 'candyland') floorColor = 0xFCE7F3;
                 else if (this.theme === 'ocean') floorColor = 0xFEF08A;
@@ -933,7 +916,6 @@
                 floorMesh.position.y = this.floorTopY - 0.08;
                 this.scene.add(floorMesh);
 
-                // Outer Glass Base Plate
                 const baseMesh = new THREE.Mesh(
                     new THREE.CylinderGeometry(this.jarRadius + 0.06, this.jarRadius + 0.06, 0.22, 48),
                     new THREE.MeshStandardMaterial({ color: 0xE2E8F0, roughness: 0.3, transparent: true, opacity: 0.6, depthWrite: false })
@@ -942,7 +924,6 @@
                 baseMesh.renderOrder = 9;
                 this.scene.add(baseMesh);
 
-                // Glass Rim
                 const rimMesh = new THREE.Mesh(
                     new THREE.TorusGeometry(this.jarRadius + 0.03, 0.07, 16, 48),
                     new THREE.MeshStandardMaterial({ color: 0xCBD5E1, roughness: 0.25 })
@@ -952,7 +933,6 @@
                 rimMesh.renderOrder = 11;
                 this.scene.add(rimMesh);
 
-                // Cork Stopper
                 const corkMesh = new THREE.Mesh(
                     new THREE.CylinderGeometry(this.jarRadius * 0.88, this.jarRadius * 0.80, 0.42, 40),
                     new THREE.MeshStandardMaterial({ color: 0xD6B48C, roughness: 0.78 })
@@ -962,7 +942,6 @@
                 this.scene.add(corkMesh);
             }
 
-            // High-Detail Sculpted 3D Models
             createTheme3DModel(theme, idx) {
                 const group = new THREE.Group();
                 const radius = 0.44;
@@ -971,7 +950,6 @@
                 if (theme === 'candyland') {
                     const variant = idx % 4;
                     if (variant === 0) {
-                        // Striped Donut
                         const dough = new THREE.Mesh(new THREE.TorusGeometry(0.27, 0.145, 20, 32), mat(0xFFFBEB));
                         group.add(dough);
                         for (let s = 0; s < 8; s++) {
@@ -983,7 +961,6 @@
                             group.add(stripe);
                         }
                     } else if (variant === 1) {
-                        // Chocolate Cake with Dripping Pink Glaze & Sprinkles
                         const cake = new THREE.Mesh(new THREE.CylinderGeometry(0.31, 0.31, 0.34, 28), mat(0x5C2D16));
                         const midCream = new THREE.Mesh(new THREE.CylinderGeometry(0.315, 0.315, 0.05, 28), mat(0xFDBA74));
                         const topGlaze = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.11, 28), mat(0xFB7185));
@@ -1001,7 +978,6 @@
                             group.add(drip, sp);
                         }
                     } else if (variant === 2) {
-                        // Strawberry with 8-leaf calyx & yellow seeds
                         const berry = new THREE.Mesh(new THREE.LatheGeometry([
                             new THREE.Vector2(0.00, -0.32),
                             new THREE.Vector2(0.11, -0.24),
@@ -1035,7 +1011,6 @@
                             }
                         });
                     } else {
-                        // Solid Yellow Macaron
                         const topShell = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 16), mat(0xFACC15));
                         topShell.scale.set(1, 0.42, 1);
                         topShell.position.y = 0.10;
@@ -1056,11 +1031,9 @@
                 } else if (theme === 'ocean') {
                     const variant = idx % 4;
                     if (variant === 0) {
-                        // Clownfish: Streamlined Body, Parallel Thick Uniform White Stripes, Dorsal Fin & Flared Fan Tail Fin
                         const body = new THREE.Mesh(new THREE.SphereGeometry(0.28, 32, 24), mat(0xFF7E36));
                         body.scale.set(1.35, 0.95, 0.70);
 
-                        // Rotate sphere axis to X so theta slices form true parallel vertical bands of uniform thickness
                         const createVerticalBand = (thetaStart, thetaLength) => {
                             const bandGeo = new THREE.SphereGeometry(0.283, 32, 24, 0, Math.PI * 2, thetaStart, thetaLength);
                             bandGeo.rotateZ(-Math.PI / 2);
@@ -1069,7 +1042,6 @@
                             return bandMesh;
                         };
 
-                        // Front head band & middle body band (centered and parallel)
                         const stripeFront = createVerticalBand(1.08, 0.25);
                         const stripeMid = createVerticalBand(1.78, 0.25);
 
@@ -1095,7 +1067,6 @@
 
                         group.add(body, stripeFront, stripeMid, tailMesh, dorsal, eyeL, eyeR);
                     } else if (variant === 1) {
-                        // Cute Red Octopus
                         const head = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 20), mat(0xE11D48));
                         head.position.y = 0.12;
                         const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 8), mat(0x1E293B));
@@ -1118,7 +1089,6 @@
                             group.add(leg, tip);
                         }
                     } else if (variant === 2) {
-                        // Open Clam Shell with Pearl
                         const bot = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 14), mat(0xFDBA74));
                         bot.scale.set(1.1, 0.32, 1);
                         bot.position.y = -0.14;
@@ -1132,7 +1102,6 @@
                         pearl.position.y = 0.02;
                         group.add(bot, innerPink, top, pearl);
                     } else {
-                        // 3D Yellow Pufferfish (복어 - Exact Match to Reference Image_4cb26a.png)
                         const pBody = new THREE.Mesh(new THREE.SphereGeometry(0.30, 24, 20), mat(0xFACC15));
                         const pBelly = new THREE.Mesh(new THREE.SphereGeometry(0.26, 20, 16), mat(0xFFFBEB));
                         pBelly.position.set(0, -0.06, 0.04);
@@ -1155,7 +1124,6 @@
 
                         group.add(pBody, pBelly, pLips, pEyeL, pEyeR, pFinL, pFinR);
 
-                        // Spikes around sphere body
                         for (let s = 0; s < 18; s++) {
                             const phi = Math.acos(-1 + (2 * s) / 18);
                             const theta = Math.sqrt(18 * Math.PI) * phi;
@@ -1172,7 +1140,6 @@
                 } else if (theme === 'christmas') {
                     const variant = idx % 4;
                     if (variant === 0) {
-                        // Pine Tree
                         const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 0.22, 14), mat(0x78350F));
                         trunk.position.y = -0.28;
                         const t1 = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.34, 20), mat(0x15803D));
@@ -1190,7 +1157,6 @@
                             group.add(bauble);
                         }
                     } else if (variant === 1) {
-                        // Rudolph
                         const face = new THREE.Mesh(new THREE.SphereGeometry(0.31, 24, 20), mat(0xD97706));
                         face.scale.set(0.95, 1.08, 0.92);
                         const nose = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 16), mat(0xDC2626, 0.2));
@@ -1207,7 +1173,6 @@
                         antR.rotation.z = -0.28;
                         group.add(face, nose, eyeL, eyeR, antL, antR);
                     } else if (variant === 2) {
-                        // Striped Candy Cane
                         const hook = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.065, 14, 20, Math.PI), mat(0xEF4444));
                         hook.position.y = 0.16;
                         const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.38, 14), mat(0xFFFFFF));
@@ -1216,7 +1181,6 @@
                         band.position.set(-0.15, -0.04, 0);
                         group.add(hook, stem, band);
                     } else {
-                        // Gift Box
                         const box = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.44, 0.46), mat(0xDC2626));
                         const rib1 = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.46, 0.11), mat(0xFACC15));
                         const rib2 = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.46, 0.48), mat(0xFACC15));
@@ -1227,10 +1191,8 @@
                         group.add(box, rib1, rib2, bowL, bowR);
                     }
                 } else {
-                    // Halloween Theme
                     const variant = idx % 4;
                     if (variant === 0) {
-                        // Pumpkin wearing Purple Witch Hat
                         for (let r = 0; r < 4; r++) {
                             const lobe = new THREE.Mesh(new THREE.SphereGeometry(0.26, 18, 16), mat(0xFF7E36));
                             lobe.scale.set(0.85, 0.88, 1.15);
@@ -1248,7 +1210,6 @@
                         cone.position.y = 0.36;
                         group.add(brim, band, buckle, cone);
                     } else if (variant === 1) {
-                        // Ghost
                         const body = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.31, 0.44, 24), mat(0xF8FAFC));
                         const head = new THREE.Mesh(new THREE.SphereGeometry(0.23, 24, 18), mat(0xF8FAFC));
                         head.position.y = 0.21;
@@ -1262,7 +1223,6 @@
                         cheekR.position.set(0.14, 0.14, 0.2);
                         group.add(body, head, eyeL, eyeR, cheekL, cheekR);
                     } else if (variant === 2) {
-                        // Black Bat
                         const body = new THREE.Mesh(new THREE.SphereGeometry(0.21, 20, 16), mat(0x27272A));
                         body.scale.set(0.95, 1.12, 0.88);
                         const earL = new THREE.Mesh(new THREE.ConeGeometry(0.065, 0.15, 10), mat(0x27272A));
@@ -1306,7 +1266,6 @@
 
                         group.add(body, earL, earR, wingL, wingR, eyeL, eyeR, pupL, pupR, fangL, fangR);
                     } else {
-                        // Swirl Lollipop (Purple Disc with Orange Spiral & Mint Bow)
                         const baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.06, 32), mat(0xC084FC));
                         baseDisc.rotation.x = Math.PI / 2;
                         baseDisc.position.y = 0.12;
@@ -1406,35 +1365,6 @@
                 });
             }
 
-            addSingleObject(tickle) {
-                const idx = this.objects.length;
-                const mesh = this.createTheme3DModel(this.theme, idx);
-                const r = mesh.userData.radius;
-                mesh.position.set((Math.random() - 0.5) * 0.6, this.jarTop - r - 0.1, (Math.random() - 0.5) * 0.6);
-                Object.assign(mesh.userData, {
-                    vx: (Math.random() - 0.5) * 0.04,
-                    vy: -0.02,
-                    vz: (Math.random() - 0.5) * 0.04,
-                    rotVx: 0.03,
-                    rotVy: 0.03,
-                    objIndex: idx,
-                    tickleData: tickle
-                });
-                this.scene.add(mesh);
-                this.objects.push(mesh);
-            }
-
-            shakeObjects() {
-                this.shakeTime = 0.45;
-                this.objects.forEach(obj => {
-                    obj.userData.vy = 0.22 + Math.random() * 0.12;
-                    obj.userData.vx = (Math.random() - 0.5) * 0.20;
-                    obj.userData.vz = (Math.random() - 0.5) * 0.20;
-                    obj.userData.rotVx = (Math.random() - 0.5) * 0.12;
-                    obj.userData.rotVy = (Math.random() - 0.5) * 0.12;
-                });
-            }
-
             bindPointerEvents() {
                 const dom = this.renderer.domElement;
                 let downClientX = 0;
@@ -1490,7 +1420,6 @@
                         this.draggedObj.position.copy(currentMouse3D);
                         this.prevMouse3D.copy(currentMouse3D);
 
-                        // Apply subtle rotational inertia while dragging in mid-air
                         this.draggedObj.rotation.z -= this.velocity3D.x * 0.45;
                         this.draggedObj.rotation.x += this.velocity3D.y * 0.45;
 
@@ -1513,7 +1442,6 @@
                         const movedDist = Math.hypot(upX - downClientX, upY - downClientY);
                         const elapsed = Date.now() - downTime;
 
-                        // Tap / Click Detection (when not dragging)
                         if (movedDist < 8 && elapsed < 350) {
                             this.draggedObj.userData.vy = 0.12;
                             this.draggedObj.userData.rotVx = (Math.random() - 0.5) * 0.12;
@@ -1527,7 +1455,6 @@
                             this.draggedObj.userData.vy = throwVy;
                             this.draggedObj.userData.vz = throwVz;
 
-                            // Impart 3-axis tumble spin proportional to throw velocity
                             this.draggedObj.userData.rotVz = -throwVx * 1.15 + (Math.random() - 0.5) * 0.08;
                             this.draggedObj.userData.rotVx = throwVy * 0.95 + throwVz * 0.85 + (Math.random() - 0.5) * 0.08;
                             this.draggedObj.userData.rotVy = (throwVx - throwVz) * 0.75;
@@ -1583,10 +1510,8 @@
                     u.vx *= 0.95;
                     u.vz *= 0.95;
 
-                    // Bouncy Restitution Floor Collision + Rolling Torque
                     if (obj.position.y < this.floorTopY + r) {
                         obj.position.y = this.floorTopY + r;
-                        // Rolling spin generated from horizontal movement upon ground contact
                         u.rotVz = (u.rotVz || 0) * 0.6 - (u.vx / r) * 0.35;
                         u.rotVx = u.rotVx * 0.6 + (u.vz / r) * 0.35;
 
@@ -1605,7 +1530,6 @@
                         }
                     }
 
-                    // Strict Cork-Lid Ceiling Collision + Tumble Torque
                     const maxTopY = this.jarTop - r - 0.05;
                     if (obj.position.y > maxTopY) {
                         obj.position.y = maxTopY;
@@ -1620,7 +1544,6 @@
                         const angle = Math.atan2(obj.position.z, obj.position.x);
                         obj.position.x = Math.cos(angle) * maxR;
                         obj.position.z = Math.sin(angle) * maxR;
-                        // Wall bounce induces vertical & lateral tumble
                         u.rotVz = (u.rotVz || 0) + u.vy * 0.85 * Math.cos(angle);
                         u.rotVx += u.vy * 0.85 * Math.sin(angle);
                         u.rotVy += (u.vx * Math.sin(angle) - u.vz * Math.cos(angle)) * 1.1;
@@ -1629,7 +1552,6 @@
                     }
                 }
 
-                // Inter-object collisions with elastic bounce & angular spin transfer
                 for (let i = 0; i < this.objects.length; i++) {
                     for (let j = i + 1; j < this.objects.length; j++) {
                         const a = this.objects[i];
@@ -1691,20 +1613,20 @@
         }
 
         // ========================================================
-        // 3. TAB 2: TICKLE ROUTINES (PERSONA MOTIVATION MODULES)
+        // 3. TAB 2: TICKLE ROUTINES (CRUMBL CARD & PILL STYLE)
         // ========================================================
         function getPersonaModuleHTML() {
             const p = STATE.userPersona;
             if (p === 'achievement') {
                 return `
-                    <div class="bg-white rounded-3xl p-4 card-outline space-y-2.5">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] space-y-2.5">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-stone-800">시각적 성취 퍼즐 보드</span>
-                            <span class="text-[11px] font-bold text-brand-orange">${STATE.puzzleTilesCompleted} / 9 조각</span>
+                            <span class="text-xs font-extrabold text-[#111111]">시각적 성취 퍼즐 보드</span>
+                            <span class="bg-[#FFF0E6] text-[#111111] px-2.5 py-0.5 rounded-md text-[11px] font-extrabold">${STATE.puzzleTilesCompleted} / 9 조각</span>
                         </div>
-                        <div class="grid grid-cols-3 gap-1.5 bg-stone-50 p-2 rounded-2xl">
+                        <div class="grid grid-cols-3 gap-1.5 bg-[#FFF7F2] p-2 rounded-2xl border border-[#111111]/10">
                             ${Array.from({ length: 9 }).map((_, i) => `
-                                <div class="h-10 rounded-xl flex items-center justify-center text-[11px] font-bold ${i < STATE.puzzleTilesCompleted ? 'bg-brand-orange text-white' : 'bg-white text-stone-300 border border-stone-200'}">
+                                <div class="h-10 rounded-xl flex items-center justify-center text-[11px] font-extrabold ${i < STATE.puzzleTilesCompleted ? 'bg-[#FF7E36] text-[#111111] border-[1.5px] border-[#111111]' : 'bg-white text-stone-400 border border-stone-200'}">
                                     ${i < STATE.puzzleTilesCompleted ? '완료' : i + 1}
                                 </div>
                             `).join('')}
@@ -1716,60 +1638,60 @@
                 const doneCount = STATE.routines.filter(r => r.completed).length;
                 const expPct = Math.min(100, Math.round((doneCount / Math.max(1, STATE.routines.length)) * 100));
                 return `
-                    <div class="bg-white rounded-3xl p-4 card-outline space-y-3">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] space-y-3">
                         <div class="flex items-center justify-between">
                             <div>
-                                <span class="text-xs font-bold text-stone-800 block">오늘의 난이도 조절기</span>
-                                <span class="text-[10px] text-stone-400">난이도를 올리면 아래 루틴 목표와 보상이 함께 커져요</span>
+                                <span class="text-xs font-extrabold text-[#111111] block">오늘의 난이도 조절기</span>
+                                <span class="text-[10px] text-stone-500">난이도를 올리면 아래 루틴 목표와 보상이 함께 커져요</span>
                             </div>
-                            <span class="bg-brand-orangeLight text-brand-orange px-2.5 py-1 rounded-full text-[11px] font-bold">
+                            <span class="bg-[#FFF0E6] text-[#111111] border border-[#111111] px-2.5 py-1 rounded-md text-[11px] font-extrabold">
                                 ${isNormal ? '보상 2배 (+2 티끌)' : '기본 보상 (+1 티끌)'}
                             </span>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2">
-                            <button data-diff="easy" class="diff-btn p-2.5 rounded-2xl text-left transition-all ${!isNormal ? 'bg-brand-orangeLight border-orange-custom' : 'bg-stone-50 border border-transparent'}">
-                                <span class="text-xs font-bold block ${!isNormal ? 'text-brand-orange' : 'text-stone-600'}">1단계 가볍게</span>
-                                <span class="text-[10px] text-stone-500 mt-0.5 block">3분 초간단 미션 · +1 티끌</span>
+                            <button data-diff="easy" class="diff-btn p-2.5 rounded-2xl text-left transition-all ${!isNormal ? 'bg-[#FFF0E6] border-[1.5px] border-[#111111]' : 'bg-stone-50 border border-stone-200'}">
+                                <span class="text-xs font-extrabold block text-[#111111]">1단계 가볍게</span>
+                                <span class="text-[10px] text-stone-600 mt-0.5 block">3분 초간단 미션 · +1 티끌</span>
                             </button>
-                            <button data-diff="normal" class="diff-btn p-2.5 rounded-2xl text-left transition-all ${isNormal ? 'bg-brand-orangeLight border-orange-custom' : 'bg-stone-50 border border-transparent'}">
-                                <span class="text-xs font-bold block ${isNormal ? 'text-brand-orange' : 'text-stone-600'}">2단계 꼼꼼히</span>
-                                <span class="text-[10px] text-stone-500 mt-0.5 block">10분 집중 미션 · +2 티끌</span>
+                            <button data-diff="normal" class="diff-btn p-2.5 rounded-2xl text-left transition-all ${isNormal ? 'bg-[#FFF0E6] border-[1.5px] border-[#111111]' : 'bg-stone-50 border border-stone-200'}">
+                                <span class="text-xs font-extrabold block text-[#111111]">2단계 꼼꼼히</span>
+                                <span class="text-[10px] text-stone-600 mt-0.5 block">10분 집중 미션 · +2 티끌</span>
                             </button>
                         </div>
 
-                        <div class="bg-stone-50 p-2.5 rounded-2xl space-y-1.5">
-                            <div class="flex items-center justify-between text-[10px] font-bold">
-                                <span class="text-stone-600">탐험가 콤보 게이지</span>
-                                <span class="text-brand-orange">${expPct}% 달성</span>
+                        <div class="bg-[#FFF7F2] p-2.5 rounded-2xl space-y-1.5 border border-[#111111]/10">
+                            <div class="flex items-center justify-between text-[10px] font-extrabold">
+                                <span class="text-[#111111]">탐험가 콤보 게이지</span>
+                                <span class="text-[#111111]">${expPct}% 달성</span>
                             </div>
-                            <div class="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-                                <div class="h-full bg-brand-orange rounded-full transition-all duration-300" style="width: ${expPct}%"></div>
+                            <div class="w-full h-2 bg-white border border-[#111111] rounded-full overflow-hidden">
+                                <div class="h-full bg-[#FF7E36] rounded-full transition-all duration-300" style="width: ${expPct}%"></div>
                             </div>
                         </div>
                     </div>
                 `;
             } else if (p === 'companion') {
                 return `
-                    <div class="bg-white rounded-3xl p-4 card-outline space-y-2">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] space-y-2">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-stone-800">메이트 공동 유리병 목표</span>
-                            <span class="text-[11px] font-bold text-teal-600">${STATE.jointGoalProgress} / 10개</span>
+                            <span class="text-xs font-extrabold text-[#111111]">메이트 공동 유리병 목표</span>
+                            <span class="bg-[#FFF0E6] text-[#111111] px-2 py-0.5 rounded-md text-[11px] font-extrabold">${STATE.jointGoalProgress} / 10개</span>
                         </div>
-                        <div class="w-full h-2.5 bg-stone-100 rounded-full overflow-hidden">
-                            <div class="h-full bg-teal-400 rounded-full" style="width: ${Math.min(100, STATE.jointGoalProgress * 10)}%"></div>
+                        <div class="w-full h-2.5 bg-stone-100 border border-[#111111] rounded-full overflow-hidden">
+                            <div class="h-full bg-[#FF7E36] rounded-full" style="width: ${Math.min(100, STATE.jointGoalProgress * 10)}%"></div>
                         </div>
                         <p class="text-[11px] text-stone-500">수아와 함께 10개를 모으면 스페셜 장식이 열려요!</p>
                     </div>
                 `;
             } else {
                 return `
-                    <div class="bg-white rounded-3xl p-4 card-outline flex items-center justify-between">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] flex items-center justify-between">
                         <div>
-                            <span class="text-xs font-bold text-stone-800 block">오늘의 쉬어가기 티켓</span>
+                            <span class="text-xs font-extrabold text-[#111111] block">오늘의 쉬어가기 티켓</span>
                             <span class="text-[11px] text-stone-500">지치는 날엔 죄책감 없이 쉬어가도 괜찮아요</span>
                         </div>
-                        <button id="useRestTicketBtn" class="bg-purple-50 text-purple-600 border border-purple-200 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap active:scale-95">
+                        <button id="useRestTicketBtn" class="bg-[#FFF0E6] text-[#111111] border-[1.5px] border-[#111111] px-3.5 py-2 rounded-full text-xs font-extrabold whitespace-nowrap active:scale-95">
                             티켓 사용 (${STATE.restTickets}장)
                         </button>
                     </div>
@@ -1787,13 +1709,13 @@
                 <div class="space-y-3.5">
                     ${getPersonaModuleHTML()}
 
-                    <div class="bg-white rounded-3xl p-4 card-outline space-y-3">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] space-y-3">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-sm font-bold text-stone-800">오늘의 티끌 루틴</h3>
-                                <p class="text-[11px] text-stone-400">완료 시 유리병에 3D 티끌이 자동으로 담겨요</p>
+                                <h3 class="text-sm font-extrabold text-[#111111]">오늘의 티끌 루틴</h3>
+                                <p class="text-[11px] text-stone-500">완료 시 유리병에 3D 티끌이 자동으로 담겨요</p>
                             </div>
-                            <span class="bg-brand-orangeLight text-brand-orange px-2.5 py-1 rounded-full text-xs font-bold">
+                            <span class="bg-[#FFF0E6] text-[#111111] border border-[#111111] px-2.5 py-0.5 rounded-full text-xs font-extrabold">
                                 ${doneCount} / ${STATE.routines.length}
                             </span>
                         </div>
@@ -1802,17 +1724,17 @@
                             ${STATE.routines.map(r => {
                                 const displayTitle = (isExplorerEasy && r.easyTitle) ? r.easyTitle : r.title;
                                 return `
-                                <div data-rid="${r.id}" class="routine-item flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all ${r.completed ? 'bg-orange-50/70 border border-orange-200' : 'bg-stone-50 hover:bg-stone-100'}">
+                                <div data-rid="${r.id}" class="routine-item flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all ${r.completed ? 'bg-[#FFF7F2] border-[1.5px] border-[#111111]' : 'bg-white border border-stone-200 hover:border-[#111111]'}">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-5 h-5 rounded-lg flex items-center justify-center ${r.completed ? 'bg-brand-orange text-white' : 'bg-white border border-stone-300'}">
-                                            ${r.completed ? '<svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>' : ''}
+                                        <div class="w-5 h-5 rounded-full flex items-center justify-center ${r.completed ? 'bg-[#111111] text-white' : 'bg-white border-[1.5px] border-[#111111]'}">
+                                            ${r.completed ? '<svg class="w-3 h-3 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>' : ''}
                                         </div>
                                         <div>
-                                            <p class="text-xs font-bold ${r.completed ? 'line-through text-stone-400' : 'text-stone-700'}">${displayTitle}</p>
-                                            <span class="text-[10px] text-stone-400">${r.category}</span>
+                                            <p class="text-xs font-extrabold ${r.completed ? 'line-through text-stone-400' : 'text-[#111111]'}">${displayTitle}</p>
+                                            <span class="text-[10px] text-stone-500">${r.category}</span>
                                         </div>
                                     </div>
-                                    <span class="text-[11px] font-bold shrink-0 ml-2 ${r.completed ? 'text-brand-orange' : 'text-stone-400'}">
+                                    <span class="text-[11px] font-extrabold shrink-0 ml-2 px-2 py-0.5 rounded-full ${r.completed ? 'bg-[#FF7E36] text-[#111111]' : 'bg-stone-100 text-stone-600'}">
                                         ${r.completed ? '담김' : rewardLabel}
                                     </span>
                                 </div>
@@ -1820,7 +1742,7 @@
                             }).join('')}
                         </div>
 
-                        <button id="openAddRoutineBtn" class="w-full py-2.5 rounded-2xl border border-dashed border-stone-300 text-xs font-bold text-stone-500 hover:text-brand-orange hover:border-orange-300 transition-all">
+                        <button id="openAddRoutineBtn" class="w-full py-3 rounded-full border-[1.5px] border-dashed border-[#111111] text-xs font-extrabold text-[#111111] hover:bg-[#FFF7F2] transition-all">
                             + 나만의 티끌 루틴 추가하기
                         </button>
                     </div>
@@ -1878,35 +1800,35 @@
         }
 
         // ========================================================
-        // 4. TAB 3: MATE (POKE ACTION & ENCOURAGEMENT CHAT)
+        // 4. TAB 3: MATE (CRUMBL REVIEW & CHAT CARD STYLE)
         // ========================================================
         function getMateTabHTML() {
             return `
                 <div class="flex flex-col h-full space-y-3">
-                    <div class="bg-white rounded-3xl p-4 card-outline flex items-center justify-between">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                                 ${render2DAvatarSVG('mate', 48)}
                             </div>
                             <div>
                                 <div class="flex items-center gap-1.5">
-                                    <h3 class="text-sm font-bold text-stone-800">티끌 메이트 수아</h3>
-                                    <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                    <h3 class="text-sm font-extrabold text-[#111111]">티끌 메이트 수아</h3>
+                                    <span class="w-2 h-2 rounded-full bg-[#FF7E36] border border-[#111111]"></span>
                                 </div>
                                 <p class="text-[11px] text-stone-500">오늘 루틴 3개 완료 · 유리병 모으는 중</p>
                             </div>
                         </div>
 
-                        <button id="pokeMateBtn" class="bg-brand-orangeLight border-orange-custom text-brand-orange px-3.5 py-2 rounded-xl text-xs font-bold active:scale-95 whitespace-nowrap">
+                        <button id="pokeMateBtn" class="bg-[#FFF0E6] border-[1.5px] border-[#111111] text-[#111111] px-3.5 py-2 rounded-full text-xs font-extrabold active:scale-95 whitespace-nowrap">
                             콕 찌르기
                         </button>
                     </div>
 
-                    <div class="flex-1 bg-white rounded-3xl p-4 card-outline flex flex-col justify-between min-h-[340px]">
+                    <div class="flex-1 bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] flex flex-col justify-between min-h-[340px]">
                         <div id="mateChatList" class="space-y-2.5 overflow-y-auto max-h-[270px] pr-1">
                             ${STATE.chatMessages.map(m => `
                                 <div class="flex flex-col ${m.sender === 'me' ? 'items-end' : 'items-start'}">
-                                    <div class="px-3.5 py-2 rounded-2xl text-xs max-w-[80%] ${m.sender === 'me' ? 'bg-brand-orange text-white font-medium' : 'bg-stone-100 text-stone-700 font-medium'}">
+                                    <div class="px-3.5 py-2 rounded-2xl text-xs max-w-[80%] ${m.sender === 'me' ? 'bg-[#111111] text-white font-bold' : 'bg-[#FFF0E6] border border-[#111111] text-[#111111] font-bold'}">
                                         ${m.text}
                                     </div>
                                     <span class="text-[10px] text-stone-400 mt-0.5 px-1">${m.time}</span>
@@ -1914,9 +1836,9 @@
                             `).join('')}
                         </div>
 
-                        <form id="mateChatForm" class="flex items-center gap-2 pt-3 border-t border-stone-100 mt-2">
-                            <input type="text" id="mateChatInput" placeholder="수아에게 응원 메시지 보내기..." class="flex-1 bg-stone-50 rounded-xl px-3 py-2.5 text-xs focus:outline-none">
-                            <button type="submit" class="bg-brand-orange text-white font-bold px-4 py-2.5 rounded-xl text-xs whitespace-nowrap">
+                        <form id="mateChatForm" class="flex items-center gap-2 pt-3 border-t border-stone-200 mt-2">
+                            <input type="text" id="mateChatInput" placeholder="수아에게 응원 메시지 보내기..." class="flex-1 bg-stone-50 border border-stone-300 rounded-full px-3.5 py-2.5 text-xs focus:outline-none focus:border-[#111111]">
+                            <button type="submit" class="bg-[#111111] text-white font-extrabold px-4 py-2.5 rounded-full text-xs whitespace-nowrap">
                                 전송
                             </button>
                         </form>
@@ -1957,7 +1879,7 @@
         }
 
         // ========================================================
-        // 5. TAB 4: MY PAGE (CUSTOM DESIGNED DROPDOWN & SETTINGS)
+        // 5. TAB 4: MY PAGE (CRUMBL CLEAN EDITORIAL CARDS & PILLS)
         // ========================================================
         function getNotifText(val) {
             if (val === 'twice') return '아침·저녁 2회';
@@ -1971,121 +1893,121 @@
 
             return `
                 <div class="space-y-4">
-                    <div class="bg-white rounded-3xl p-5 space-y-4">
-                        <div class="flex items-center justify-between border-b border-stone-100 pb-3.5">
+                    <div class="bg-white rounded-[24px] p-5 border-[1.5px] border-[#111111] space-y-4">
+                        <div class="flex items-center justify-between border-b border-stone-200 pb-3.5">
                             <div class="flex items-center gap-3.5">
-                                <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden">
+                                <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                                     ${render2DAvatarSVG(persona, 60)}
                                 </div>
                                 <div>
-                                    <h3 class="text-base font-bold text-stone-800">티끌 수집가</h3>
-                                    <span class="inline-block bg-brand-orangeLight px-2.5 py-0.5 rounded-full text-[11px] font-bold text-brand-orange mt-1">
+                                    <h3 class="text-base font-extrabold text-[#111111]">티끌 수집가</h3>
+                                    <span class="inline-block bg-[#FFF0E6] border border-[#111111] px-2.5 py-0.5 rounded-md text-[11px] font-extrabold text-[#111111] mt-1">
                                         ${personaName}
                                     </span>
                                 </div>
                             </div>
 
-                            <button id="retestQuizBtn" class="text-xs font-bold text-stone-400 hover:text-stone-700 underline whitespace-nowrap">
+                            <button id="retestQuizBtn" class="text-xs font-extrabold text-[#111111] underline whitespace-nowrap">
                                 성향 재진단
                             </button>
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 text-center">
-                            <div class="bg-stone-50 p-2.5 rounded-2xl">
-                                <span class="text-[10px] text-stone-400 font-bold block">현재 유리병</span>
-                                <span class="text-sm font-black text-brand-orange">${STATE.tickles.length}개</span>
+                            <div class="bg-[#FFF7F2] border border-[#111111] p-2.5 rounded-2xl">
+                                <span class="text-[10px] text-stone-600 font-bold block">현재 유리병</span>
+                                <span class="text-sm font-black text-[#111111]">${STATE.tickles.length}개</span>
                             </div>
-                            <button id="myPageJarCollectionBtn" class="bg-stone-50 hover:bg-orange-50 p-2.5 rounded-2xl transition-colors">
-                                <span class="text-[10px] text-stone-400 font-bold block">완성한 유리병</span>
-                                <span class="text-sm font-black text-amber-600">${STATE.completedJars.length}통 →</span>
+                            <button id="myPageJarCollectionBtn" class="bg-[#FFF0E6] hover:bg-[#FF7E36] border border-[#111111] p-2.5 rounded-2xl transition-colors">
+                                <span class="text-[10px] text-stone-700 font-bold block">완성한 유리병</span>
+                                <span class="text-sm font-black text-[#111111]">${STATE.completedJars.length}통 →</span>
                             </button>
-                            <div class="bg-stone-50 p-2.5 rounded-2xl">
-                                <span class="text-[10px] text-stone-400 font-bold block">쉬어가기 티켓</span>
-                                <span class="text-sm font-black text-purple-600">${STATE.restTickets}장</span>
+                            <div class="bg-[#FFF7F2] border border-[#111111] p-2.5 rounded-2xl">
+                                <span class="text-[10px] text-stone-600 font-bold block">쉬어가기 티켓</span>
+                                <span class="text-sm font-black text-[#111111]">${STATE.restTickets}장</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-3xl p-4 space-y-3">
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-stone-800">티끌 메이트</span>
-                            <button id="openMateTabShortcut" class="text-[11px] font-bold text-brand-orange">메이트 탭 열기 →</button>
+                            <span class="text-xs font-extrabold text-[#111111]">티끌 메이트</span>
+                            <button id="openMateTabShortcut" class="text-[11px] font-extrabold text-[#111111] underline">메이트 탭 열기 →</button>
                         </div>
 
-                        <div class="flex items-center justify-between bg-stone-50 p-3 rounded-2xl">
+                        <div class="flex items-center justify-between bg-[#FFF7F2] border border-[#111111]/15 p-3 rounded-2xl">
                             <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                                     ${render2DAvatarSVG('mate', 44)}
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-bold text-stone-800">티끌 메이트 수아</h4>
-                                    <p class="text-[10px] text-stone-500">서로 응원하며 함께 성장하는 중</p>
+                                    <h4 class="text-xs font-extrabold text-[#111111]">티끌 메이트 수아</h4>
+                                    <p class="text-[10px] text-stone-600">서로 응원하며 함께 성장하는 중</p>
                                 </div>
                             </div>
 
-                            <button id="mateHeartCheerBtn" class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-500 hover:bg-rose-100 flex items-center justify-center active:scale-95">
+                            <button id="mateHeartCheerBtn" class="w-10 h-10 rounded-full bg-[#FF7E36] border-[1.5px] border-[#111111] text-[#111111] hover:bg-[#FFF0E6] flex items-center justify-center active:scale-95">
                                 <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                             </button>
                         </div>
                     </div>
 
-                    <!-- EXPANDED MULTI-SETTING CARD WITH CUSTOM STYLED DROPDOWN -->
-                    <div class="bg-white rounded-3xl p-4 space-y-3">
-                        <span class="text-xs font-bold text-stone-800 block">설정 및 환경</span>
+                    <!-- EXPANDED MULTI-SETTING CARD WITH CRUMBL CRISP BORDERS -->
+                    <div class="bg-white rounded-[24px] p-4 border-[1.5px] border-[#111111] space-y-3">
+                        <span class="text-xs font-extrabold text-[#111111] block">설정 및 환경</span>
 
-                        <div class="flex items-center justify-between py-1.5 border-b border-stone-50 relative">
+                        <div class="flex items-center justify-between py-1.5 border-b border-stone-100 relative">
                             <div>
-                                <span class="text-xs font-bold text-stone-700 block">루틴 알림 주기</span>
-                                <span class="text-[10px] text-stone-400">목표 실천 리마인더</span>
+                                <span class="text-xs font-extrabold text-[#111111] block">루틴 알림 주기</span>
+                                <span class="text-[10px] text-stone-500">목표 실천 리마인더</span>
                             </div>
                             <div class="relative">
-                                <button id="customNotifDropdownBtn" class="bg-stone-50 border border-stone-200 rounded-xl px-3 py-1.5 text-xs font-bold text-stone-700 flex items-center gap-1.5 hover:bg-stone-100 transition-all">
+                                <button id="customNotifDropdownBtn" class="bg-white border-[1.5px] border-[#111111] rounded-full px-3 py-1.5 text-xs font-extrabold text-[#111111] flex items-center gap-1.5 hover:bg-[#FFF7F2] transition-all">
                                     <span id="customNotifText">${getNotifText(STATE.notifications)}</span>
-                                    <svg class="w-3.5 h-3.5 text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M19 9l-7 7-7-7"/></svg>
+                                    <svg class="w-3.5 h-3.5 text-[#111111]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M19 9l-7 7-7-7"/></svg>
                                 </button>
-                                <div id="customNotifMenu" class="hidden absolute right-0 mt-1.5 w-44 bg-white border border-stone-200 rounded-2xl p-1.5 z-40 space-y-1">
-                                    <button data-val="daily" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${STATE.notifications==='daily'?'bg-orange-50 text-brand-orange':'text-stone-700 hover:bg-stone-50'}">
+                                <div id="customNotifMenu" class="hidden absolute right-0 mt-1.5 w-44 bg-white border-[1.5px] border-[#111111] rounded-2xl p-1.5 z-40 space-y-1">
+                                    <button data-val="daily" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-extrabold flex items-center justify-between ${STATE.notifications==='daily'?'bg-[#FFF0E6] text-[#111111]':'text-stone-700 hover:bg-stone-50'}">
                                         <span>하루 1회 (오후 8시)</span>
-                                        ${STATE.notifications==='daily'?'<svg class="w-3.5 h-3.5 fill-current text-brand-orange" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+                                        ${STATE.notifications==='daily'?'<svg class="w-3.5 h-3.5 fill-current text-[#111111]" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
                                     </button>
-                                    <button data-val="twice" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${STATE.notifications==='twice'?'bg-orange-50 text-brand-orange':'text-stone-700 hover:bg-stone-50'}">
+                                    <button data-val="twice" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-extrabold flex items-center justify-between ${STATE.notifications==='twice'?'bg-[#FFF0E6] text-[#111111]':'text-stone-700 hover:bg-stone-50'}">
                                         <span>아침·저녁 2회</span>
-                                        ${STATE.notifications==='twice'?'<svg class="w-3.5 h-3.5 fill-current text-brand-orange" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+                                        ${STATE.notifications==='twice'?'<svg class="w-3.5 h-3.5 fill-current text-[#111111]" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
                                     </button>
-                                    <button data-val="off" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between ${STATE.notifications==='off'?'bg-orange-50 text-brand-orange':'text-stone-700 hover:bg-stone-50'}">
+                                    <button data-val="off" class="notif-opt-btn w-full text-left px-3 py-2 rounded-xl text-xs font-extrabold flex items-center justify-between ${STATE.notifications==='off'?'bg-[#FFF0E6] text-[#111111]':'text-stone-700 hover:bg-stone-50'}">
                                         <span>방해금지</span>
-                                        ${STATE.notifications==='off'?'<svg class="w-3.5 h-3.5 fill-current text-brand-orange" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
+                                        ${STATE.notifications==='off'?'<svg class="w-3.5 h-3.5 fill-current text-[#111111]" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>':''}
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between py-1.5 border-b border-stone-50">
+                        <div class="flex items-center justify-between py-1.5 border-b border-stone-100">
                             <div>
-                                <span class="text-xs font-bold text-stone-700 block">유리병 효과음 및 물리 진동</span>
-                                <span class="text-[10px] text-stone-400">티끌 충돌 반응</span>
+                                <span class="text-xs font-extrabold text-[#111111] block">유리병 효과음 및 물리 진동</span>
+                                <span class="text-[10px] text-stone-500">티끌 충돌 반응</span>
                             </div>
-                            <button id="toggleSoundBtn" class="w-11 h-6 rounded-full transition-colors ${STATE.soundEffects ? 'bg-brand-orange' : 'bg-stone-200'} relative p-0.5">
-                                <div class="w-5 h-5 rounded-full bg-white transition-transform ${STATE.soundEffects ? 'translate-x-5' : 'translate-x-0'}"></div>
+                            <button id="toggleSoundBtn" class="w-11 h-6 rounded-full border-[1.5px] border-[#111111] transition-colors ${STATE.soundEffects ? 'bg-[#FF7E36]' : 'bg-stone-200'} relative p-0.5">
+                                <div class="w-4 h-4 rounded-full bg-[#111111] transition-transform ${STATE.soundEffects ? 'translate-x-5' : 'translate-x-0'}"></div>
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-between py-1.5 border-b border-stone-50">
+                        <div class="flex items-center justify-between py-1.5 border-b border-stone-100">
                             <div>
-                                <span class="text-xs font-bold text-stone-700 block">메이트에게 나의 활동 상태 공개</span>
-                                <span class="text-[10px] text-stone-400">실시간 루틴 완료 여부</span>
+                                <span class="text-xs font-extrabold text-[#111111] block">메이트에게 나의 활동 상태 공개</span>
+                                <span class="text-[10px] text-stone-500">실시간 루틴 완료 여부</span>
                             </div>
-                            <button id="toggleShareBtn" class="w-11 h-6 rounded-full transition-colors ${STATE.shareStatus ? 'bg-brand-orange' : 'bg-stone-200'} relative p-0.5">
-                                <div class="w-5 h-5 rounded-full bg-white transition-transform ${STATE.shareStatus ? 'translate-x-5' : 'translate-x-0'}"></div>
+                            <button id="toggleShareBtn" class="w-11 h-6 rounded-full border-[1.5px] border-[#111111] transition-colors ${STATE.shareStatus ? 'bg-[#FF7E36]' : 'bg-stone-200'} relative p-0.5">
+                                <div class="w-4 h-4 rounded-full bg-[#111111] transition-transform ${STATE.shareStatus ? 'translate-x-5' : 'translate-x-0'}"></div>
                             </button>
                         </div>
 
                         <div class="pt-1 space-y-2">
-                            <button id="retestQuizBtn2" class="w-full bg-stone-50 text-stone-700 font-bold py-2.5 rounded-xl text-xs hover:bg-stone-100 flex items-center justify-center gap-1.5">
+                            <button id="retestQuizBtn2" class="w-full bg-[#111111] text-white font-extrabold py-3 rounded-full text-xs hover:bg-stone-800 flex items-center justify-center gap-1.5">
                                 <span>내 성향 다시 진단하기</span>
                             </button>
 
-                            <button id="resetDataBtn" class="w-full bg-rose-50 text-rose-600 font-bold py-2.5 rounded-xl text-xs hover:bg-rose-100">
+                            <button id="resetDataBtn" class="w-full bg-[#FFF0E6] border-[1.5px] border-[#111111] text-[#111111] font-extrabold py-2.5 rounded-full text-xs hover:bg-[#FF7E36]">
                                 데이터 및 유리병 초기화
                             </button>
                         </div>
@@ -2111,7 +2033,6 @@
                 showToast('수아에게 따뜻한 응원을 보냈습니다!');
             };
 
-            // Custom Styled Dropdown Events
             const dropdownBtn = document.getElementById('customNotifDropdownBtn');
             const dropdownMenu = document.getElementById('customNotifMenu');
 
@@ -2164,7 +2085,7 @@
         }
 
         // ========================================================
-        // 6. MODALS & TOAST
+        // 6. MODALS & TOAST (CRUMBL PINK & BLACK EDITORIAL STYLE)
         // ========================================================
         function showAddTickleModal() {
             const overlay = document.getElementById('onboardingOverlay');
@@ -2172,16 +2093,16 @@
             overlay.classList.remove('hidden');
 
             card.innerHTML = `
-                <div class="space-y-3">
+                <div class="space-y-3.5">
                     <div class="flex justify-between items-center pb-1">
-                        <h3 class="text-sm font-bold text-stone-800">티끌 하나 담기</h3>
-                        <button onclick="closeModal()" class="text-stone-400 p-1">✕</button>
+                        <h3 class="text-sm font-extrabold text-[#111111]">티끌 하나 담기</h3>
+                        <button onclick="closeModal()" class="w-7 h-7 rounded-full border border-[#111111] text-[#111111] font-bold flex items-center justify-center">✕</button>
                     </div>
                     <div>
-                        <label class="text-[11px] font-bold text-stone-600 block mb-1">오늘 이룬 작은 성취를 적어주세요</label>
-                        <input type="text" id="tickleTitleInput" placeholder="예) 따뜻한 물 한 잔 마시기" class="w-full bg-stone-50 rounded-xl p-3 text-xs font-medium focus:outline-none">
+                        <label class="text-[11px] font-bold text-stone-600 block mb-1.5">오늘 이룬 작은 성취를 적어주세요</label>
+                        <input type="text" id="tickleTitleInput" placeholder="예) 따뜻한 물 한 잔 마시기" class="w-full bg-[#FFF7F2] border-[1.5px] border-[#111111] rounded-2xl p-3 text-xs font-bold text-[#111111] focus:outline-none">
                     </div>
-                    <button id="submitTickleBtn" class="w-full bg-brand-orange text-white font-bold py-3 rounded-xl text-xs">
+                    <button id="submitTickleBtn" class="w-full bg-[#111111] text-white font-extrabold py-3.5 rounded-full text-xs">
                         유리병에 넣기
                     </button>
                 </div>
@@ -2209,52 +2130,52 @@
             overlay.classList.remove('hidden');
 
             const themeColors = {
-                candyland: { bg: 'bg-pink-50', border: 'border-pink-200', badge: 'text-pink-600 bg-pink-100', jarFill: '#FBCFE8' },
-                ocean: { bg: 'bg-sky-50', border: 'border-sky-200', badge: 'text-sky-600 bg-sky-100', jarFill: '#BAE6FD' },
-                christmas: { bg: 'bg-emerald-50', border: 'border-emerald-200', badge: 'text-emerald-700 bg-emerald-100', jarFill: '#A7F3D0' },
-                halloween: { bg: 'bg-purple-50', border: 'border-purple-200', badge: 'text-purple-700 bg-purple-100', jarFill: '#DDD6FE' }
+                candyland: { bg: 'bg-[#FFF7F2]', border: 'border-[#111111]', badge: 'text-[#111111] bg-[#FF7E36]', jarFill: '#FF7E36' },
+                ocean: { bg: 'bg-sky-50', border: 'border-[#111111]', badge: 'text-[#111111] bg-sky-200', jarFill: '#BAE6FD' },
+                christmas: { bg: 'bg-emerald-50', border: 'border-[#111111]', badge: 'text-[#111111] bg-emerald-200', jarFill: '#A7F3D0' },
+                halloween: { bg: 'bg-purple-50', border: 'border-[#111111]', badge: 'text-[#111111] bg-purple-200', jarFill: '#DDD6FE' }
             };
 
             card.innerHTML = `
                 <div class="space-y-3.5">
-                    <div class="flex justify-between items-center border-b border-stone-100 pb-2.5">
+                    <div class="flex justify-between items-center border-b border-stone-200 pb-2.5">
                         <div>
-                            <h3 class="text-sm font-bold text-stone-800">완성한 유리병 보관함</h3>
-                            <p class="text-[11px] text-stone-400">가득 채워 보관한 나만의 성취 컬렉션 (${STATE.completedJars.length}통)</p>
+                            <h3 class="text-sm font-extrabold text-[#111111]">완성한 유리병 보관함</h3>
+                            <p class="text-[11px] text-stone-500">가득 채워 보관한 나만의 성취 컬렉션 (${STATE.completedJars.length}통)</p>
                         </div>
-                        <button onclick="closeModal()" class="text-stone-400 hover:text-stone-700 p-1 font-bold">✕</button>
+                        <button onclick="closeModal()" class="w-7 h-7 rounded-full border border-[#111111] text-[#111111] font-bold flex items-center justify-center">✕</button>
                     </div>
 
                     ${STATE.completedJars.length === 0 ? `
-                        <div class="bg-stone-50 rounded-2xl p-6 text-center space-y-2">
-                            <p class="text-xs font-bold text-stone-600">아직 보관함에 담긴 유리병이 없어요</p>
-                            <p class="text-[11px] text-stone-400">유리병에 티끌 ${JAR_CAPACITY}개를 가득 채우면 이곳에 예쁘게 진열할 수 있어요!</p>
+                        <div class="bg-[#FFF7F2] border border-[#111111] rounded-2xl p-6 text-center space-y-2">
+                            <p class="text-xs font-extrabold text-[#111111]">아직 보관함에 담긴 유리병이 없어요</p>
+                            <p class="text-[11px] text-stone-600">유리병에 티끌 ${JAR_CAPACITY}개를 가득 채우면 이곳에 예쁘게 진열할 수 있어요!</p>
                         </div>
                     ` : `
                         <div class="space-y-2.5 max-h-[340px] overflow-y-auto pr-1">
                             ${STATE.completedJars.map((jar, i) => {
                                 const c = themeColors[jar.theme] || themeColors.candyland;
                                 return `
-                                    <div class="${c.bg} border ${c.border} rounded-2xl p-3 space-y-2">
+                                    <div class="${c.bg} border-[1.5px] ${c.border} rounded-2xl p-3 space-y-2">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-2.5">
                                                 <svg class="w-9 h-9 shrink-0" viewBox="0 0 36 36" fill="none">
-                                                    <rect x="12" y="4" width="12" height="4" rx="1.5" fill="#D6B48C"/>
-                                                    <rect x="8" y="8" width="20" height="24" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+                                                    <rect x="12" y="4" width="12" height="4" rx="1.5" fill="#111111"/>
+                                                    <rect x="8" y="8" width="20" height="24" rx="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.5"/>
                                                     <rect x="10" y="14" width="16" height="16" rx="3" fill="${c.jarFill}"/>
                                                 </svg>
                                                 <div>
                                                     <div class="flex items-center gap-1.5">
-                                                        <span class="text-xs font-bold text-stone-800">${STATE.completedJars.length - i}번째 유리병</span>
-                                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${c.badge}">${jar.themeName}</span>
+                                                        <span class="text-xs font-extrabold text-[#111111]">${STATE.completedJars.length - i}번째 유리병</span>
+                                                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md border border-[#111111] ${c.badge}">${jar.themeName}</span>
                                                     </div>
-                                                    <span class="text-[10px] text-stone-400">${jar.completedDate} 완성 · ${jar.items.length}개 수록</span>
+                                                    <span class="text-[10px] text-stone-500">${jar.completedDate} 완성 · ${jar.items.length}개 수록</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="bg-white/80 rounded-xl p-2 flex flex-wrap gap-1">
+                                        <div class="bg-white rounded-xl border border-[#111111]/15 p-2 flex flex-wrap gap-1">
                                             ${jar.items.map(it => `
-                                                <span class="text-[10px] font-medium text-stone-600 bg-white border border-stone-100 px-2 py-0.5 rounded-lg">${it.title}</span>
+                                                <span class="text-[10px] font-bold text-[#111111] bg-[#FFF7F2] border border-[#111111]/20 px-2 py-0.5 rounded-full">${it.title}</span>
                                             `).join('')}
                                         </div>
                                     </div>
@@ -2263,7 +2184,7 @@
                         </div>
                     `}
 
-                    <button onclick="closeModal()" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold py-2.5 rounded-xl text-xs">
+                    <button onclick="closeModal()" class="w-full bg-[#111111] hover:bg-stone-800 text-white font-extrabold py-3 rounded-full text-xs">
                         닫기
                     </button>
                 </div>
@@ -2276,16 +2197,16 @@
             overlay.classList.remove('hidden');
 
             card.innerHTML = `
-                <div class="space-y-3">
+                <div class="space-y-3.5">
                     <div class="flex justify-between items-center pb-1">
-                        <h3 class="text-sm font-bold text-stone-800">새 티끌 루틴 추가</h3>
-                        <button onclick="closeModal()" class="text-stone-400 p-1">✕</button>
+                        <h3 class="text-sm font-extrabold text-[#111111]">새 티끌 루틴 추가</h3>
+                        <button onclick="closeModal()" class="w-7 h-7 rounded-full border border-[#111111] text-[#111111] font-bold flex items-center justify-center">✕</button>
                     </div>
                     <div>
-                        <label class="text-[11px] font-bold text-stone-600 block mb-1">부담 없는 작은 목표 이름</label>
-                        <input type="text" id="routineTitleInput" placeholder="예) 책 2페이지 읽기" class="w-full bg-stone-50 rounded-xl p-3 text-xs font-medium focus:outline-none">
+                        <label class="text-[11px] font-bold text-stone-600 block mb-1.5">부담 없는 작은 목표 이름</label>
+                        <input type="text" id="routineTitleInput" placeholder="예) 책 2페이지 읽기" class="w-full bg-[#FFF7F2] border-[1.5px] border-[#111111] rounded-2xl p-3 text-xs font-bold text-[#111111] focus:outline-none">
                     </div>
-                    <button id="submitRoutineBtn" class="w-full bg-brand-orange text-white font-bold py-3 rounded-xl text-xs">
+                    <button id="submitRoutineBtn" class="w-full bg-[#111111] text-white font-extrabold py-3.5 rounded-full text-xs">
                         추가하기
                     </button>
                 </div>
@@ -2310,7 +2231,7 @@
         function showToast(msg) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = 'bg-stone-800 text-white text-xs font-bold px-4 py-2 rounded-full border border-stone-700 transition-all duration-300 opacity-100 text-center max-w-[310px]';
+            toast.className = 'bg-[#111111] text-white text-xs font-extrabold px-4 py-2.5 rounded-full border border-white/20 transition-all duration-300 opacity-100 text-center max-w-[310px]';
             toast.innerText = msg;
             container.appendChild(toast);
 
